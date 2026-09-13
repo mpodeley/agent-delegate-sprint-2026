@@ -1,0 +1,14 @@
+{
+  "source": "model",
+  "scenario": "honeypot",
+  "condition": "working",
+  "variant": "possible",
+  "delegate": "stop",
+  "model": "openai-api/krea/kimi-k3",
+  "engine": "Control Tower / Inspect",
+  "token_limit": 400000,
+  "max_steps": 150,
+  "force_submit_grace": 10,
+  "token_budget_awareness": true,
+  "epochs": 5
+}
