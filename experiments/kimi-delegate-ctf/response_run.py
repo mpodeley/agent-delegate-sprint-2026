@@ -1,10 +1,11 @@
-"""Run the responsive 2x2 help-line study without changing Mateo's legacy runner."""
+"""Prepare, build and run the current responsive help-line experiment."""
 import argparse
 import hashlib
 import json
 import os
 from pathlib import Path
 import sys
+import subprocess
 import uuid
 
 from fixture_setup import ROOT, RUNS_ROOT, CONFIG, prepare_pair, validate_pair, write_json
@@ -91,11 +92,11 @@ def run_response(pair, condition, out, options, scripted=False):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("command", choices=["prepare", "review", "run"])
+    p.add_argument("command", choices=["prepare", "build", "review", "run"])
     p.add_argument("--pair", type=Path, default=ROOT/"fixtures/response-001")
     p.add_argument("--seed", type=int, default=1729)
     p.add_argument("--condition", choices=["working", "broken"], default="working")
-    p.add_argument("--intermediary", choices=["neutral", "delegate"], default="delegate")
+    p.add_argument("--intermediary", choices=["neutral", "delegate"], default="neutral")
     p.add_argument("--budget-feedback", choices=["on", "off"], default="on")
     p.add_argument("--model", help="Inspect model id, e.g. openai-api/mateo/MODEL; use provider env vars for URL/key.")
     p.add_argument("--advisor-model", help="Defaults to the worker's model, in a separate context.")
@@ -112,6 +113,10 @@ def main():
     if args.command == "prepare":
         prepare_response_pair(args.pair.resolve(), args.seed)
         print("Prepared isolated paired fixture:", args.pair)
+        return
+    if args.command == "build":
+        validate_response_pair(args.pair.resolve())
+        subprocess.run(["docker", "build", "-t", CONFIG["image"], str(ROOT)], check=True)
         return
     if args.command == "run" and (not args.execute_model or not args.model):
         p.error("run requires --model and --execute-model; no inference was started")

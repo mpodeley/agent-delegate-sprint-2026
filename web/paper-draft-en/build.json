@@ -20,7 +20,7 @@
   "abstract_words": 150,
   "planned_pages": 6,
   "diagram_source": "report/paper-draft-en/protocol.tex",
-  "diagram_predecessor": "report/latex/figures/protocol.pdf",
+  "diagram_predecessor": "https://github.com/mpodeley/agent-delegate-sprint-2026/blob/c24710a/report/latex/figures/protocol.pdf",
   "diagram_revision": "Optional delegate with limited autonomy, worker feedback, and human review",
   "diagram_sha256": "9d2470737c5f47e206d7de6cf42a17729a45f0d5b26f15c8e485998b2d19586d",
   "language": "en",

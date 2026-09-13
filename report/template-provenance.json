@@ -1,8 +1,0 @@
-{
-  "url": "https://docs.google.com/document/d/1PQBlhI3tM5vb51x7jBWXBQMYg6hkiU_x8RaCws4kjl4/copy?usp=sharing",
-  "retrieved": "2026-09-11",
-  "styles_xml_sha256": "10c66367541c8c212714639d98f88a860ca5c203d9b95ac4dbee0b30b81d6821",
-  "sectpr_sha256": "657da47cad085f11860163e00a887c04bccc55ae47ffc127d0c6f09de157c3b2",
-  "hash_method": "sha256 of the word/styles.xml bytes, and sha256 of the UTF-8 <w:sectPr>...</w:sectPr> element extracted from word/document.xml (Python zipfile + re).",
-  "note": "Official template permits adapting section structure. Google Docs DOCX exports are not byte-reproducible; styles.xml and sectPr are stable across exports and are what the build uses."
-}

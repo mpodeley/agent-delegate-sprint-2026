@@ -6,7 +6,6 @@ No previous manuscript, wireframe, or experimental output is changed.
 import argparse
 import hashlib
 import html
-import importlib.util
 import json
 from pathlib import Path
 import re
@@ -18,11 +17,7 @@ ROOT = HERE.parents[1]
 OUT = ROOT / "web" / "paper-draft-en"
 BASE = "https://mpodeley.github.io/agent-delegate-sprint-2026/paper-draft-en/"
 
-# Reuse the existing template typography; this import does not run its builder.
-spec = importlib.util.spec_from_file_location("paper_layout", ROOT / "report/paper-draft/build.py")
-layout = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(layout)
-STYLE = layout.STYLE.replace("url('fonts/", "url('../paper-draft/fonts/") + """
+STYLE = (HERE / "layout.css").read_text() + """
 .template-guide{margin:6px 0 12px;padding:7px 10px;border-left:2px solid #9bafba;background:#f1f5f7;color:#45565e;font-family:Arial,sans-serif;font-size:8.3px;line-height:1.35}.template-guide .guide-label{font-weight:bold;text-transform:uppercase;letter-spacing:.55px;margin-bottom:3px}.template-guide p{margin:0 0 3px}.template-guide p:last-child{margin:0}.template-guide details{margin-top:4px}.template-guide summary{cursor:pointer;font-size:8px;color:#4c646e}.template-guide .full-guidance{padding-top:6px}.original-protocol img{display:block;width:100%;height:auto}.original-protocol{margin:13px 0 14px}.page .titleblock{margin-bottom:13px}.page .titleblock p{font-size:10pt}.page .titleblock .draft-status{font-size:8px}.page h2{margin-top:14px}.page h3{margin-top:12px}.page ul{margin:6px 0 10px;padding-left:21px}.page li{margin-bottom:4px}.compact-references{font-size:9.1pt;line-height:1.19}.compact-references li{margin-bottom:7px}aside{margin:11px 0;padding:10px 12px}.guide-document{max-width:900px;margin:0 auto 30px;padding:35px;background:white}.guide-document h1{font-size:24px}.guide-document h2{margin-top:25px;font-size:20px}.guide-document pre{background:#f2f3ee;padding:12px;overflow-x:auto;font-size:11px;line-height:1.4}.guide-document li{margin-bottom:7px}.guide-document code{font-size:.82em}.guide-document .template-source{font-size:10pt;color:#53665a}.guide-document .template-full{border-left:2px solid #9bafba;padding-left:14px}.page:has(#abstract) #abstract{text-align:center}.page:has(#abstract) #abstract~p:first-of-type{font-size:10.5pt}
 @media screen and (max-width:850px){.guide-document{padding:25px 18px}.template-guide{font-size:10px}.template-guide summary{font-size:10px}.page .original-protocol{overflow-x:auto}.page .original-protocol img{min-width:560px}.page .original-protocol figcaption{min-width:0}}
 @media print{.template-guide details{display:none}.template-guide{font-size:8.3px;line-height:1.3}.page .original-protocol{overflow:visible}.page .original-protocol img{min-width:0}.guide-document{padding:1in;font-size:10pt}.guide-document pre{white-space:pre-wrap;overflow-wrap:anywhere}}
@@ -54,7 +49,11 @@ def main():
     ap.add_argument("--playwright-module", default="playwright")
     args = ap.parse_args()
     guidance = json.loads((HERE / "template-guidance.json").read_text())
-    assert hashlib.sha256((ROOT / guidance['source']).read_bytes()).hexdigest() == guidance['sha256']
+    template = ROOT / guidance['source']
+    if template.exists():
+        assert hashlib.sha256(template.read_bytes()).hexdigest() == guidance['sha256']
+    else:
+        print('Using retained template guidance; original DOCX is not bundled.')
     abstract = (HERE / "abstract.md").read_text().strip()
     assert len(abstract.split()) == 150
     source = (HERE / "paper.md").read_text().replace('<!-- abstract -->', abstract)
@@ -64,6 +63,7 @@ def main():
     parts = expanded.split('<!-- page -->')
     assert len(parts) == 6
     OUT.mkdir(parents=True, exist_ok=True)
+    shutil.copytree(HERE / "fonts", OUT / "fonts", dirs_exist_ok=True)
     subprocess.run(['pdftocairo', '-svg', str(HERE / 'protocol.pdf'), str(OUT / 'protocol.svg')], check=True)
     shutil.copyfile(HERE / 'protocol.pdf', OUT / 'protocol.pdf')
     pages = []
@@ -89,7 +89,7 @@ def main():
     proof = {'template_source':guidance['source'],'template_sha256':guidance['sha256'],
              'section_prompts':keys,'abstract_words':150,'planned_pages':len(parts),
              'diagram_source':'report/paper-draft-en/protocol.tex',
-             'diagram_predecessor':'report/latex/figures/protocol.pdf',
+             'diagram_predecessor':'https://github.com/mpodeley/agent-delegate-sprint-2026/blob/c24710a/report/latex/figures/protocol.pdf',
              'diagram_revision':'Optional delegate with limited autonomy, worker feedback, and human review',
              'diagram_sha256':hashlib.sha256((HERE/'protocol.pdf').read_bytes()).hexdigest(),
              'language':'en','new_model_runs':False}

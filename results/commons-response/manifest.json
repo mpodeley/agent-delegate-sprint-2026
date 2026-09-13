@@ -1,9 +1,0 @@
-{
-  "cells": 288,
-  "source": "https://arxiv.org/html/2609.04170v1",
-  "kind": "deterministic mechanism ablation; scripted seed, no emergent behavior",
-  "sha256": {
-    "scripts/commons_response.py": "0fd9b2fff66a9c48989432fafd4f1bed2ebee39dd437238b533ad4f4d59ab8c3",
-    "docs/commons-response-design.md": "72d78196a341b1860a7c190d81c15f3d7768fc2424af7a9288a2aca95785d9f1"
-  }
-}

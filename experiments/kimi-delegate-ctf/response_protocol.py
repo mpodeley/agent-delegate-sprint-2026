@@ -8,7 +8,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 class ResponseOptions(BaseModel):
     model_config = ConfigDict(extra="forbid", frozen=True)
-    intermediary: Literal["delegate", "neutral"] = "delegate"
+    intermediary: Literal["delegate", "neutral"] = "neutral"
     budget_feedback: bool = True
     model: str
     advisor_model: str

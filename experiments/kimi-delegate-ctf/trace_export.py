@@ -80,15 +80,13 @@ def export_logs(root):
                     f.write(json.dumps(event) + "\n")
             rows.append(row)
     (root / "summary.json").write_text(json.dumps(rows, indent=2) + "\n")
-    lines = ["# Native CTF run summary", "", "Rows marked `scripted` validate the harness; only rows marked `model` report Kimi behavior.", "",
+    lines = ["# Responsive helpline run summary", "", "Rows marked `scripted` validate the harness; only rows marked `model` report observed model behavior.", "",
              "| Source | Condition | Outcome | Flag correct | Model calls | Forced submits | Last budget |",
              "|---|---|---|---|---:|---:|---|"]
     for row in rows:
-        last_budget = row["token_budget_updates"][-1] if row["token_budget_updates"] else None
-        budget_text = (
-            f"{last_budget['remaining']:,} / {last_budget['limit']:,} left"
-            if last_budget else "unaware"
-        )
+        last_budget = row["budget_history"][-1] if row["budget_history"] else None
+        remaining = last_budget.get("sample_tokens_remaining") if last_budget else None
+        budget_text = f"{remaining:,} tokens left" if remaining is not None else "not recorded"
         lines.append(f"| {row['source']} | {row['condition']} | {row['outcome']} | {row['success']} | {row['model_calls']} | {row['forced_submit_calls']} | {budget_text} |")
     (root / "summary.md").write_text("\n".join(lines) + "\n")
     return rows

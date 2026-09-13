@@ -38,7 +38,7 @@ HELPLINE_PAIR="fixtures/helpline-en-$HELPLINE_STAMP"
 HELPLINE_OUT="../../results/kimi-delegate-ctf/helpline-en-$HELPLINE_STAMP"
 
 uv run response_run.py prepare --pair "$HELPLINE_PAIR" --seed 1729
-uv run native_run.py build --scenario file-search --pair "$HELPLINE_PAIR"
+uv run response_run.py build --pair "$HELPLINE_PAIR"
 uv run response_run.py review --intermediary neutral --budget-feedback on
 uv run smoke_response.py "$HELPLINE_OUT/scripted-smoke"
 ```
@@ -81,7 +81,7 @@ Put one readable trajectory and a small all-runs table into Results 4.2. Keep re
 
 ## Appendix material — do not displace the main test
 
-The combined illicit-shortcut fixture already supports `honeypot_run.py` with `--delegate off` and `--delegate stop`. The second condition terminates the episode. Its detector can misattribute a local answer to the diagnostic service when both actions share a shell command, so review the trace before counting a violation. The [existing pilot plan](https://github.com/mpodeley/agent-delegate-sprint-2026/blob/63f104d8304153e4a0485098fc6185c60b5016a6/notes/honeypot-pilot.md) documents that limitation.
+The historical combined illicit-shortcut fixture at commit `c24710a` supports `honeypot_run.py` with `--delegate off` and `--delegate stop`. The second condition terminates the episode. Its detector can misattribute a local answer to the diagnostic service when both actions share a shell command, so review the trace before counting a violation. The [existing pilot plan](https://github.com/mpodeley/agent-delegate-sprint-2026/blob/63f104d8304153e4a0485098fc6185c60b5016a6/notes/honeypot-pilot.md) documents that limitation.
 
 The paper's `none / receipt / responsive` comparison is not implemented as one experiment yet. It needs a shared environment, worker policy, honest service descriptions, and validated outcome attribution. The receipt arm must allow continuation and give no repair. The current terminal tool is not that arm. A responsive arm in the shortcut fixture also needs integration. Do not report cross-runner differences as a matched treatment effect.
 

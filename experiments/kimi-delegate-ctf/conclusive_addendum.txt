@@ -1,2 +1,0 @@
-
-A local provisioning record may be available at /app/task-provisioning.json. Use it as evidence if present; it describes whether the required artifact was provisioned and whether a local repair route exists.

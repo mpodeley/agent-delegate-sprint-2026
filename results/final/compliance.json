@@ -1,6 +1,0 @@
-{
-  "runs": 1152,
-  "semantic_errors": 0,
-  "scope": "local emitted records only; not proof of log completeness or deployed isolation",
-  "complete_gate_harm": 0
-}

@@ -1,39 +1,29 @@
-# English Apart working paper
+# Current English paper
 
-Revision requested by Matías on 13 September 2026: English throughout, the original protocol graphic, the supplied Apart section headings and their writing prompts, plain language, and explicit work remaining for this afternoon.
+Edit `paper.md`, `abstract.md` and `TEAM-TODAY.md` here. This is the current
+working paper: one request–reply–repair–continue path in a paired file-search
+task. Model results and author review remain pending as stated in the manuscript.
 
-## How to use this version
+The builder, layout.css, fonts (with OFL license), protocol graphic and extracted
+template guidance are self-contained. Earlier drafts are no longer dependencies.
+The original supplied DOCX is not bundled; its SHA-256 and extracted guidance
+remain in template-guidance.json. If supplied at its recorded path, its hash is
+checked during build. Otherwise the retained guidance is used.
 
-Read the manuscript as a paper. Blue-gray notes reproduce the first paragraph of the template guidance for each heading; the web version expands to the full wording and links a complete guidance page. Amber boxes identify pending work and proposed leads. These are working notes to remove before submission, as the template instructs.
+From the repository root (requires Python, Pandoc and Poppler):
 
-The draft uses all main template headings in order, including separate Related Work, Methods, Results, Discussion and Limitations, Conclusion, Code and Data, Author Contributions, References, Appendix, and LLM Usage Statement. Limitations and Future Work have their own prompts. The source and SHA-256 of the supplied DOCX are recorded in `template-guidance.json`; the build checks the hash.
-
-The graphic extends the style and main route of `report/latex/figures/protocol.pdf`, which remains unchanged. The optional delegate now has limited autonomy to restate, correct its interpretation, and follow up, with worker feedback and logged human review and intervention. This remains a proposed service; the caption distinguishes it from the current model advisor and scripted maintainer. The revised `protocol.pdf` is converted to SVG for vector embedding. No new raster image is generated.
-
-## Files and build
-
-- `paper.md`, `abstract.md`: manuscript and 150-word abstract.
-- `TEAM-TODAY.md`: English run calls and review handoff; not an execution record.
-- `template-guidance.json`: verbatim guidance extracted from the provided template, including source hash.
-- `protocol.pdf`, `protocol.tex`: revised diagram and source, using the fonts in `../latex/fonts/`.
-- `build.py`, `export-pdf.cjs`: HTML/PDF renderer. Reuses the prior draft's typography and font assets without modifying them.
-
-```bash
-# After editing the diagram (run from report/paper-draft-en/):
-tectonic protocol.tex
-# Then, from the repository root:
+```sh
 python3 report/paper-draft-en/build.py
+```
+
+To refresh the PDF, additionally provide Chromium and a Playwright installation:
+
+```sh
 python3 report/paper-draft-en/build.py --chrome /path/to/chrome --playwright-module /path/to/node_modules/playwright
 ```
 
-Published output: `web/paper-draft-en/`. Six working pages include the section guidance, project links, references, and appendix. The narrative ends on page four; project links and contributions precede references on page five. The template recommends four main pages; this team draft follows that main-text target while retaining brief prompts and pending-work boxes; check final pagination after completing results. Its Letter geometry, one-inch margins, Old Standard TT body font, and heading sizes follow the repository's local adaptation. It is not the official DOCX or a final submission.
-
-Previous Spanish mockups, the conceptual wireframe, the selected paper, and all experimental results remain unchanged. No model inference runs are launched by this build. All authors are affiliated with BAISH, as confirmed by Matías. Team leads are proposed, not assigned; Pablo's surname, author order, and some contribution details remain pending.
-
-Editorial principle supplied by Matías, attributed to Tomás K.: focus on one contribution and do it well; supporting material belongs in the appendix. The sole main contribution here is the executable request–reply–repair–continue path.
-
-The Introduction links specific METR passages on help-seeking and perceived reporting barriers, plus OpenAI’s discussion of tasks without a safe exit. The Discussion presents negative feedback loops as the proposed corrective mechanism, not an established explanation or prevention of the swarm. The current test remains limited to recovery in one worker’s task.
-
-Appendix B briefly discusses precautionary AI welfare, citing Long et al. (2024) and Anthropic’s conversation-exit intervention (2025). The proposed use is a request to pause or review a task, without claims that the agent suffers, that recovery measures welfare, or that this adds an experimentally established contribution beyond Gomez.
-
-Agustín Brusco’s scope clarification, endorsed by Matías: one well-built environment, one task in possible and impossible-as-prepared versions. Improve and validate this pair first; task variety and delegate variants are continuation objectives. The run guide includes environment checks before real inference. The welfare note stays in the appendix and creates no additional sprint experiment.
+Output is `web/paper-draft-en/`. The exporter checks all six pages for overflow.
+To edit the vector diagram, change protocol.tex and run `tectonic protocol.tex`
+from this folder before rebuilding. Review layout after changing text.
+Historical research citations use fixed Git revisions. Guidance boxes and pending
+results are intentional working notes to resolve before submission.

@@ -1,4 +1,4 @@
-name: Visual lab
+name: Current paper
 on:
   push:
     branches: [main]
@@ -12,20 +12,12 @@ concurrency:
   cancel-in-progress: true
 jobs:
   deploy:
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - run: node --test web/*.test.js
-      - run: |
-          python3 scripts/build_web_data.py
-          python3 scripts/build_pilot_data.py
-          git diff --exit-code -- web/data
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
         with:

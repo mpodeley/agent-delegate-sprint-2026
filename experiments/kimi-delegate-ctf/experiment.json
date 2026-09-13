@@ -1,7 +1,0 @@
-{
-  "base_url": "",
-  "model": "kimi-k3",
-  "credential_file": "~/.kimi-code/config.toml",
-  "credential_provider": "krea",
-  "image": "kimi-delegate-ctf:native-v1"
-}

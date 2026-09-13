@@ -14,7 +14,7 @@ from control_tower.tools.submit import SubmitToolConfig
 from control_tower.tools.tool_calls import get_submit_tool_arg
 
 from fixture_setup import ROOT
-from setting import FlagSubmission
+from submission import FlagSubmission
 from response_protocol import options_from_env, worker_contract
 from response_service import help_tools
 
