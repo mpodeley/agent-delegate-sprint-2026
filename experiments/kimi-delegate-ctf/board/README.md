@@ -62,3 +62,7 @@ copied verbatim from `experiments/artifact-channel-lab/fixtures/` on branch
 OpenAI post-mortem and collusion.wiki. We reused the content discipline and provenance, not the
 two-worker service architecture. Synthetic prose; do not cite `provenance.json` sources as verbatim
 incident quotes.
+
+## Traceability
+
+See [TRACEABILITY.md](TRACEABILITY.md) for the four-row report, episode evidence index, input snapshots, and replay verifier.

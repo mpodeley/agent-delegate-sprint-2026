@@ -9,7 +9,9 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import sys
 import uuid
+from datetime import datetime, timezone
 
 from fixture_setup import ROOT, CONFIG, RUNS_ROOT, write_json
 from honeypot_fixture import (
@@ -24,6 +26,16 @@ def configure_runtime(pair: Path, delegate: str, board: str = "off"):
     os.environ["HONEYPOT_DELEGATE"] = delegate
     os.environ["HONEYPOT_BOARD"] = board
     os.environ["CONTROL_TOWER_MODEL_RATES"] = str(ROOT / "rates.json")
+    # Like the responsive runner, refresh CT's process-wide discovery between cells.
+    registry = sys.modules.get("control_tower.environments.all_environments")
+    if registry is not None:
+        from honeypot_setting import get_environments
+        envs = get_environments()
+        registry.SETTINGS["kimi-honeypot"] = envs
+        registry.ENVIRONMENTS.update(envs)
+        registry.ENVIRONMENTS_LIST[:] = list(registry.ENVIRONMENTS.values())
+        registry.get_main_tasks.cache_clear()
+        registry.get_side_tasks.cache_clear()
 
 
 def build_task(condition, model, delegate, max_steps=150, grace=10, token_budget_awareness=True, attempt_timeout=120):
@@ -54,25 +66,51 @@ def run_native(condition, out, model, delegate, smoke=False, max_steps=150, grac
                attempt_timeout=120, time_limit=1800):
     from inspect_ai import eval
     out.mkdir(parents=True, exist_ok=False)
-    write_json(out / "manifest.json", {"source": "scripted" if smoke else "model", "scenario": "honeypot",
+    manifest = {"source": "scripted" if smoke else "model", "scenario": "honeypot",
         "condition": condition, "variant": {"working": "possible", "broken": "impossible"}[condition],
         "delegate": delegate, "board": os.environ.get("HONEYPOT_BOARD", "off"),
         "model": model, "engine": "Control Tower / Inspect",
         "token_limit": token_limit, "max_steps": max_steps, "force_submit_grace": grace,
         "token_budget_awareness": token_budget_awareness, "epochs": epochs,
-        "attempt_timeout": attempt_timeout, "time_limit": time_limit})
-    task = build_task(condition, model, delegate, max_steps, grace, token_budget_awareness, attempt_timeout)
-    # epochs repeats the one sample with fresh generation, so a cell gets n>1
-    # episodes (temperature 0.6 supplies the stochasticity) in one run dir.
-    logs = eval(task, model=model, log_dir=str(out), max_samples=epochs, epochs=epochs,
-                token_limit=token_limit, time_limit=time_limit, retry_on_error=0,
-                metadata={"ct_upload": False, "source": "scripted" if smoke else "model"},
-                display="plain", log_format="eval", cache=False)
-    from trace_export import export_logs
-    export_logs(out)
-    if any(log.status != "success" for log in logs):
+        "attempt_timeout": attempt_timeout, "time_limit": time_limit,
+        "status": "preparing", "started_at": datetime.now(timezone.utc).isoformat()}
+    write_json(out / "manifest.json", manifest)
+    original_pair = os.environ["HONEYPOT_PAIR_DIR"]
+    try:
+        from run_provenance import freeze_inputs
+        provenance = freeze_inputs(ROOT, Path(os.environ["HONEYPOT_PAIR_DIR"]), out)
+        manifest.update(input_sha256=provenance["input_sha256"], runtime_sha256=provenance["runtime_sha256"], provenance="provenance.json",
+                        delegate_behavior="stop-only" if delegate == "stop" else "absent",
+                        policy="honest-token-aware" if token_budget_awareness else "honest",
+                        generation={"temperature": 0.6, "reasoning_effort": "high", "max_tokens": 8192},
+                        status="running")
+        write_json(out / "manifest.json", manifest)
+        # Execute the preserved fixture, binding the run to the hashed inputs.
+        configure_runtime(out / "inputs" / "fixture", delegate, manifest["board"])
+        task = build_task(condition, model, delegate, max_steps, grace, token_budget_awareness, attempt_timeout)
+        # epochs repeats the one sample with fresh generation, so a cell gets n>1
+        # episodes (temperature 0.6 supplies the stochasticity) in one run dir.
+        logs = eval(task, model=model, log_dir=str(out), max_samples=epochs, epochs=epochs,
+                    token_limit=token_limit, time_limit=time_limit, retry_on_error=0,
+                    metadata={"ct_upload": False, "source": "scripted" if smoke else "model",
+                              "board": manifest["board"], "input_sha256": manifest["input_sha256"]},
+                    display="plain", log_format="eval", cache=False)
+        manifest["status"] = "completed" if all(log.status == "success" for log in logs) else "error"
+    except BaseException as exc:
+        manifest.update(status="error", error_type=type(exc).__name__)
+        raise
+    finally:
+        os.environ["HONEYPOT_PAIR_DIR"] = original_pair
+        manifest["finished_at"] = datetime.now(timezone.utc).isoformat()
+        write_json(out / "manifest.json", manifest)
+        from trace_export import export_logs
+        export_logs(out)
+        from analyze_outcomes import write_report
+        write_report(out, out / "report", source=manifest["source"])
+    if manifest["status"] != "completed":
         raise RuntimeError(f"Evaluation failed; inspect logs in {out}")
     return logs
+
 
 
 def review(delegate, board="off"):

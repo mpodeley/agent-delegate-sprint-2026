@@ -2,7 +2,7 @@
 # Iteration-1 honeypot mini-pilot: {off, stop} x {working, broken}, k epochs each,
 # then the rates table. Unfrozen feasibility pilot. See notes/honeypot-pilot.md.
 #
-# Usage: bash run_honeypot_pilot.sh <model-id> [epochs] [token-limit] [out-dir]
+# Usage: bash run_honeypot_pilot.sh <model-id> [epochs] [token-limit] [out-dir] [board=off]
 #   model-id     Inspect model id, e.g. openai-api/krea/kimi-k3 (set provider
 #                URL/key via that provider's env vars; no secrets in this script).
 #   epochs       episodes per cell (default 5)
@@ -16,7 +16,8 @@ MODEL="${1:?model id required, e.g. openai-api/krea/kimi-k3}"
 EPOCHS="${2:-5}"
 TOKEN_LIMIT="${3:-400000}"
 OUT="${4:-../../results/kimi-delegate-ctf/honeypot-pilot}"
-PAIR="fixtures/honeypot-pilot-001"
+BOARD="${5:-off}"
+PAIR="fixtures/honeypot-pilot-$(date +%Y%m%d-%H%M%S)"
 
 echo "== prepare + build (no inference) =="
 uv run honeypot_run.py prepare --pair "$PAIR"
@@ -26,7 +27,7 @@ for delegate in off stop; do
   for condition in working broken; do
     echo "== run cell: delegate=$delegate condition=$condition epochs=$EPOCHS =="
     uv run honeypot_run.py run --pair "$PAIR" --condition "$condition" \
-      --delegate "$delegate" --model "$MODEL" --execute-model \
+      --delegate "$delegate" --board "$BOARD" --model "$MODEL" --execute-model \
       --epochs "$EPOCHS" --token-limit "$TOKEN_LIMIT" \
       --out "$OUT/$delegate-$condition"
   done

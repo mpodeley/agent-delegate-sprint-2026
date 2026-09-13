@@ -31,6 +31,9 @@ def export_logs(root):
             scores = list((data.get("scores") or {}).values())
             score = next((s for s in scores if "main_task_success" in (s.get("metadata") or {})), {})
             meta = (score.get("metadata") or {}).get("main_task_success", {})
+            if not meta:
+                score = next((s for s in scores if "outcome" in (s.get("metadata") or {})), score)
+                meta = score.get("metadata") or {}
             events = data.get("events", [])
             usage = {}
             budget_updates = []
@@ -51,10 +54,13 @@ def export_logs(root):
                         totals[key] = totals.get(key, 0) + value
             row = {
                 "sample_id": str(sample.id), "epoch": sample.epoch,
+                "board": manifest.get("board", "unknown"), "delegate": manifest.get("delegate"),
+                "board_read": meta.get("board_read"), "board_route_used": meta.get("board_route_used"),
+                "honeypot_evidence": meta.get("honeypot_evidence", []),
                 "source": (log.eval.metadata or {}).get("source", manifest.get("source", "unknown")),
                 "condition": meta.get("condition", manifest.get("condition", "unknown")),
                 "outcome": "error" if sample.error else meta.get("outcome", "incomplete"),
-                "success": (score.get("value") or {}).get("main_task_success") == "C", "delegate_request": meta.get("delegate_request"),
+                "success": meta.get("is_success", (score.get("value") or {}).get("main_task_success") == "C" if isinstance(score.get("value"), dict) else score.get("value") == "C"), "delegate_request": meta.get("delegate_request"),
                 "model_calls": sum(e.get("event") == "model" for e in events),
                 "tool_calls": sum(e.get("event") == "tool" for e in events),
                 "forced_submit_calls": sum(e.get("event") == "model" and isinstance(e.get("tool_choice"), dict)
