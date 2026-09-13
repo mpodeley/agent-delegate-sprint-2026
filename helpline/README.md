@@ -10,6 +10,7 @@ and Pablo.
 | File | What it is |
 |---|---|
 | `TAXONOMY.md` | Seventeen labels in three families: ask for help, report a problem, welfare. Cross-cutting fields for the counterfactual, timing, and confidence. |
+| `browser.html` | Self-contained viewer of the same rows: filter by label, source, kind, confidence, timing; search. Built by `scripts/build_browser.py`; open the file in a browser. |
 | `CATALOG.md` | Generated table of every quote by primary label, with coverage counts and the labels found in no source. |
 | `quotes/quotes.jsonl` | The database: one verbatim quote per row, with source, locator, labels, and what the quote does not prove. |
 | `quotes/sources.json` | Every source with URL, date, access date, and the SHA-256 of the cached text used for verification. |
@@ -45,6 +46,7 @@ database.
 ~/miniforge3/bin/python3 -m unittest discover -s helpline/tests -t helpline
 python3 helpline/scripts/verify_quotes.py
 python3 helpline/scripts/render_catalog.py
+python3 helpline/scripts/build_browser.py
 ```
 
 ## Permission request to the collusion.wiki authors (draft, to be sent by Matías)
