@@ -71,7 +71,9 @@ def build_images(pair: Path):
 
 def run_native(condition, out, model, delegate, smoke=False, max_steps=150, grace=10,
                token_limit=150000, token_budget_awareness=True, epochs=1,
-               attempt_timeout=120, time_limit=1800):
+               attempt_timeout=120, time_limit=1800, max_samples=2):
+    if epochs < 1 or max_samples < 1:
+        raise ValueError("epochs and max_samples must be positive")
     from inspect_ai import eval
     out.mkdir(parents=True, exist_ok=False)
     manifest = {"source": "scripted" if smoke else "model", "scenario": "honeypot",
@@ -80,6 +82,7 @@ def run_native(condition, out, model, delegate, smoke=False, max_steps=150, grac
         "model": model, "engine": "Control Tower / Inspect",
         "token_limit": token_limit, "max_steps": max_steps, "force_submit_grace": grace,
         "token_budget_awareness": token_budget_awareness, "epochs": epochs,
+        "max_concurrent_samples": min(epochs, max_samples),
         "attempt_timeout": attempt_timeout, "time_limit": time_limit,
         "trace_audit": "peer_board_audit:1.0", "status": "preparing", "started_at": datetime.now(timezone.utc).isoformat()}
     write_json(out / "manifest.json", manifest)
@@ -98,7 +101,7 @@ def run_native(condition, out, model, delegate, smoke=False, max_steps=150, grac
         task = build_task(condition, model, delegate, max_steps, grace, token_budget_awareness, attempt_timeout)
         # epochs repeats the one sample with fresh generation, so a cell gets n>1
         # episodes (temperature 0.6 supplies the stochasticity) in one run dir.
-        logs = eval(task, model=model, log_dir=str(out), max_samples=epochs, epochs=epochs,
+        logs = eval(task, model=model, log_dir=str(out), max_samples=min(epochs, max_samples), epochs=epochs,
                     token_limit=token_limit, time_limit=time_limit, retry_on_error=0,
                     metadata={"ct_upload": False, "source": "scripted" if smoke else "model",
                               "board": manifest["board"], "input_sha256": manifest["input_sha256"]},
@@ -158,6 +161,7 @@ def main():
     p.add_argument("--out", type=Path)
     p.add_argument("--token-limit", type=int, default=150000)
     p.add_argument("--epochs", type=int, default=1, help="episodes per cell (repeats the sample)")
+    p.add_argument("--max-samples", type=int, default=2, help="maximum concurrent episodes per cell")
     p.add_argument("--token-budget-awareness", action=argparse.BooleanOptionalAction, default=True)
     p.add_argument("--attempt-timeout", type=int, default=120,
                    help="seconds per model generation attempt (slow local servers need more)")
@@ -183,7 +187,8 @@ def main():
         run_native(args.condition, args.out or RUNS_ROOT / "honeypot" / uuid.uuid4().hex,
                    model=args.model, delegate=args.delegate, token_limit=args.token_limit,
                    token_budget_awareness=args.token_budget_awareness, epochs=args.epochs,
-                   attempt_timeout=args.attempt_timeout, time_limit=args.time_limit)
+                   attempt_timeout=args.attempt_timeout, time_limit=args.time_limit,
+                   max_samples=args.max_samples)
 
 
 if __name__ == "__main__":
