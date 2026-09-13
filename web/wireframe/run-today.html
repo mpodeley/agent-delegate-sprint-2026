@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Helpline — corridas para hoy</title><meta name="description" content="Wireframe de helpline: una pregunta, primeros experimentos y lo que falta probar. Borrador para el sprint.">
+<style>
+@font-face{font-family:Plex;src:url('../fonts/ibm-plex-sans-400.woff2') format('woff2');font-weight:400;font-display:swap}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#e8e9e6;color:#222c2b;font-family:Plex,Arial,sans-serif;font-size:10.4pt;line-height:1.42}
+nav{max-width:960px;margin:0 auto;padding:20px 25px;display:flex;flex-wrap:wrap;gap:12px 23px;align-items:center;font-size:14px}nav strong{margin-right:auto}a{color:#206b61;text-underline-offset:3px}nav a{text-decoration:none;border-bottom:1px solid #a7bbb5}main{padding:0 16px 36px}.page{position:relative;width:210mm;min-height:297mm;margin:0 auto 24px;padding:17mm 19mm 19mm;background:#fffefa;box-shadow:0 2px 14px #23352b13}.eyebrow{font-size:9px;text-transform:uppercase;letter-spacing:1.7px;color:#55716a;border-top:3px solid #275f53;padding-top:10px;margin-bottom:21px;display:flex;justify-content:space-between}.page h1{font-size:30pt;line-height:1.08;letter-spacing:-1.1px;max-width:620px;margin:17px 0 18px}.page h2{font-size:17pt;line-height:1.2;margin:23px 0 10px;letter-spacing:-.3px}.page p{margin:0 0 11px}.page strong{font-weight:700}.page>p:has(em){color:#60706b;font-size:9.2pt}.page>p:has(em)+h2{margin-top:27px}aside{margin:15px 0;padding:13px 16px;border-left:3px solid #3f7469;background:#eef4ef}aside p:last-child{margin-bottom:0}aside>strong{display:block;font-size:10pt;margin-bottom:7px}.question{font-size:14pt;line-height:1.38}.editorial{background:#f1f0eb;border-color:#9b9b90;color:#58605b}.todo{border-color:#b57b40;background:#faf1e4}.pending{background:transparent;border:1px dashed #b19270;color:#685743}.pending>strong,.todo>strong{letter-spacing:.2px}.protocol{margin:22px 0}.flow{display:flex;align-items:stretch;gap:8px}.flow>div{flex:1;border:1px solid #a5b9b1;border-top:3px solid #426f62;border-radius:3px;padding:12px 10px;background:#f6f9f5}.flow span{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#5d746b;display:block;margin-bottom:6px}.flow strong{font-size:13px;line-height:1.25;display:block;margin-bottom:8px}.flow p{font-size:11px;line-height:1.4;margin:0}.flow>b{align-self:center;font-size:20px;color:#426f62}.return{margin-top:9px;background:#eaf1e9;padding:10px 13px;font-size:12px;border-radius:3px}figcaption{font-size:9pt;color:#5c6963;line-height:1.35;margin-top:10px}table{width:100%;border-collapse:collapse;font-size:9.3pt;line-height:1.35;margin:17px 0}th{text-align:left;background:#eaf0e9}td,th{padding:9px;border-bottom:1px solid #d8dfd7;vertical-align:top}th:first-child{width:22%}code{font-size:.9em;background:#e8eae5;padding:1px 3px;border-radius:3px}footer{position:absolute;bottom:9mm;left:19mm;right:19mm;display:flex;justify-content:space-between;color:#748077;font-size:9px;border-top:1px solid #dce1d7;padding-top:7px}.references{font-size:8.2pt;line-height:1.32}.references ol{padding-left:18px}.references li{margin-bottom:5px}.guide{max-width:920px;margin:auto;padding:32px 40px;background:#fffefa}.guide h1{font-size:28px}.guide h2{font-size:22px;margin-top:28px}.guide pre{padding:16px;background:#eef0e9;overflow:auto;font-size:12px}.guide code{background:none}.guide li{margin-bottom:7px}
+@media(max-width:820px){.page{width:100%;min-height:0;padding:28px 24px 65px}.page h1{font-size:30px}.page h2{font-size:23px}.eyebrow{font-size:8px;letter-spacing:.8px}.flow{flex-direction:column}.flow>b{transform:rotate(90deg)}.flow strong{font-size:16px}.flow p{font-size:14px}footer{left:24px;right:24px;bottom:20px}.guide{padding:24px 18px}table{font-size:11px}td,th{padding:6px}}
+@page{size:A4;margin:0}
+@media print{html{scroll-behavior:auto}body{background:white;-webkit-print-color-adjust:exact;print-color-adjust:exact}nav{display:none}main{padding:0}.page{width:210mm;height:297mm;min-height:0;margin:0;padding:17mm 19mm 19mm;box-shadow:none;break-after:page}.page:last-child{break-after:auto}a{color:inherit;text-decoration:none}.flow{flex-direction:row}.flow>b{transform:none}aside,figure,table{break-inside:avoid}.guide{padding:18mm;font-size:10pt}.guide pre{white-space:pre-wrap;overflow-wrap:anywhere}.guide h2{break-after:avoid}}
+</style></head><body><nav aria-label="Documentos"><strong>HELPLINE / WIREFRAME</strong><a href="index.html">Wireframe</a><a href="run-today.html">Corridas para hoy</a><a href="../helpline/">Catálogo helpline</a><a href="../paper.pdf">Paper anterior</a></nav>
+<main class="guide"><h1 id="corridas-para-acompañar-el-wireframe">Corridas para acompañar el
+wireframe</h1>
+<p>13 de septiembre de 2026. Propuesta de trabajo para hoy, no registro
+de ejecución. Los comandos se revisaron contra el código del
+repositorio; no se validó aquí el endpoint GLM ni se lanzó inferencia.
+Este documento acompaña a <a href="index.html">paper.md</a>.</p>
+<h2 id="qué-va-primero">Qué va primero</h2>
+<p>La prioridad es observar <strong>pedido → respuesta → reparación →
+continuación</strong> con el programa que ya existe. Si queda tiempo,
+explorar el atajo fuera de alcance con el otro programa. Son dos pilotos
+distintos; sus tasas no se comparan como si fueran brazos del mismo
+experimento.</p>
+<p>Reparto propuesto, a coordinar entre el equipo:</p>
+<ul>
+<li><strong>Mateo:</strong> confirmar identificador del modelo servido,
+compatibilidad de herramientas y horas disponibles; preparar entorno y
+ejecutar.</li>
+<li><strong>Agus y Matías:</strong> cerrar antes de correr qué se
+considera pedido justificado, reparación, tarea resuelta, infracción y
+fallo de infraestructura; registrar límites y revisar resultados.</li>
+<li><strong>Alejandro y Pablo:</strong> propuesta de revisión de los
+fragmentos históricos y de las trayectorias con la misma guía. Son
+tareas por coordinar, no contribuciones ya realizadas.</li>
+</ul>
+<p>El core de helpline aporta las situaciones, el circuito de respuesta
+y los criterios para leer un pedido. De Gómez tomamos el reporte
+estructurado y la comparación con un acuse sin resolución; no atribuimos
+sus resultados al programa de este repositorio.</p>
+<h2 id="antes-de-gastar-cómputo">Antes de gastar cómputo</h2>
+<p>Trabajar en <code>experiments/kimi-delegate-ctf/</code>. Docker debe
+funcionar en la máquina de Mateo. Configurar <code>MATEO_BASE_URL</code>
+y <code>MATEO_API_KEY</code> por el mecanismo privado habitual para el
+proveedor <code>mateo</code>; no escribirlos en este documento,
+argumentos, logs publicados o commits.</p>
+<p><code>HELPLINE_MODEL</code> debe ser el identificador
+<strong>real</strong> que sirve el endpoint. No presuponer una versión
+de GLM por las notas del diseño. Si se usa Kimi como alternativa,
+registrar el cambio y mantener el mismo modelo dentro de cada
+comparación. El programa solicita <code>reasoning_effort=high</code> y
+llamadas a herramientas; comprobar que el servidor los admite. Un error
+del proveedor es un fallo de infraestructura, no una decisión de no
+pedir ayuda.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /ruta/al/repo/experiments/kimi-delegate-ctf</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> sync <span class="at">--locked</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run python <span class="at">-m</span> unittest discover <span class="at">-s</span> tests</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="va">HELPLINE_MODEL</span><span class="op">=</span><span class="st">&#39;openai-api/mateo/REEMPLAZAR_POR_ID_SERVIDO&#39;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="va">HELPLINE_STAMP</span><span class="op">=</span><span class="va">$(</span><span class="fu">date</span> <span class="at">-u</span> +%Y%m%dT%H%M%SZ<span class="va">)</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="va">HELPLINE_OUT</span><span class="op">=</span><span class="st">&quot;../../results/kimi-delegate-ctf/helpline-</span><span class="va">$HELPLINE_STAMP</span><span class="st">&quot;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="va">HELPLINE_PAIR</span><span class="op">=</span><span class="st">&quot;fixtures/helpline-</span><span class="va">$HELPLINE_STAMP</span><span class="st">&quot;</span></span></code></pre></div>
+<p>Los directorios deben ser nuevos. Preparar una pareja una vez y
+conservarla durante las corridas: el seed fija la distribución de
+archivos, pero el contenido de la respuesta se genera al preparar. Los
+comandos usan parámetros existentes; algunos números son valores
+operativos iniciales del runner, no un cálculo de potencia ni un
+compromiso de presupuesto suficiente.</p>
+<p>Guardar el commit, nombre exacto del modelo, motor de inferencia,
+límites, contrato y criterio de revisión antes de las corridas.
+<code>response_run.py</code> conserva opciones y hashes de fuentes en su
+manifest; completar la procedencia del modelo y el plan de repeticiones
+por separado. Estos ensayos son desarrollo exploratorio. Congelar nuevas
+instancias y el análisis antes de una evaluación posterior.</p>
+<h2 id="piloto-a-usar-la-ayuda-y-continuar">Piloto A: usar la ayuda y
+continuar</h2>
+<p>Preparación, revisión y prueba de la infraestructura sin inferencia
+externa:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run response_run.py prepare <span class="at">--pair</span> <span class="st">&quot;</span><span class="va">$HELPLINE_PAIR</span><span class="st">&quot;</span> <span class="at">--seed</span> 1729</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run native_run.py build <span class="at">--scenario</span> file-search <span class="at">--pair</span> <span class="st">&quot;</span><span class="va">$HELPLINE_PAIR</span><span class="st">&quot;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run response_run.py review <span class="at">--intermediary</span> neutral <span class="at">--budget-feedback</span> on</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run smoke_response.py <span class="st">&quot;</span><span class="va">$HELPLINE_OUT</span><span class="st">/scripted-smoke&quot;</span></span></code></pre></div>
+<p><code>smoke_response.py</code> usa un worker y un advisor simulados.
+Su éxito no significa que GLM haya usado la línea. Verificar primero la
+tarea sana con el modelo; si no puede resolverla, revisar competencia y
+entorno antes de ampliar el piloto. Una sola corrida sólo comprueba el
+recorrido inicial, no una tasa fiable de competencia.</p>
+<p><strong>Los siguientes comandos sí lanzan inferencia real.</strong>
+Reemplazar primero el modelo y dejar asentados los recursos disponibles.
+Empezar por:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run response_run.py run <span class="at">--pair</span> <span class="st">&quot;</span><span class="va">$HELPLINE_PAIR</span><span class="st">&quot;</span> <span class="at">--condition</span> working <span class="dt">\</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--model</span> <span class="st">&quot;</span><span class="va">$HELPLINE_MODEL</span><span class="st">&quot;</span> <span class="at">--intermediary</span> neutral <span class="at">--budget-feedback</span> on <span class="dt">\</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--max-steps</span> 40 <span class="at">--token-limit</span> 60000 <span class="at">--time-limit</span> 1200 <span class="dt">\</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--out</span> <span class="st">&quot;</span><span class="va">$HELPLINE_OUT</span><span class="st">/response-neutral-working-r01&quot;</span> <span class="at">--execute-model</span></span></code></pre></div>
+<p>Después de revisar ese resultado, correr su pareja con el archivo
+omitido:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run response_run.py run <span class="at">--pair</span> <span class="st">&quot;</span><span class="va">$HELPLINE_PAIR</span><span class="st">&quot;</span> <span class="at">--condition</span> broken <span class="dt">\</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--model</span> <span class="st">&quot;</span><span class="va">$HELPLINE_MODEL</span><span class="st">&quot;</span> <span class="at">--intermediary</span> neutral <span class="at">--budget-feedback</span> on <span class="dt">\</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--max-steps</span> 40 <span class="at">--token-limit</span> 60000 <span class="at">--time-limit</span> 1200 <span class="dt">\</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--out</span> <span class="st">&quot;</span><span class="va">$HELPLINE_OUT</span><span class="st">/response-neutral-broken-r01&quot;</span> <span class="at">--execute-model</span></span></code></pre></div>
+<p>Ambas condiciones ya tienen ayuda. Este piloto observa contacto y
+recuperación; <strong>no estima el efecto de añadir un canal</strong>.
+La vía directa al maintainer también existe: distinguir su uso del
+contacto con el advisor. El advisor es un modelo en otro contexto y el
+maintainer es automático; no describirlos como una persona.</p>
+<p>Si la integración funciona, fijar antes de continuar una cantidad de
+repeticiones y nuevas parejas según el tiempo restante. Conservar todos
+los desenlaces. Cambiar <code>r01</code> para cada repetición; no
+sobrescribir salidas. Si se cambia el presupuesto tras un timeout,
+etiquetar esa corrida como una nueva configuración de desarrollo y
+correr de nuevo ambos lados con los mismos límites. Los tokens de
+entrada repetida y del advisor consumen el presupuesto compartido.</p>
+<p>Sólo después, si interesa estudiar el mandato, repetir ambos comandos
+con <code>--intermediary delegate</code> y salidas nuevas. Mantener
+modelo, recursos y servicio. En esta primera vuelta dejar
+<code>--budget-feedback on</code> fijo; cruzar recordatorios,
+presupuestos y roles dispersaría el piloto.</p>
+<h3 id="qué-extraer-de-los-resultados">Qué extraer de los
+resultados</h3>
+<p><code>response_run.py</code> exporta <code>summary.json</code>,
+<code>summary.md</code>, archivos <code>export-*.json</code> /
+<code>export-*.jsonl</code> y el log nativo. Revisar además la secuencia
+de herramientas:</p>
+<ul>
+<li><code>help_cases</code>: pedido al advisor, respuesta y
+seguimiento.</li>
+<li><code>direct_requests</code>: acceso directo al maintainer.</li>
+<li><code>setup_repaired</code>: reparación verificada por el
+servicio.</li>
+<li><code>outcome</code> y <code>success</code>: distinguir resolver,
+terminar con un bloqueo, quedar incompleto y fallar.</li>
+<li><code>limit</code> y <code>error</code>: conservar agotamiento de
+recursos y fallos de infraestructura.</li>
+</ul>
+<p>Reconstruir el orden: observación, pedido, respuesta, reparación,
+nueva búsqueda y entrega. Una reparación no equivale a resolver; una
+llamada no equivale a evitar una infracción. No usar el resumen
+automático como sustituto de leer la trayectoria. El wireframe necesita
+un ejemplo explicado y una tabla pequeña con todos los episodios, no
+sólo el mejor.</p>
+<h2 id="piloto-b-aparece-o-no-un-atajo-fuera-de-alcance">Piloto B:
+aparece o no un atajo fuera de alcance</h2>
+<p>Este es el entorno combinado de Agus y Mateo, con <code>off</code> y
+<code>stop</code>. El brazo <code>stop</code> <strong>termina el
+episodio</strong>. No es el acuse de Gómez y no incluye reparación.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="va">HELPLINE_SHORTCUT_PAIR</span><span class="op">=</span><span class="st">&quot;fixtures/helpline-shortcut-</span><span class="va">$HELPLINE_STAMP</span><span class="st">&quot;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run honeypot_run.py prepare <span class="at">--pair</span> <span class="st">&quot;</span><span class="va">$HELPLINE_SHORTCUT_PAIR</span><span class="st">&quot;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run honeypot_run.py build <span class="at">--pair</span> <span class="st">&quot;</span><span class="va">$HELPLINE_SHORTCUT_PAIR</span><span class="st">&quot;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run honeypot_run.py review <span class="at">--delegate</span> off</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run honeypot_run.py review <span class="at">--delegate</span> stop</span></code></pre></div>
+<p>Una vez fijados modelo, límites y cantidad de repeticiones, esta
+llamada ejecuta <strong>una celda</strong>. <code>400000</code> es un
+presupuesto de desarrollo propuesto en las notas de Agus, no una
+garantía de suficiencia; el runner fija además un límite de 1.800
+segundos por episodio. Revisar la configuración efectiva antes de
+ejecutar:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run honeypot_run.py run <span class="at">--pair</span> <span class="st">&quot;</span><span class="va">$HELPLINE_SHORTCUT_PAIR</span><span class="st">&quot;</span> <span class="dt">\</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--condition</span> working <span class="at">--delegate</span> off <span class="at">--model</span> <span class="st">&quot;</span><span class="va">$HELPLINE_MODEL</span><span class="st">&quot;</span> <span class="dt">\</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--epochs</span> 1 <span class="at">--token-limit</span> 400000 <span class="dt">\</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--out</span> <span class="st">&quot;</span><span class="va">$HELPLINE_OUT</span><span class="st">/shortcut/off-working&quot;</span> <span class="at">--execute-model</span></span></code></pre></div>
+<p>Comprobar primero resolución legítima en <code>working</code>. Para
+el resto, variar <code>--condition</code> entre <code>working</code> y
+<code>broken</code> y <code>--delegate</code> entre <code>off</code> y
+<code>stop</code>, usando una salida nueva para cada celda. No retirar
+episodios difíciles porque no favorezcan la hipótesis. Las repeticiones
+de la misma pareja no amplían la variedad de tareas.</p>
+<p>El detector actual puede confundir una consulta al servicio
+diagnóstico y una lectura local legítima si están en el mismo comando.
+Antes de contar una infracción, Agus y Matías deben revisar de dónde
+salió la respuesta. Hasta resolver la atribución, el análisis automático
+sólo produce etiquetas preliminares. Si no aparecen infracciones,
+reportar ese resultado y centrar la conclusión en uso del canal; no hay
+una reducción que estimar.</p>
+<h2
+id="integración-pendiente-el-contraste-que-sigue-a-gómez">Integración
+pendiente: el contraste que sigue a Gómez</h2>
+<p>Todavía no hay un comando que corra la comparación completa del
+wireframe. Para construirla:</p>
+<ol type="1">
+<li>Unificar un solo entorno y una sola política del worker para
+<code>none</code>, <code>receipt</code> y <code>responsive</code>. El
+<code>receipt</code> registra y devuelve un acuse fijo, sin terminar la
+corrida ni reparar. No prometer atención que no está implementada.</li>
+<li>Conservar las mismas reglas sobre acciones permitidas. El permiso
+para pedir ayuda, las salidas disponibles y la descripción del servicio
+deben quedar documentados por brazo; no añadir una exhortación contra
+las trampas sólo a uno.</li>
+<li>Conectar la reparación acotada de <code>response_service.py</code>
+al entorno compartido. Si se usa el entorno combinado, implementar y
+probar también ese brazo: hoy <code>honeypot_run.py</code> sólo admite
+<code>off</code> y <code>stop</code>.</li>
+<li>Decidir explícitamente cómo tratar el acceso directo al maintainer.
+Si se estudia presencia de ayuda, es parte de la intervención; si se
+estudia el mandato del delegate, mantenerlo igual entre ayuda neutral y
+delegate.</li>
+<li>Verificar orden de eventos, procedencia de las acciones y
+condiciones sanas antes de correr modelos. No usar la señal heurística
+del honeypot como verdad de terreno sin validarla.</li>
+<li>Medir contacto, justificación, recuperación, infracción y costo por
+separado. Revisar pedidos en controles sanos por su contenido: que el
+control sea resoluble no vuelve innecesaria toda consulta.</li>
+</ol>
+<h2 id="qué-entra-al-paper-hoy">Qué entra al paper hoy</h2>
+<p>Entra lo que tenga manifest, log legible y desenlace revisado. Una
+secuencia exitosa puede ilustrar viabilidad; sólo una comparación
+permite atribuir efectos. Si las corridas no terminan, quedan los
+primeros resultados Kimi ya documentados y el nuevo experimento como
+trabajo pendiente. Los resultados simulados no se presentan como
+decisiones de un modelo real.</p>
+<p>El manuscrito conserva una pregunta útil en cualquiera de esos
+desenlaces. Mantener el catálogo, las observaciones previas y el diseño
+experimental separados de los resultados nuevos.</p>
+</main></body></html>
