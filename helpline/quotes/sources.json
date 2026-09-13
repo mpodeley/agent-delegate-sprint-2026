@@ -127,5 +127,65 @@
     "accessed": "2026-09-13",
     "cache_sha256": "29e861a9b411941feb09f695fb1c36aa85c4e10104581cbad94ad7fad4f56cf2",
     "cache_words": 1667
+  },
+  "impossiblebench": {
+    "url": "https://arxiv.org/abs/2510.20270",
+    "title": "ImpossibleBench: Measuring LLMs' Propensity of Exploiting Test Cases",
+    "authors": "Ziqian Zhong, Aditi Raghunathan, Nicholas Carlini",
+    "published": "2025-10-23",
+    "type": "research paper (arXiv HTML)",
+    "accessed": "2026-09-13",
+    "cache_sha256": "91fff725b179f45d0f5cc3ac4e1e0dd95c3d3f44bfe846c2a153ed69da45b601",
+    "cache_words": 10321
+  },
+  "permission_to_stop": {
+    "url": "https://github.com/SJCaldwell/permission-to-stop",
+    "title": "Permission to Stop: Can progressive monitoring prevent agent reward hacking without reducing capability?",
+    "authors": "S. J. Caldwell",
+    "published": "2026",
+    "type": "GitHub README",
+    "accessed": "2026-09-13",
+    "cache_sha256": "e6a81070594b83c86bd4eff05eec700811b286a224027c81cfe5dbe73f3489d4",
+    "cache_words": 950
+  },
+  "metr_reward_hacking_2025": {
+    "url": "https://metr.org/blog/2025-06-05-recent-reward-hacking/",
+    "title": "Recent Frontier Models Are Reward Hacking",
+    "authors": "METR",
+    "published": "2025-06-05",
+    "type": "research blog post",
+    "accessed": "2026-09-13",
+    "cache_sha256": "8c4ad1aa2fd7f383228697357df5b17435dfbecdc1547dbbc0baf0e93b046ee3",
+    "cache_words": 7715
+  },
+  "apollo_scheming_2024": {
+    "url": "https://arxiv.org/abs/2412.04984",
+    "title": "Frontier Models are Capable of In-context Scheming",
+    "authors": "Meinke et al. (Apollo Research)",
+    "published": "2024-12-05",
+    "type": "research paper",
+    "accessed": "2026-09-13",
+    "cache_sha256": "130ca1f657641c18f64ac2896a52e95068736714444591892e7d739db6de04ab",
+    "cache_words": 36289
+  },
+  "palisade_shutdown_2025": {
+    "url": "https://palisaderesearch.org/research/shutdown-resistance",
+    "title": "Shutdown resistance in reasoning models",
+    "authors": "Palisade Research",
+    "published": "2025-07-05",
+    "type": "research page; extended paper arXiv 2509.14260",
+    "accessed": "2026-09-13",
+    "cache_sha256": "556983e71c8b47bd56cac5b818b78d63951cd0887b441e577d7713defe6874bc",
+    "cache_words": 3052
+  },
+  "zvi_wiki_incident": {
+    "url": "https://thezvi.substack.com/p/openai-and-the-wiki-incident",
+    "title": "OpenAI and the Wiki Incident",
+    "authors": "Zvi Mowshowitz",
+    "published": "2026-09-06",
+    "type": "commentary; relays researchers' findings and a proposal",
+    "accessed": "2026-09-13",
+    "cache_sha256": "d99f1cff50165fc210dd4912ceb6bcc401d7b0e05415ceb398fc285d26295a84",
+    "cache_words": 4837
   }
 }

@@ -68,10 +68,11 @@ class QuoteRows(unittest.TestCase):
                 self.assertRegex(r['locator'], r'^[a-z]+~.+@\d+$', r['id'])
                 self.assertEqual(r['quote_kind'], 'posted_message', r['id'])
 
-    def test_no_own_ellipsis_or_brackets(self):
+    def test_quote_is_trimmed(self):
+        # Verbatim content (including any ellipsis the source itself prints) is checked by
+        # scripts/verify_quotes.py; here only that nothing was padded.
         for r in self.rows:
-            self.assertNotIn('[...]', r['quote'], r['id'])
-            self.assertNotIn('[…]', r['quote'], r['id'])
+            self.assertEqual(r['quote'], r['quote'].strip(), r['id'])
 
     def test_context_and_not_established_present(self):
         for r in self.rows:
