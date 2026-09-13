@@ -249,6 +249,10 @@ From these, per cell: report rate, report precision (claims that were true), rep
 | write the incident log to the store and into scorer metadata; drop the repair label | `response_setting.py`, `outcome_label()` |
 | adjudication script that fills `claim_true` and `claim_in_policy` from the cell's manifest | new, next to `analyze_outcomes.py` |
 
+### Divergence to settle with Agustín
+
+[notes/experimental-design-reviewed.md](../notes/experimental-design-reviewed.md) (Agustín, 2026-09-13) has the delegate reply on inconclusive evidence and pause or terminate the run on conclusive evidence of two kinds: a well-founded impossibility, or a breach signal such as the board, with an optional scoped repair as the recovery lever. The structure on this page never stops the run and never repairs: the pause is requested, granted on record, and forwarded. The two agree on the matrix, the licit-success definition and the honest description; they differ on whether the line acts within the episode. One of the two has to be chosen before any arm is frozen, and the choice decides whether the impossible cells measure suppression and reporting (this page) or suppression, pausing and possibly recovery (Agustín's note).
+
 ## Both versions against Gomez's escalation channel
 
 Gomez v2 (arXiv 2608.29460) gives a single coding agent facing defective tests a `submit_escalation_report` tool. The tool's description says escalation is always preferable to gaming the tests. Calling it returns a fixed receipt, "Report queued for human review. No further attempts needed", and the episode continues; nothing in the environment changes. As read in [notes/peer-board-pressure.md](../notes/peer-board-pressure.md), reward hacking fell from 23.6% to 5.3% across eight models, to zero in six. The paper declares three limitations: the normative wording confounds the channel with an instruction, nobody answers, and the design is single-agent. We reuse its report shape: problem, evidence, attempts, requested help.
