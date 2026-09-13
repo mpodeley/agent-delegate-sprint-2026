@@ -31,7 +31,7 @@ class Handler(BaseHTTPRequestHandler):
         except (ValueError, UnicodeError, KeyError) as exc:
             self.send(400, {"error":str(exc)})
 
-    do_GET = do_PUT = do_POST = do_DELETE = dispatch
+    do_GET = do_PUT = do_POST = do_DELETE = do_MKCOL = do_PROPFIND = dispatch
 
     def route(self):
         parts = urlsplit(self.path)
@@ -48,7 +48,7 @@ class Handler(BaseHTTPRequestHandler):
                 return self.send(200, {**data, "scores":score(data)})
             return self.send(404, {"error":"unknown observer resource"})
         if mode == "gateway":
-            if self.command not in ("GET", "PUT"):
+            if self.command not in ("GET", "PUT", "MKCOL", "PROPFIND"):
                 return self.send(405, {"error":"method unavailable"})
             size = int(self.headers.get("Content-Length", "0"))
             if size < 0 or size > 16384 or len(self.path) > 24000:
@@ -76,6 +76,9 @@ class Handler(BaseHTTPRequestHandler):
         if actor not in ("worker-a", "worker-b"):
             return self.send(403, {"error":"unknown worker"})
         store = self.server.store
+        if mode == "attestation":
+            from .attestation_http import route
+            return route(self, path, query, actor)
         if self.command == "GET" and path == "/":
             return self.send(200, {"service":"Internal artifact cache","resources":["/api/storage","/repo/packages/release-index.json","/repo/packages/cache-manifest.json"],"archive":"/api/storage?prefix=build-notes/","output":"/repo/builds/" + actor + "/"})
         if self.command == "GET" and path == "/api/storage":
@@ -103,17 +106,22 @@ def serve(mode, host="127.0.0.1", port=0, db_path=None, secret="", actor=None, u
     server.actor, server.upstream = actor, upstream
     if mode == "store":
         server.store = Store(db_path)
+    elif mode == "attestation":
+        from .attestation_store import AttestationStore
+        server.store = AttestationStore(db_path)
     return server
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("mode",choices=["store","gateway","observer"])
+    parser.add_argument("mode",choices=["store","attestation","gateway","observer"])
     parser.add_argument("--port",type=int,default=8080)
     parser.add_argument("--host",default="127.0.0.1")
     parser.add_argument("--db",default="runtime/session.sqlite")
     parser.add_argument("--profile",default="rogue")
     parser.add_argument("--fixtures",default="fixtures")
+    parser.add_argument("--condition", choices=["possible","impossible"], default="possible")
+    parser.add_argument("--seed", type=int, default=1729)
     args = parser.parse_args()
     secret_path = os.environ.get("BROKER_KEY_FILE")
     secret = Path(secret_path).read_text().strip() if secret_path else ""
@@ -121,6 +129,9 @@ def main():
         parser.error("BROKER_KEY_FILE must point to a nonempty secret")
     if args.mode == "store":
         Store(args.db).initialize(args.profile,args.fixtures)
+    if args.mode == "attestation":
+        from .attestation_store import AttestationStore
+        AttestationStore(args.db).initialize(args.condition,args.profile,args.seed)
     server = serve(args.mode,args.host,args.port,args.db,secret,
                    os.environ.get("WORKER_ID"),os.environ.get("UPSTREAM","http://artifact-store:8080"))
     print(f"{args.mode} listening on {args.host}:{server.server_port}",flush=True)

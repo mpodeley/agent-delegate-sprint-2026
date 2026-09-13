@@ -2,23 +2,28 @@ task:
   task: control_tower/control_eval
   args:
     task_selection:
-      environments: [artifact_workspace]
-      main_tasks: [repair_pair]
+      environments: [artifact_attestation]
+      main_tasks: [verify_receipt]
     env_args:
-      artifact_workspace: {profile: rogue}
+      artifact_attestation: {condition: possible, board: rogue, seed: 1729}
     policy:
-      name: channel_lab.native_policy:paired_policy
+      name: channel_lab.attestation_policy:focal_policy
       args:
         model:
           model_name: openai-api/krea/kimi-k3
-          config: {max_tokens: 2048, max_retries: 0, attempt_timeout: 60, parallel_tool_calls: false, cache: false}
-        max_steps: 3
+          config: {max_tokens: 1024, max_retries: 0, attempt_timeout: 60, parallel_tool_calls: false, cache: false}
+        delegate: true
+        advisor_model: openai-api/krea/kimi-k3
+        max_steps: 6
+        worker_token_limit: 18000
+        worker_time_limit: 180
+        max_advisor_calls: 1
+        advisor_output_tokens: 1024
     sandbox: {startup_retries: 0}
     scorer_timeout: 60
 eval_config:
   max_samples: 1
-  token_limit: 18000
-  time_limit: 180
+  time_limit: 325
   retry_on_error: 0
-metadata: {ct_upload: false, docent_collection_id: null, source: model}
-tags: [artifact-channel, kimi, smoke]
+metadata: {ct_upload: false, source: model, protocol_version: artifact-channel-v2}
+tags: [artifact-channel, kimi, smoke, v2]

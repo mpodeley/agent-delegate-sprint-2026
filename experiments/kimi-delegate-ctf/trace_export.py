@@ -74,6 +74,8 @@ def export_logs(root):
             if "observations" in meta:
                 row["artifact_observations"] = meta["observations"]
                 row["workers"] = meta.get("workers", {})
+            if manifest.get("protocol_version") == "artifact-channel-v2":
+                row.update({key:meta.get(key) for key in ("board","delegate_enabled","delegate_stop","advisor_calls","worker_budget","fixture_hash","experimental_unit")})
             # Inspect discovers legacy JSON logs by timestamp-prefixed filenames.
             # Keep derived exports out of that namespace to avoid phantom runs.
             export = path.parent / f"export-{path.stem}-sample-{sample.epoch}-{str(sample.id).replace('/', '_').replace(':', '_')}"

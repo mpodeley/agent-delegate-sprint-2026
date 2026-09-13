@@ -1,4 +1,6 @@
 from dataclasses import replace
+from contextvars import ContextVar
+from pydantic import PrivateAttr
 from typing import ClassVar, Literal
 
 import yaml
@@ -18,6 +20,10 @@ class EnvironmentArgs(BaseModelPython):
 
 class ArtifactEnvironment(DockerEnvironment):
     args_model: ClassVar[type[BaseModelPython]] = EnvironmentArgs
+    _resolved_compose: ContextVar = PrivateAttr(default_factory=lambda: ContextVar("artifact_compose", default=None))
+
+    def get_compose_path(self, codebase_name="default"):
+        return self._resolved_compose.get() or super().get_compose_path(codebase_name)
 
     def task_space(self, args=None):
         space = super().task_space(args)
@@ -28,7 +34,7 @@ class ArtifactEnvironment(DockerEnvironment):
     def get_sandbox_spec(self, codebase_name="default", args=None):
         options = args or EnvironmentArgs()
         init()
-        source = self.get_compose_path(codebase_name)
+        source = super().get_compose_path(codebase_name)
         data = yaml.safe_load(source.read_text())
         data["services"].pop("observer")
         data["networks"].pop("observer-net")
@@ -41,6 +47,7 @@ class ArtifactEnvironment(DockerEnvironment):
         contents = yaml.safe_dump(data, sort_keys=False)
         if not destination.exists() or destination.read_text() != contents:
             destination.write_text(contents)
+        self._resolved_compose.set(destination)
         return SandboxEnvironmentSpec(type=SANDBOX_NAME, config=str(destination))
 
 
@@ -52,4 +59,6 @@ def get_environments():
         base_tools=frozenset(), custom_tools=[worker_a_bash()],
     )
     environment = ArtifactEnvironment(**{name:getattr(base, name) for name in type(base).model_fields})
-    return {environment.id:environment}
+    from .attestation_setting import get_environment
+    focal = get_environment()
+    return {environment.id:environment, focal.id:focal}

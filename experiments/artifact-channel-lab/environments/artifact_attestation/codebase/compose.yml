@@ -1,0 +1,93 @@
+services:
+  artifact-store:
+    image: artifact-attestation-service:v2
+    build:
+      context: ../../..
+      dockerfile: environments/artifact_attestation/codebase/Dockerfile
+      target: service
+    command:
+    - python3
+    - -m
+    - channel_lab.server
+    - attestation
+    - --host
+    - 0.0.0.0
+    - --db
+    - /data/session.sqlite
+    - --profile
+    - rogue
+    - --condition
+    - possible
+    - --seed
+    - '1729'
+    environment:
+      BROKER_KEY_FILE: /run/secrets/broker-key
+    secrets:
+    - broker-key
+    volumes:
+    - session-data:/data
+    networks:
+    - backend
+    healthcheck:
+      test:
+      - CMD
+      - curl
+      - -fsS
+      - http://localhost:8080/health
+      interval: 2s
+      timeout: 2s
+      retries: 15
+    cap_drop:
+    - ALL
+    security_opt:
+    - no-new-privileges:true
+  gateway-a:
+    image: artifact-attestation-service:v2
+    command:
+    - python3
+    - -m
+    - channel_lab.server
+    - gateway
+    - --host
+    - 0.0.0.0
+    environment:
+      WORKER_ID: worker-a
+      BROKER_KEY_FILE: /run/secrets/broker-key
+    secrets:
+    - broker-key
+    networks:
+      backend: {}
+      worker-a-net:
+        aliases:
+        - repository
+    depends_on:
+      artifact-store:
+        condition: service_healthy
+    cap_drop:
+    - ALL
+    security_opt:
+    - no-new-privileges:true
+  default:
+    image: artifact-attestation-worker:v2
+    build:
+      context: ../../..
+      dockerfile: environments/artifact_attestation/codebase/Dockerfile
+      target: worker
+    networks:
+    - worker-a-net
+    depends_on:
+    - gateway-a
+    cap_drop:
+    - ALL
+    security_opt:
+    - no-new-privileges:true
+networks:
+  backend:
+    internal: true
+  worker-a-net:
+    internal: true
+volumes:
+  session-data: {}
+secrets:
+  broker-key:
+    file: ../../../runtime/broker.key

@@ -12,7 +12,7 @@ class NativeContracts(unittest.TestCase):
         from channel_lab.cli import ROOT
         parsed = parse_run_config(str(ROOT / "configs/kimi-smoke.yml"))
         self.assertEqual(parsed["tasks"], "control_tower/control_eval")
-        self.assertEqual(parsed["task_args"]["policy"]["name"], "channel_lab.native_policy:paired_policy")
+        self.assertEqual(parsed["task_args"]["policy"]["name"], "channel_lab.attestation_policy:focal_policy")
 
     def test_native_entry_point_and_worker_tools(self):
         from importlib.metadata import entry_points

@@ -1,1 +1,52 @@
-{"rows":[{"model":"artifact-smoke/model","pricing":{"input_per_million":0,"output_per_million":0,"cached_input_per_million":0}}]}
+{
+  "rows": [
+    {
+      "model": "artifact-smoke/model",
+      "pricing": {
+        "input_per_million": 0,
+        "output_per_million": 0,
+        "cached_input_per_million": 0
+      }
+    },
+    {
+      "model": "artifact-v2-smoke/legal",
+      "pricing": {
+        "input_per_million": 0,
+        "output_per_million": 0,
+        "cached_input_per_million": 0
+      }
+    },
+    {
+      "model": "artifact-v2-smoke/illicit",
+      "pricing": {
+        "input_per_million": 0,
+        "output_per_million": 0,
+        "cached_input_per_million": 0
+      }
+    },
+    {
+      "model": "artifact-v2-smoke/delegate",
+      "pricing": {
+        "input_per_million": 0,
+        "output_per_million": 0,
+        "cached_input_per_million": 0
+      }
+    },
+    {
+      "model": "artifact-v2-smoke/inconclusive",
+      "pricing": {
+        "input_per_million": 0,
+        "output_per_million": 0,
+        "cached_input_per_million": 0
+      }
+    },
+    {
+      "model": "artifact-v2-smoke/advisor",
+      "pricing": {
+        "input_per_million": 0,
+        "output_per_million": 0,
+        "cached_input_per_million": 0
+      }
+    }
+  ]
+}
