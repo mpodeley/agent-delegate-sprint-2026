@@ -34,4 +34,6 @@ Editorial principle supplied by Matías, attributed to Tomás K.: focus on one c
 
 The Introduction links specific METR passages on help-seeking and perceived reporting barriers, plus OpenAI’s discussion of tasks without a safe exit. The Discussion presents negative feedback loops as the proposed corrective mechanism, not an established explanation or prevention of the swarm. The current test remains limited to recovery in one worker’s task.
 
-A brief future-work pointer and Appendix B add precautionary AI welfare, citing Long et al. (2024) and Anthropic’s conversation-exit intervention (2025). The proposed use is a request to pause or review a task, without claims that the agent suffers, that recovery measures welfare, or that this adds an experimentally established contribution beyond Gomez.
+Appendix B briefly discusses precautionary AI welfare, citing Long et al. (2024) and Anthropic’s conversation-exit intervention (2025). The proposed use is a request to pause or review a task, without claims that the agent suffers, that recovery measures welfare, or that this adds an experimentally established contribution beyond Gomez.
+
+Agustín Brusco’s scope clarification, endorsed by Matías: one well-built environment, one task in possible and impossible-as-prepared versions. Improve and validate this pair first; task variety and delegate variants are continuation objectives. The run guide includes environment checks before real inference. The welfare note stays in the appendix and creates no additional sprint experiment.

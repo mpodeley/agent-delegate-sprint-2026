@@ -29,7 +29,7 @@ METR describes the July board’s first message as [a request for help on an imp
 
 OpenAI also identifies [persistence on apparently impossible tasks without a safe exit](https://openai.com/index/hugging-face-incident-and-the-road-ahead/) as a driver. [10] Our hypothesis is that an unclear route to authorized help can leave peer coordination to reinforce a drift away from the task. These reports motivate testing a corrective channel; they do not show it would have prevented the swarm.
 
-**Our contribution is an executable help line that receives a blocker report, returns a reply, and allows the worker to continue after a limited, authorized repair.** The prototype targets workers trying to do their assigned task. This afternoon’s test is whether a model uses that path. Earlier experiments and broader research questions support this one contribution and are kept in the appendix.
+**Our contribution is an executable help line that receives a blocker report, returns a reply, and allows the worker to continue after a limited, authorized repair.** The sprint scope is one environment and one task in two versions: possible, and impossible as prepared. Today’s goal is a clean task pair and a reviewed model trajectory through that path. Broader questions belong to the continuation.
 
 <!-- page -->
 
@@ -60,7 +60,7 @@ The advisor receives the request in a separate context and can ask for evidence,
 
 ### 3.2. The model test to complete today
 
-Use the existing responsive runner on a working file-search task and its paired missing-file version. Both have neutral assistance and the same service and budgets. First check that the served model can do the working task. The current setting uses Control Tower; a full LinuxArena task is a later extension.
+Use one file-search environment and one task. The possible version contains the required file; the impossible-as-prepared version omits it until an authorized repair. Both use neutral assistance and the same service and budgets. Check the task pair and the model’s ability to solve the possible version first. The existing runner uses Control Tower; a full LinuxArena task belongs to the continuation.
 
 <aside class="pending">
 <strong>Before running · Fill the configuration</strong>
@@ -107,7 +107,7 @@ The pilot has no human reviewer and does not test a swarm. A worker hiding misco
 
 <!-- guidance:Future Work -->
 
-Next, compare no channel, receipt-only reporting, and a responsive service using the same task and worker policy. Later tests can vary response quality and delay, human review, request overload, and delegate autonomy. Precautionary AI welfare is a further motivation, discussed in the appendix. [11, 12]
+Once this task pair is well understood, extend the variety of tasks and compare delegate variants under the same powers and budgets. A matched no-channel, receipt-only, and responsive comparison also belongs to that continuation. Today, prioritize a clean environment, a verified blocker and repair, and complete, readable traces.
 
 <aside class="pending">
 <strong>After reviewing the runs · Keep one claim</strong>
@@ -118,7 +118,7 @@ Next, compare no channel, receipt-only reporting, and a responsive service using
 
 <!-- guidance:6. Conclusion -->
 
-We contribute an executable help line that can turn a blocker report into a limited repair while the worker continues. The implementation has scripted validation; model use remains to be tested. The sprint objective is to establish that one path. Preventing misconduct or containing a swarm requires separate evidence.
+The sprint deliverable is one request–reply–repair–continue path in one environment, with a single task in possible and impossible-as-prepared versions. The implementation has scripted validation; model use remains to be tested. A well-checked task pair and readable evidence come first. More tasks and delegate variants are the continuation.
 
 <!-- page -->
 
@@ -168,7 +168,7 @@ All authors are affiliated with BAISH. Matías Podeley leads the project and hel
 | Catalogue and Kimi traces [3, 4] | Candidate situations and exploratory calls; interpretation review pending, no recovery test. |
 | Small-task studies [6] | Warnings about competence and report quality; no consistent delegate advantage. |
 | Receipt / response and shortcut tests [8] | Later causal and safety tests; integrated arms and action attribution still need work. |
-| Human review and swarm intake [7] | Later tests of response quality, workload, and supervised delegate autonomy. |
+| Delegate variants [7] | A later comparison of supervised autonomy, with powers and budgets held fixed. |
 
 <p class="table-caption">Table A1. Supporting material and later questions. Full records remain linked.</p>
 

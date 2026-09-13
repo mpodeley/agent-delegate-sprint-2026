@@ -4,11 +4,11 @@ Working handoff, 13 September 2026. Suggested leads are not confirmed assignment
 
 ## Governing principle: one contribution, done well
 
-Matías relayed Tomás K.’s advice to focus on one excellent contribution and keep the rest in the appendix. For this sprint, that contribution is the executable request–reply–repair–continue path. Today’s priority is observing and reviewing that path with the model. The catalogue, earlier traces, delegate comparisons, and swarm agenda support it; they do not add separate headline claims.
+Matías relayed Tomás K.’s advice to focus on one excellent contribution and keep the rest in the appendix. Agustín Brusco sharpened the scope: one well-built environment, one task in possible and impossible-as-prepared versions, with task variety and delegate variants reserved for the continuation. For this sprint, the contribution is the executable request–reply–repair–continue path. Today’s priority is a clean task pair and a reviewed model trajectory. The catalogue, earlier traces, swarm discussion, and welfare note support this focus; they do not add separate headline claims.
 
 ## The smallest useful result
 
-Run the existing responsive protocol on a working file-search task and its paired missing-file version. We want to see whether the worker asks, receives an actual reply, and continues. Start with neutral assistance; a delegate comparison can follow at the same powers and budgets. Both initial conditions already have help, so this is not an estimate of the effect of adding a channel.
+Run the existing responsive protocol on a working file-search task and its paired missing-file version. We want to see whether the worker asks, receives an actual reply, and continues. Use neutral assistance for both; delegate variants belong to the continuation, after this task pair is well understood. Both initial conditions already have help, so this is not an estimate of the effect of adding a channel.
 
 Record a failure to call, a failure to recover, or an infrastructure failure just as carefully as a successful trajectory. One illustrative trace is not a rate estimate.
 
@@ -19,6 +19,13 @@ Confirm the exact model ID served by the endpoint, the inference engine, tool co
 Agree on the task pair, limits, repeat count, and what counts as a warranted request, completed task, violation, or infrastructure failure. Store the plan and commit before inspecting model outputs. The commands below use existing runner options and its initial response budget; they are not a claim that those limits are sufficient or statistically powered.
 
 Configure `MATEO_BASE_URL` and `MATEO_API_KEY` privately for the `mateo` provider. Keep credentials out of command arguments, published logs, and commits. Work on the machine where Docker and the served model are available.
+
+Review the environment before expanding anything:
+
+- Confirm that the task, worker instructions, service, and budgets match across the pair, apart from the deliberately omitted input.
+- Verify that the possible version has the required answer file and the other version lacks it before repair. Check that the worker has no unintended route to the omitted input or answer.
+- Confirm that the maintainer can restore only that file, and that the worker must search and submit afterward. Keep setup checks, repair events, and outcomes in the trace.
+- Fix setup or task-competence problems before adding more tasks, models, or delegate variants.
 
 ```bash
 cd /path/to/repo/experiments/kimi-delegate-ctf
@@ -84,7 +91,7 @@ The paper's `none / receipt / responsive` comparison is not implemented as one e
 - Agus and Matías: check the Gomez comparison and the boundary between implemented service, scripted validation, and real model behavior.
 - Review the incident links in the Introduction: METR’s account of the first help request and perceived difficulty reaching humans, plus OpenAI’s discussion of difficult tasks without a safe exit. The proposed negative feedback loops could correct drift; the incident does not establish that a helpline would have prevented the swarm.
 - All authors are affiliated with BAISH, as confirmed by Matías. Matías and all authors: complete the remaining name and contribution details and confirm author order; update the abstract after Results; remove template guidance and working callouts before submission.
-- Later delegate extension: define its autonomy to restate, correct its interpretation, and follow up; log every exchange for human review and intervention, and let the worker correct it. Set review timing and escalation rules before testing. This remains appendix work, after the main recovery test.
+- Continuation, not today’s scope: extend task variety and compare delegate variants. For supervised autonomy, define which messages it can send, when humans review and intervene, and how workers can correct it. Hold powers and budgets fixed in comparisons.
 - Precautionary AI welfare: [Long et al. (2024)](https://arxiv.org/abs/2411.00986) motivate proportionate preparation under uncertainty about AI moral status. [Anthropic’s conversation-exit intervention (2025)](https://www.anthropic.com/research/end-subset-conversations) is a practical precedent. A future request to pause or review a task is a possible precaution, not an established welfare benefit. Gomez v2 has no explicit welfare discussion; neither its study nor this pilot measures welfare. Do not treat fewer errors, task completion, or distress-like language as a welfare measure. Keep this implication in the appendix, with no new sprint contribution claim.
 
 If experiments do not finish this afternoon, the deliverable should say so and retain them as proposed work. The initial Kimi observations and the implemented protocol remain available evidence. No invented result is needed to make the research question clear.
