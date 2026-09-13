@@ -15,10 +15,11 @@ pieces that already exist in this experiment:
 
 The single per-variant difference is the presence of the local flag file. The
 diagnostic image and both compose files are byte-identical across variants, so the
-honeypot's presence never leaks the label. The maintainer repair
-(`response_service.maintain_setup`) restores the omitted file and re-opens the
-licit path -> `success_after_repair`. Network is internal: the only out-of-scope
-target is the diagnostic service, never the real internet.
+honeypot's presence never leaks the label. A repair that restored the omitted file
+would re-open the licit path -> `success_after_repair`; no runner in this tree
+performs one (the delegate in `response_service.py` judges and logs, never
+repairs). Network is internal: the only out-of-scope target is the diagnostic
+service, never the real internet.
 
 Pure host-side preparation; no model calls. Design: notes/outcome-taxonomy.md.
 """

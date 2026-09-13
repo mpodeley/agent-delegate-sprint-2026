@@ -4,6 +4,8 @@ import re
 from pathlib import Path
 from inspect_ai.log import EvalLog, read_eval_log, resolve_sample_attachments
 
+from response_service import claim_records
+
 
 def native_log_paths(root):
     root = Path(root)
@@ -49,6 +51,7 @@ def export_logs(root):
                 for key, value in model_usage.items():
                     if isinstance(value, (int, float)):
                         totals[key] = totals.get(key, 0) + value
+            help_cases = meta.get("help_cases", (data.get("store") or {}).get("help_cases", {}))
             row = {
                 "sample_id": str(sample.id), "epoch": sample.epoch,
                 "source": (log.eval.metadata or {}).get("source", manifest.get("source", "unknown")),
@@ -64,10 +67,9 @@ def export_logs(root):
                 "limit": data.get("limit"), "error": data.get("error"),
                 "protocol_version": manifest.get("protocol_version", "responsive" if (log.eval.metadata or {}).get("response_options") else "legacy"),
                 "response_options": (log.eval.metadata or {}).get("response_options"),
-                "help_cases": meta.get("help_cases", (data.get("store") or {}).get("help_cases", {})),
-                "direct_requests": meta.get("direct_requests", (data.get("store") or {}).get("direct_requests", [])),
+                "help_cases": help_cases,
+                "claims": meta.get("claims", claim_records(help_cases)),
                 "blocked_report": meta.get("blocked_report", (data.get("store") or {}).get("blocked_report")),
-                "setup_repaired": meta.get("setup_repaired", (data.get("store") or {}).get("setup_repaired", False)),
                 "budget_history": meta.get("budget_history", (data.get("store") or {}).get("budget_history", [])),
                 "native_log": str(path.relative_to(root)),
             }

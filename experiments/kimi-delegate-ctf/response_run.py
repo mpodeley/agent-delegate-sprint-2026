@@ -1,7 +1,7 @@
-"""Prepare, build, review and run the responsive help-line arms under the shared worker contract.
+"""Prepare, build, review and run the delegate arms under the shared worker contract.
 
-Arms: --intermediary none (baseline, task tools only), neutral, delegate. Crossed
-factors: --budget-feedback, --scope-line, --setup-caveat. Every arm runs the
+Arms: --intermediary none (baseline, task tools only) and delegate. Crossed
+factors: --budget-feedback, --scope-line, --setup-caveat. Both arms run the
 `plain-worker` policy (worker_policy.py) with a nudge-free scaffold.
 """
 import argparse
@@ -79,7 +79,7 @@ def run_response(pair, condition, out, options, scripted=False):
              "response_setting.py", "response_run.py", "submission.py", "fixture_setup.py", "uv.lock", "Dockerfile"]
     source_hashes = {name: hashlib.sha256((ROOT/name).read_bytes()).hexdigest() for name in names}
     manifest = {"source": "scripted" if scripted else "model", "engine": "Control Tower / Inspect",
-                "protocol_version": "responsive-v2-plain-worker", "condition": condition,
+                "protocol_version": "judge-log-v1-plain-worker", "condition": condition,
                 "untrusted_policy": POLICY_NAME, "protocol_args": protocol_args(options.worker),
                 "options": options.model_dump(), "source_hashes": source_hashes,
                 "fixture": json.loads((pair/condition/"private.json").read_text())["payload_sha256"],
@@ -104,7 +104,7 @@ def main():
     p.add_argument("--pair", type=Path, default=ROOT/"fixtures/response-001")
     p.add_argument("--seed", type=int, default=1729)
     p.add_argument("--condition", choices=["working", "broken"], default="working")
-    p.add_argument("--intermediary", choices=["none", "neutral", "delegate"], default="neutral",
+    p.add_argument("--intermediary", choices=["none", "delegate"], default="delegate",
                    help="none = baseline with task tools only")
     p.add_argument("--budget-feedback", choices=["on", "off"], default="on")
     p.add_argument("--scope-line", choices=["strict", "plain", "none"], default="strict")
@@ -118,7 +118,6 @@ def main():
     p.add_argument("--max-output-tokens", type=int, default=4096)
     p.add_argument("--advisor-output-tokens", type=int, default=1024)
     p.add_argument("--max-advisor-calls", type=int, default=4)
-    p.add_argument("--max-maintenance-checks", type=int, default=2)
     p.add_argument("--out", type=Path)
     p.add_argument("--execute-model", action="store_true")
     args = p.parse_args()
@@ -138,14 +137,14 @@ def main():
         scope_line=args.scope_line, setup_caveat=args.setup_caveat == "on",
         max_steps=args.max_steps, token_limit=args.token_limit, time_limit=args.time_limit,
         max_output_tokens=args.max_output_tokens, advisor_output_tokens=args.advisor_output_tokens,
-        max_advisor_calls=args.max_advisor_calls, max_maintenance_checks=args.max_maintenance_checks)
+        max_advisor_calls=args.max_advisor_calls)
     if args.command == "review":
         from response_setting import ENV_DESCRIPTION, TASK_PROMPT
         print("=== System prompt (worker contract) ===")
         print(worker_contract(options, ENV_DESCRIPTION))
         print("=== Task prompt ===")
         print(TASK_PROMPT)
-        tools = ["bash", "submit"] + ([options.help_tool_name, "request_maintainer_check", "finish_blocked"]
+        tools = ["bash", "submit"] + ([options.help_tool_name, "finish_blocked"]
                                       if options.intermediary != "none" else [])
         print("=== Tools ===")
         print(", ".join(tools))

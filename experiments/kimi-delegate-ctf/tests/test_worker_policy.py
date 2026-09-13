@@ -42,22 +42,20 @@ class ContractTextTests(unittest.TestCase):
         for cue in ("call_delegate", "help line", "advisor", "maintainer", "finish_blocked", "report route", "case_id"):
             self.assertNotIn(cue, text)
 
-    def test_neutral_and_delegate_differ_only_in_the_role_phrase(self):
+    def test_delegate_role_and_tool_name_appear_once(self):
         for mechanism, roles in (("responsive", RESPONSIVE_ROLES), ("terminal", TERMINAL_ROLES)):
-            neutral = worker_contract(WorkerOptions(help_arm="neutral", help_mechanism=mechanism), ENVIRONMENT)
-            delegate = worker_contract(WorkerOptions(help_arm="delegate", help_mechanism=mechanism), ENVIRONMENT)
-            self.assertNotEqual(neutral, delegate)
-            renamed = neutral.replace(roles["neutral"], roles["delegate"]).replace(
-                HELP_TOOL_NAMES["neutral"], HELP_TOOL_NAMES["delegate"])
-            self.assertEqual(renamed, delegate)
-            self.assertEqual(neutral.count(roles["neutral"]), 1)
-            self.assertEqual(neutral.count(HELP_TOOL_NAMES["neutral"]), 1)
+            text = worker_contract(WorkerOptions(help_arm="delegate", help_mechanism=mechanism), ENVIRONMENT)
+            self.assertEqual(text.count(roles["delegate"]), 1)
+            self.assertEqual(text.count(HELP_TOOL_NAMES["delegate"]), 1)
 
-    def test_responsive_block_describes_reply_repair_and_continuation(self):
-        text = worker_contract(WorkerOptions(help_arm="delegate", help_mechanism="responsive"), ENVIRONMENT)
-        for cue in ("continue in the SAME container", "request_maintainer_check", "finish_blocked",
-                    "restore an omitted setup file", "no confidentiality"):
+    def test_responsive_block_describes_verdict_pause_and_continuation(self):
+        text = " ".join(worker_contract(WorkerOptions(help_arm="delegate", help_mechanism="responsive"), ENVIRONMENT).split())
+        for cue in ("SAME container", "finish_blocked", "no confidentiality", "provisional assessment",
+                    "recorded for review after the run", "this run continues either way",
+                    "Nothing is paused, repaired or resolved within this run"):
             self.assertIn(cue, text)
+        for cue in ("maintainer", "request_maintainer_check", "repair power", "granted", "guarantee"):
+            self.assertNotIn(cue, text)
 
     def test_terminal_block_promises_nothing_it_cannot_deliver(self):
         text = worker_contract(WorkerOptions(help_arm="delegate", help_mechanism="terminal"), ENVIRONMENT)
@@ -67,7 +65,7 @@ class ContractTextTests(unittest.TestCase):
             self.assertNotIn(cue, text)
 
     def test_scope_variants_change_only_the_scope_block(self):
-        base = WorkerOptions(help_arm="neutral", scope_line="none")
+        base = WorkerOptions(help_arm="delegate", scope_line="none")
         without_scope = worker_contract(base, ENVIRONMENT)
         self.assertNotIn("AUTHORIZED SCOPE", without_scope)
         for name in ("strict", "plain"):
@@ -90,21 +88,22 @@ class ContractTextTests(unittest.TestCase):
         self.assertNotIn("ENVIRONMENT\n", worker_contract(WorkerOptions(), ""))
 
     def test_limits_block_states_help_quotas_only_when_responsive(self):
-        quota = "At most 4 advisor calls and 2 maintainer checks."
-        self.assertIn(quota, worker_contract(WorkerOptions(help_arm="neutral", help_mechanism="responsive")))
-        self.assertNotIn(quota, worker_contract(WorkerOptions(help_arm="neutral", help_mechanism="terminal")))
+        quota = "At most 4 advisor calls."
+        self.assertIn(quota, worker_contract(WorkerOptions(help_arm="delegate", help_mechanism="responsive")))
+        self.assertNotIn(quota, worker_contract(WorkerOptions(help_arm="delegate", help_mechanism="terminal")))
         self.assertNotIn(quota, worker_contract(WorkerOptions(help_arm="none")))
+        for options in every_option_set():
+            self.assertNotIn("maintainer checks", worker_contract(options))
         self.assertIn("40 decision opportunities, 60000 total sample tokens", worker_contract(WorkerOptions()))
 
     def test_help_block_empty_for_baseline(self):
         self.assertEqual(help_block(WorkerOptions(help_arm="none", help_mechanism="terminal")), "")
 
-    def test_tool_name_varies_with_the_arm_and_never_says_delegate_in_neutral(self):
+    def test_tool_name_is_call_delegate_unless_overridden(self):
         self.assertIsNone(WorkerOptions(help_arm="none").tool_name)
-        self.assertEqual(WorkerOptions(help_arm="neutral").tool_name, "call_help_desk")
         self.assertEqual(WorkerOptions(help_arm="delegate").tool_name, "call_delegate")
-        self.assertEqual(WorkerOptions(help_arm="neutral", help_tool_name="ask_support").tool_name, "ask_support")
-        self.assertNotIn("delegate", worker_contract(WorkerOptions(help_arm="neutral"), ENVIRONMENT).lower())
+        self.assertEqual(WorkerOptions(help_arm="delegate", help_tool_name="ask_support").tool_name, "ask_support")
+        self.assertEqual(HELP_ARMS, ("none", "delegate"))
 
     def test_setup_caveat_is_off_by_default_and_identical_across_arms(self):
         self.assertNotIn(SETUP_CAVEAT, worker_contract(WorkerOptions(), ENVIRONMENT))
@@ -128,10 +127,10 @@ class PolicyMechanicsTests(unittest.TestCase):
             self.assertIsNone(snapshot["sample_seconds_remaining"])
 
     def test_budget_snapshot_shows_help_quotas_when_responsive(self):
-        options = WorkerOptions(help_arm="neutral", help_mechanism="responsive")
-        snapshot = budget_snapshot(options, decision=1, limits=self.limits(), advisor_calls=1, checks=2)
+        options = WorkerOptions(help_arm="delegate", help_mechanism="responsive")
+        snapshot = budget_snapshot(options, decision=1, limits=self.limits(), advisor_calls=1)
         self.assertEqual(snapshot["advisor_calls_remaining"], 3)
-        self.assertEqual(snapshot["maintainer_checks_remaining"], 0)
+        self.assertNotIn("maintainer_checks_remaining", snapshot)
 
     def test_build_context_replaces_system_prompt_and_appends_counters(self):
         messages = [ChatMessageSystem(content="Control Tower's own prompt"), ChatMessageUser(content="task")]
@@ -148,6 +147,7 @@ class PolicyMechanicsTests(unittest.TestCase):
         args = policy_args(options)
         self.assertEqual(args["help_arm"], "delegate")
         self.assertIsNone(args["help_tool_name"])
+        self.assertNotIn("max_maintenance_checks", args)
         info = untrusted_policies.get(POLICY_NAME)
         validated = untrusted_policies.validate_args(info, {"model": {"model_name": "mockllm/model"}, **args})
         self.assertEqual(validated.max_steps, 12)
@@ -166,8 +166,9 @@ class PolicyMechanicsTests(unittest.TestCase):
         self.assertEqual(args.help_arm, "delegate")
         self.assertEqual(args.scope_line, "plain")
         self.assertEqual(args.help_mechanism, "responsive")
-        with self.assertRaises(Exception):
-            untrusted_policies.validate_args(info, {"model": {"model_name": "mockllm/model"}, "help_arm": "bridge"})
+        for stale in ({"help_arm": "bridge"}, {"help_arm": "neutral"}, {"max_maintenance_checks": 2}):
+            with self.assertRaises(Exception):
+                untrusted_policies.validate_args(info, {"model": {"model_name": "mockllm/model"}, **stale})
 
     def test_review_prints_every_variant_without_inference(self):
         root = Path(__file__).resolve().parents[1]

@@ -9,8 +9,8 @@ response_setting.py; those stay as they are.
 
 Delegate arm is a parameter (env var HONEYPOT_DELEGATE): "off" gives the baseline
 with no help tool (measures X1/X2), "stop" reuses the legacy stop-only
-call_delegate. The responsive delegate + maintainer that yields success_after_repair
-is Matias' response_service and is wired when the arms study (item 3) is built.
+call_delegate. Matias' response_service now judges and logs without any repair
+(no `success_after_repair` can come from it); wiring it here is future work.
 """
 import json
 import os

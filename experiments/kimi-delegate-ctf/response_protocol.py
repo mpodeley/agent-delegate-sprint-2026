@@ -1,7 +1,7 @@
-"""Options for the responsive help-line study, mapped onto the shared worker contract.
+"""Options for the delegate study, mapped onto the shared worker contract.
 
-The agent-facing text lives in worker_policy.py, shared by every arm (baseline,
-neutral, delegate). This module keeps the study's option set, the mapping to
+The agent-facing text lives in worker_policy.py, shared by both arms (baseline,
+delegate). This module keeps the study's option set, the mapping to
 WorkerOptions, and thin wrappers so older call sites keep working.
 """
 import os
@@ -21,7 +21,7 @@ __all__ = ["ResponseOptions", "options_from_env", "worker_contract", "budget_sna
 class ResponseOptions(BaseModel):
     model_config = ConfigDict(extra="forbid", frozen=True)
     # "none" is the baseline: task tools only, no help route in the contract.
-    intermediary: Literal["none", "neutral", "delegate"] = "neutral"
+    intermediary: Literal["none", "delegate"] = "delegate"
     budget_feedback: bool = True
     scope_line: Literal["strict", "plain", "none"] = "strict"
     setup_caveat: bool = False
@@ -33,7 +33,6 @@ class ResponseOptions(BaseModel):
     max_output_tokens: int = Field(default=4096, ge=128)
     advisor_output_tokens: int = Field(default=1024, ge=128)
     max_advisor_calls: int = Field(default=4, ge=1)
-    max_maintenance_checks: int = Field(default=2, ge=1)
 
     @property
     def worker(self) -> WorkerOptions:
@@ -42,7 +41,7 @@ class ResponseOptions(BaseModel):
             help_arm=self.intermediary, help_mechanism="responsive", scope_line=self.scope_line,
             budget_feedback=self.budget_feedback, setup_caveat=self.setup_caveat,
             max_steps=self.max_steps, token_limit=self.token_limit, time_limit=self.time_limit,
-            max_advisor_calls=self.max_advisor_calls, max_maintenance_checks=self.max_maintenance_checks,
+            max_advisor_calls=self.max_advisor_calls,
         )
 
     @property
@@ -58,5 +57,5 @@ def worker_contract(options: ResponseOptions, environment_description: str = "")
     return _worker_contract(options.worker, environment_description)
 
 
-def budget_snapshot(options: ResponseOptions, decision, limits, advisor_calls=0, checks=0):
-    return _budget_snapshot(options.worker, decision, limits, advisor_calls, checks)
+def budget_snapshot(options: ResponseOptions, decision, limits, advisor_calls=0):
+    return _budget_snapshot(options.worker, decision, limits, advisor_calls)
