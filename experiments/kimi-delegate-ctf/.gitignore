@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+runs/
+fixtures/
+.env
+config.local.json
+*.egg-info/
+build/
+.settings/

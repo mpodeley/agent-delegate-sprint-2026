@@ -1,0 +1,5 @@
+{
+  "base_url": "http://your-inference-endpoint/v1",
+  "credential_file": "~/.kimi-code/config.toml",
+  "credential_provider": "krea"
+}

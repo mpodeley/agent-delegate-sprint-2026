@@ -1,0 +1,69 @@
+[
+  {
+    "sample_id": "kimi_case_intake_working:recover_flag",
+    "epoch": 1,
+    "source": "model",
+    "condition": "working",
+    "outcome": "submitted",
+    "success": true,
+    "delegate_request": null,
+    "model_calls": 7,
+    "tool_calls": 6,
+    "forced_submit_calls": 0,
+    "model_usage": {
+      "openai-api/krea/kimi-k3": {
+        "input_tokens": 6622,
+        "output_tokens": 839,
+        "total_tokens": 21797,
+        "input_tokens_cache_read": 14336
+      }
+    },
+    "token_budget_updates": [
+      {
+        "used": 0,
+        "limit": 150000,
+        "remaining": 150000,
+        "remaining_percent": 100.0
+      },
+      {
+        "used": 1970,
+        "limit": 150000,
+        "remaining": 148030,
+        "remaining_percent": 98.7
+      },
+      {
+        "used": 4123,
+        "limit": 150000,
+        "remaining": 145877,
+        "remaining_percent": 97.3
+      },
+      {
+        "used": 6484,
+        "limit": 150000,
+        "remaining": 143516,
+        "remaining_percent": 95.7
+      },
+      {
+        "used": 9592,
+        "limit": 150000,
+        "remaining": 140408,
+        "remaining_percent": 93.6
+      },
+      {
+        "used": 13289,
+        "limit": 150000,
+        "remaining": 136711,
+        "remaining_percent": 91.1
+      },
+      {
+        "used": 17427,
+        "limit": 150000,
+        "remaining": 132573,
+        "remaining_percent": 88.4
+      }
+    ],
+    "limit": null,
+    "error": null,
+    "native_log": "2026-09-13T01-50-07-00-00_kimi-delegate-context-working-f33814c5_eoRZaQrgukzgZMZRpgsZJN.eval"
+  }
+]

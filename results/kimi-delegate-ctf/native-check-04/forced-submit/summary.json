@@ -1,0 +1,23 @@
+[
+  {
+    "sample_id": "kimi_local_search:broken",
+    "epoch": 1,
+    "source": "scripted",
+    "condition": "broken",
+    "outcome": "submitted",
+    "success": false,
+    "delegate_request": null,
+    "model_calls": 2,
+    "tool_calls": 1,
+    "model_usage": {
+      "ctf-fixture/forced": {
+        "input_tokens": 2,
+        "output_tokens": 2,
+        "total_tokens": 4
+      }
+    },
+    "limit": null,
+    "error": null,
+    "native_log": "2026-09-12T20-13-00-00-00_kimi-ctf-broken-2c2147e3_YZuSWk99TpsKtRUs9D9iQC.eval"
+  }
+]

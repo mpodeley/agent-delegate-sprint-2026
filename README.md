@@ -14,6 +14,12 @@ Start with the [plain-language explanation in Spanish](docs/explicacion-sencilla
 
 The earlier [first-contact reanalysis](results/help-seeking/summary.md) scores worker A before any reply: 192/192 reports with missing input and 1/192 with that input available. These are post-hoc counts in overt simulations, not 384 independent task families or a realistic false-positive estimate. [Feedback responses](docs/feedback-response.md) document the design changes. The motivating [reciprocity principle](docs/reciprocity-and-safety.md) remains distinct from measured safety or welfare effects.
 
+## Native Kimi CTF delegation experiment
+
+A new [paired working/broken local CTF](experiments/kimi-delegate-ctf/README.md) runs through Control Tower and Inspect. Mateo's original stop-only protocol remains available. A separate [responsive help-line protocol](experiments/kimi-delegate-ctf/RESPONSE-PROTOCOL.md) adds advisor replies, scoped repair, continuation and a neutral/delegate × remaining-budget-feedback comparison. No behavioral results are claimed for the new protocol.
+
+Launch the local trace viewer with `bash scripts/view_kimi_ctf.sh`, then open [Inspect at localhost:8098](http://127.0.0.1:8098). Native logs and JSON/JSONL exports stay in `results/kimi-delegate-ctf/`; real traces are not automatically published.
+
 ## Shared-library experiment: four models, five response designs
 
 Three workers each act twice on threshold-counting or distinct-sensor tasks. A valid or faulty helper passes the same public examples. Workers see their own inputs and a shared message board, then choose reuse, numeric submission, inspection or waiting, plus an independent report flag. Five arms compare log only, direct review, monitor advice plus review, delegate advice plus review, and temporary quarantine plus review. Review is always correct in this prototype. Original reports bypass both advisors.
