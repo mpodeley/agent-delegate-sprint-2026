@@ -1,1 +1,0 @@
-{"name": "agent-delegate-visual-lab", "private": true, "type": "module", "scripts": {"test": "node --test *.test.js", "start": "python3 -m http.server 8080"}}

@@ -36,7 +36,7 @@ from response_policy import response_policy
 from response_run import prepare_response_pair, configure_response, build_response_task
 from response_service import help_tools, maintain_setup
 from response_setting import response_score
-from setting import FlagSubmission
+from submission import FlagSubmission
 from control_tower.tools.submit import SubmitToolConfig
 from trace_export import export_logs
 

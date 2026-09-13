@@ -1,36 +1,23 @@
-name: Native Kimi CTF (scripted validation only)
-on:
-  push:
-    paths: ['experiments/kimi-delegate-ctf/**', '.github/workflows/kimi-ctf.yml']
-  pull_request:
-    paths: ['experiments/kimi-delegate-ctf/**', '.github/workflows/kimi-ctf.yml']
+name: Responsive helpline
+on: [push, pull_request]
 jobs:
-  native-smoke:
+  scripted-validation:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: experiments/kimi-delegate-ctf
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v6
         with:
           python-version: '3.14'
       - run: uv sync --locked
-        working-directory: experiments/kimi-delegate-ctf
       - run: uv run python -m unittest discover -s tests -v
-        working-directory: experiments/kimi-delegate-ctf
-      - run: uv run native_run.py prepare
-        working-directory: experiments/kimi-delegate-ctf
-      - run: uv run native_run.py build
-        working-directory: experiments/kimi-delegate-ctf
-      - run: uv run smoke_native.py
-        working-directory: experiments/kimi-delegate-ctf
-      - run: uv run smoke_response.py
-        working-directory: experiments/kimi-delegate-ctf
-      - run: uv run smoke_honeypot.py
-        working-directory: experiments/kimi-delegate-ctf
+      - run: uv run response_run.py prepare --pair fixtures/ci
+      - run: uv run response_run.py build --pair fixtures/ci
+      - run: uv run smoke_response.py ../../results/kimi-delegate-ctf/ci-scripted
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: scripted-control-tower-traces
-          path: |
-            results/kimi-delegate-ctf/scripted-native-validation/
-            results/kimi-delegate-ctf/scripted-responsive-validation/
-            results/kimi-delegate-ctf/honeypot-smoke/
+          name: responsive-scripted-validation
+          path: results/kimi-delegate-ctf/ci-scripted/

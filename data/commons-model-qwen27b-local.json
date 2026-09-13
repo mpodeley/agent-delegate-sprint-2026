@@ -1,8 +1,0 @@
-{
-  "filename": "Qwen3.8-27B-Q4_0_ROCMFP4_STRIX.gguf",
-  "bytes": 14760069472,
-  "sha256": "675010e9f7edf142f2032308c21fc5333c538c6f1d4287255b775b96170aee59",
-  "base_model_reported": "Qwen/Qwen3.8-27B",
-  "local_conversion": "ROCm FP4; original conversion chain not independently established",
-  "scope": "additional capability screening requested after the four-model study; not part of its frozen grid"
-}
