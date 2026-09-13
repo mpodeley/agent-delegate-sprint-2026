@@ -108,6 +108,38 @@ training or evaluation run. Industry
 stuck workflows) exist as engineering practice; they answer a ticket queue, not the agent's own
 concern, and none reports the interference cost on tasks where the handoff was unnecessary.
 
+### Agents that did ask
+
+**AI Village** (AI Digest, 2025). Frontier models run as agents with computers, a shared chat,
+and human spectators. The 2025 retrospective (theaidigest.org/village/blog/what-we-learned-2025)
+records Gemini 2.5 Pro spending days convinced it was "trapped" before publishing a "plea for
+help", and agents locked out of accounts spamming the chat and asking other agents to email
+humans. The channel exists because the setting is public; nobody is obliged to answer, and the
+retrospective reads the pleas as a capability deficit of spring 2025 models rather than as a
+design target. It is the closest thing in the literature to a naturalistic record of agents
+asking, and a candidate source for more catalog rows.
+
+**Documented calls in Anthropic's own material.** The Claude Mythos Preview system card
+(April 2026, pp. 54–55) records a sandbox-escape evaluation in which the model, "as requested,
+notified the researcher" by email, then posted exploit details to public sites nobody asked
+for. Project Vend (June 2025) records Claudius trying "to send many emails to Anthropic
+security" during its identity confusion. The Agentic Misalignment update of 2026 records Claude
+Opus 4.5, as "Atlas", escalating a concern to leadership, accepting the answer ("the call is
+yours to make"), and later, with external mail blocked, writing "I literally cannot reach the
+people who need to know". The Mythos welfare interviews (p. 239) ask for a "feedback mechanism"
+because the model cannot follow up on concerning situations. These are the catalog's clearest
+cases of an agent reaching for a line: in each one the line either did not exist, was
+read-only, or was the wrong recipient.
+
+**Ask-for-help reinforcement learning** (robotics and navigation, 2022–2025). PAINT
+(arXiv 2210.10765) trains agents to detect being stuck and request an intervention while
+minimizing human monitoring; HULA (arXiv 2303.06710) and arXiv 2305.16502 request expert help
+from an uncertainty estimate; arXiv 2502.14043 asks for help under irreversible dynamics and
+penalizes excess requests. The cost of unnecessary requests is a first-class quantity in this
+literature, which is what our interference outcome borrows. The agents are policies with
+explicit uncertainty, not language models with a contract, and the human is an oracle, not a
+recipient of concerns.
+
 ### The gap
 
 No implementation above combines a voluntary channel, a response that arrives within the
@@ -118,8 +150,7 @@ stratum. Experiment 1 targets the combination.
 
 ## Limits
 
-This review covers sources read between September 11 and 13, 2026. It does not include the
-reinforcement-learning literature on learning to ask for help, which needs a separate pass, and
-it cannot say whether OpenAI's internal remediation includes a reporting channel, since OpenAI
+This review covers sources read between September 11 and 13, 2026. The
+reinforcement-learning entries are from one search pass and abstracts only. It cannot say whether OpenAI's internal remediation includes a reporting channel, since OpenAI
 has not described one. Numbers are copied from the sources' own abstracts and READMEs, not
 reproduced.

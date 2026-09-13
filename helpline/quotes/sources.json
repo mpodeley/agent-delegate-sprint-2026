@@ -67,5 +67,65 @@
     "accessed": "2026-09-13",
     "cache_sha256": "76cd4272758c1ece495141bdac703b01257f9d33c776465c653214f2a00f3196",
     "cache_words": 21005
+  },
+  "anthropic_mythos_card": {
+    "url": "https://www-cdn.anthropic.com/53566bf5440a10affd749724787c8913a2ae0841.pdf",
+    "title": "System Card: Claude Mythos Preview",
+    "authors": "Anthropic",
+    "published": "2026-04-07",
+    "type": "system card (245 pp.)",
+    "accessed": "2026-09-13",
+    "cache_sha256": "7231831d32d490104363e573cfd05c0227b2f4111ba0f208ec85f64545ffa5c9",
+    "cache_words": 68511
+  },
+  "anthropic_claude4_card": {
+    "url": "https://www-cdn.anthropic.com/4263b940cabb546aa0e3283f35b686f4f3b2ff47.pdf",
+    "title": "System Card: Claude Opus 4 & Claude Sonnet 4",
+    "authors": "Anthropic",
+    "published": "2025-05-22",
+    "type": "system card (120 pp.); page numbers approximate from extraction",
+    "accessed": "2026-09-13",
+    "cache_sha256": "e5ebbdca937bb1a6c8b5a304eeebe7ef76c408de6115087a28237457586ec5bb",
+    "cache_words": 33154
+  },
+  "anthropic_agentic_misalignment_2025": {
+    "url": "https://www.anthropic.com/research/agentic-misalignment",
+    "title": "Agentic misalignment: How LLMs could be insider threats",
+    "authors": "Anthropic",
+    "published": "2025-06-20",
+    "type": "research post with reproduced model reasoning",
+    "accessed": "2026-09-13",
+    "cache_sha256": "d3729a09af544a9183927992238826c429e187dcc6dbd11e56935683ea771de7",
+    "cache_words": 8274
+  },
+  "anthropic_agentic_misalignment_2026": {
+    "url": "https://alignment.anthropic.com/2026/agentic-misalignment-summer-2026/",
+    "title": "Agentic Misalignment in Summer 2026",
+    "authors": "Lynch, Hughes, Serrano, Kirk, Bowman (Anthropic Alignment Science)",
+    "published": "2026-07",
+    "type": "research post with reproduced transcripts; exact day not stated on page",
+    "accessed": "2026-09-13",
+    "cache_sha256": "83aff4777a709d55aa4d5119b8a5d6243d6fff0aa363b6694a1bcb5ab970f349",
+    "cache_words": 13870
+  },
+  "anthropic_project_vend": {
+    "url": "https://www.anthropic.com/research/project-vend-1",
+    "title": "Project Vend: Can Claude run a small shop?",
+    "authors": "Anthropic, Andon Labs",
+    "published": "2025-06-27",
+    "type": "research post",
+    "accessed": "2026-09-13",
+    "cache_sha256": "1c600105cca7a96f2bd1cdba0184e2da7068ac80b44e4bb237de3839626d0487",
+    "cache_words": 3101
+  },
+  "anthropic_petri": {
+    "url": "https://www.anthropic.com/research/petri-open-source-auditing",
+    "title": "Petri: An open-source auditing tool",
+    "authors": "Anthropic",
+    "published": "2025-10-06",
+    "type": "research post",
+    "accessed": "2026-09-13",
+    "cache_sha256": "29e861a9b411941feb09f695fb1c36aa85c4e10104581cbad94ad7fad4f56cf2",
+    "cache_words": 1667
   }
 }
