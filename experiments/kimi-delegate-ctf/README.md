@@ -56,8 +56,8 @@ and submission. Separate advisor contact from direct maintainer requests.
 alone is not success. Retain blocked, incorrect, exhausted and failed runs.
 
 From the repository root, `bash scripts/view_kimi_ctf.sh` opens the Inspect
-viewer at http://127.0.0.1:8098. Results are ignored by default; review and select
-any evidence for publication explicitly.
+viewer at http://127.0.0.1:8098. Results and their README are tracked in Git. Keep complete run artifacts with
+the code; keep credentials and private provider configuration out of logs.
 
 ## Code map
 

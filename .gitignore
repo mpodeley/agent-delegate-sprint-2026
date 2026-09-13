@@ -4,5 +4,3 @@ __pycache__/
 .worktrees/
 .DS_Store
 *.egg-info/
-/results/kimi-delegate-ctf/*
-!/results/kimi-delegate-ctf/README.md
