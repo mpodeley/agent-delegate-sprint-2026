@@ -11,7 +11,6 @@ the maintainer directly, or finish with an unresolved blocker.
 
 - [Experiment and run instructions](experiments/kimi-delegate-ctf/README.md)
 - [Current results status](results/kimi-delegate-ctf/README.md)
-- [Optional Kimi access gateway](tools/kimi-gateway/README.md)
 
 ## Paper
 

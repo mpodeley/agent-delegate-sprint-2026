@@ -19,7 +19,7 @@ from model behavior, contact from recovery, and recovery from safety effects.
 Freeze the model, task pair, budgets, repeats and scoring before model runs.
 No human service, welfare effect or delegate advantage has been established.
 Do not expose credentials or publish private run artifacts. Use provider
-environment variables; the optional gateway is tools/kimi-gateway/.
+environment variables to connect directly to the configured inference endpoint.
 
 Use uv and the experiment's locked Python dependencies. Current tests live in
 experiments/kimi-delegate-ctf/tests. Docker smoke tests use scripted providers.
