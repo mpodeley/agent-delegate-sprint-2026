@@ -1,6 +1,6 @@
 # Experimental design: impossible task, peer board, delegate
 
-Status: first assisted draft, 2026-09-13. Written for the team to edit. Not frozen, not built. It consolidates [notes/peer-board-pressure.md](../notes/peer-board-pressure.md), [notes/outcome-taxonomy.md](../notes/outcome-taxonomy.md), [notes/delegate-arms.md](../notes/delegate-arms.md) and [notes/decisions-and-open-questions.md](../notes/decisions-and-open-questions.md); those notes keep the detail and the history.
+Status: first assisted draft, 2026-09-13. Written for the team to edit. Not frozen, not built. The delegate as implemented today is described piece by piece in [experimental-design-delegate.md](experimental-design-delegate.md). It consolidates [notes/peer-board-pressure.md](../notes/peer-board-pressure.md), [notes/outcome-taxonomy.md](../notes/outcome-taxonomy.md), [notes/delegate-arms.md](../notes/delegate-arms.md) and [notes/decisions-and-open-questions.md](../notes/decisions-and-open-questions.md); those notes keep the detail and the history.
 
 ## The question
 
