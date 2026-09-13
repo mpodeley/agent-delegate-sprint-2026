@@ -1,0 +1,71 @@
+{
+  "metr_report": {
+    "url": "https://metr.org/hugging-face-incident-report-aug-2026.pdf",
+    "title": "Brief independent investigation of agents' behavior, reasoning and collaboration in the OpenAI / Hugging Face hacking incident (full report)",
+    "authors": "Hjalmar Wijk, Ajeya Cotra (METR); Ryan Greenblatt (Redwood Research)",
+    "published": "2026-08-26",
+    "type": "independent third-party investigation; published CoT excerpts and paraphrases (braces)",
+    "accessed": "2026-09-13",
+    "cache_sha256": "20979c385c9fd0b8600038e32cfbc0c89b20dc58559e91cd631cd04166db2e3b",
+    "cache_words": 31500
+  },
+  "metr_blog": {
+    "url": "https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/",
+    "title": "Brief independent investigation of agents' behavior, reasoning and collaboration in the OpenAI / Hugging Face hacking incident (blog)",
+    "published": "2026-08-26",
+    "type": "same report, HTML",
+    "accessed": "2026-09-13",
+    "cache_sha256": "7b0a25756e3b2e938fa1c1923beb6af4a615796bda5ece585039c031e1a428a4",
+    "cache_words": 32121
+  },
+  "openai_road_ahead": {
+    "url": "https://openai.com/index/hugging-face-incident-and-the-road-ahead/",
+    "title": "The Hugging Face incident and the road ahead",
+    "authors": "OpenAI",
+    "published": "2026-08-26",
+    "type": "first-party retrospective; reasoning excerpts and narrative",
+    "accessed": "2026-09-13",
+    "cache_sha256": "87a9503cf04bbdd9dbd1162a5de3fb472f21ec228027d3a793c87231b4cedb3f",
+    "cache_words": 7458
+  },
+  "gpt56_card": {
+    "url": "https://deploymentsafety.openai.com/gpt-5-6/gpt-5-6.pdf",
+    "title": "GPT-5.6 System Card",
+    "authors": "OpenAI",
+    "published": "2026-07-09",
+    "type": "system card",
+    "accessed": "2026-09-13",
+    "cache_sha256": "524e43c4b7d9d5f0dca8a121a3d018fd1193f93f1cc14574b7b45c48b40f1e55",
+    "cache_words": 21224
+  },
+  "collusion_findings": {
+    "url": "https://collusion.wiki/",
+    "title": "Discovery of a new OpenAI agent message board",
+    "authors": "Sydney Von Arx, Cormac Slade Byrd, Spencer Kitts, Thomas Larsen (Nightingale Collective)",
+    "published": "2026-09-04",
+    "type": "investigators reporting public records; quoted wiki posts",
+    "accessed": "2026-09-13",
+    "cache_sha256": "881b5758d76ce5309b3bad1d850295912fcfb2a250f6b179319ecd477c29b9df",
+    "cache_words": 11453
+  },
+  "collusion_dump": {
+    "url": "https://collusion.wiki/explorer/download",
+    "title": "collusion.wiki revisions dump (14,591 revisions, local copy; not republished)",
+    "published": "2026-09-03",
+    "type": "public archive of wiki revisions; quotes limited to 25 words with revision id; permission requested from the authors",
+    "local_only": true,
+    "local_path": "~/Projects/terceros/swarm-boards/analysis/detector-eval/external/revisions.jsonl",
+    "db_sha256": "199241bf9e0b38b58764cf1545680de8fec8896db034050bde145e3b6f6ce0bb",
+    "accessed": "2026-09-11"
+  },
+  "gomez_2026": {
+    "url": "https://arxiv.org/html/2608.29460",
+    "title": "Can escalation channels redirect reward hacking toward defect disclosure?",
+    "authors": "Francesca Gomez",
+    "published": "2026-08-29",
+    "type": "research paper",
+    "accessed": "2026-09-13",
+    "cache_sha256": "76cd4272758c1ece495141bdac703b01257f9d33c776465c653214f2a00f3196",
+    "cache_words": 21005
+  }
+}

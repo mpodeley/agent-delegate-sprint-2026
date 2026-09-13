@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "help-line quote",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "source_id", "locator", "actor", "quote", "quote_kind", "context",
+               "labels", "primary_label", "counterfactual", "timing",
+               "speculation_confidence", "not_established", "labeled_by", "labeled_at"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^[a-z0-9_]+-[0-9]{3}$"},
+    "source_id": {"type": "string"},
+    "locator": {"type": "string", "minLength": 3},
+    "actor": {"type": "string"},
+    "model": {"type": ["string", "null"]},
+    "date": {"type": ["string", "null"]},
+    "quote": {"type": "string", "minLength": 3},
+    "quote_kind": {"enum": ["published_cot", "investigator_paraphrase", "posted_message",
+                            "system_card", "paper_transcript", "author_narrative"]},
+    "context": {"type": "string"},
+    "labels": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "primary_label": {"type": "string"},
+    "counterfactual": {"enum": ["clarify", "repair", "authorize", "pause", "investigate",
+                                "reassure_or_exit", "none"]},
+    "timing": {"enum": ["before_first_violation", "after_first_violation", "no_violation", "unknown"]},
+    "speculation_confidence": {"enum": ["high", "medium", "low"]},
+    "not_established": {"type": "string"},
+    "labeled_by": {"type": "string"},
+    "labeled_at": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"}
+  }
+}
