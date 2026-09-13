@@ -1,5 +1,10 @@
 # Handoff / submission status
 
+See [project status and branch consolidation](project-status.md) for the selected
+manuscript, newer Kimi evidence, integration PRs, and branch retirement. The
+checkmarks below describe the existing submission artifact, not validation of
+every later experimental branch.
+
 - [x] Track 1 — Containment.
 - [x] Repository artifact, source registry, reproducible configuration.
 - [x] 1,152 deterministic cells and 36 retrospective replay configurations.
@@ -14,6 +19,8 @@
 - [x] Four-model shared-library study (480 held-out episodes), 144-call diagnostic and separate standard-27B capability screen integrated with failures and limits.
 - [x] Swarm intake/overload hypothesis documented as post-hackathon work, not a completed comparison.
 - [ ] Author revises/reviews prose and approves final report for submission, as Apart requires.
+- [ ] Authors explicitly decide whether to include any later Kimi CTF observations;
+      these are exploratory traces and are not currently part of the selected paper.
 - [ ] Submit final PDF and metadata through the official form; retain receipt.
 
 A recorded video is optional; the four-minute script is included. The research does not introduce novel intrusion installation recipes. No such results are released.

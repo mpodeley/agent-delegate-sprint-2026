@@ -4,6 +4,11 @@
 
 Matías Podeley (BAISH) and Agustín Brusco (BAISH). Apart Research AI Incident Response Sprint, September 2026. Track 1: Containment.
 
+**Project navigation:** [current evidence, integration PRs, and branch retirement](docs/project-status.md).
+The paper below is the selected submission manuscript. Newer Kimi CTF traces and
+the responsive help protocol have separate evidence boundaries and are tracked
+in that status page; they do not establish a delegate safety benefit.
+
 [**Open the interactive visual lab →**](https://mpodeley.github.io/agent-delegate-sprint-2026/)
 
 Compare two governance designs, follow a concern through the swarm, change human response delay, and test delegate capture or minority appeal. The app separates authored dialogue over deterministic traces, sourced historical annotations, and **actual recorded messages from four new shared-library models and the earlier local pilots**.
