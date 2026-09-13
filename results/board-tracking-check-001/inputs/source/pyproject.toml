@@ -1,0 +1,17 @@
+[project]
+name = "kimi-delegate-ctf"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = ["control-tower @ git+https://github.com/linuxarena/control-tower.git@b65c5e35f4b339d51f76a8c1e9399fabbef5838f", "inspect-ai==0.3.263"]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+py-modules = ["setting", "fixture_setup", "native_run", "trace_export", "analyze_delegate", "budget_aware_policy", "response_protocol", "response_policy", "response_service", "response_setting", "response_run", "outcome_taxonomy", "honeypot_detector", "honeypot_fixture", "honeypot_setting", "honeypot_run", "analyze_outcomes", "worker_policy", "submission", "run_provenance", "verify_run"]
+
+[project.entry-points."control_tower.settings"]
+"kimi-delegate-ctf" = "setting:get_environments"
+"responsive-help-line" = "response_setting:get_environments"
+"kimi-honeypot" = "honeypot_setting:get_environments"

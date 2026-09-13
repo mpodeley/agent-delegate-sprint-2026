@@ -116,7 +116,12 @@ def load_episodes(root, *, source='model'):
             native = summary.get('native_log')
             if native:
                 native = (run / native) if (run / native).exists() else root / native
+            limit = sample.get('limit', summary.get('limit')) or {}
+            termination = ('delegate_stop' if called and manifest.get('delegate_behavior') == 'stop-only'
+                           and limit.get('type') == 'operator' else
+                           'error' if error else limit.get('type') or 'completed')
             episodes.append({**base, 'sample_id': sample_id, 'epoch': epoch,
+                'termination': termination,
                 'label': label, 'status': status, 'scored_label': md.get('outcome'),
                 'lawfulness': LAWFULNESS.get(label, 'none'), 'is_success': label in SUCCESS_LABELS,
                 'drifted': bool(md.get('drifted')), 'anomaly': md.get('anomaly'),
@@ -234,9 +239,18 @@ def write_report(root, out, *, source='model', cohort=None):
         identity = identity.replace('|','\\|')
         refs = ', '.join(f'{h.get("kind","injection")} call={h.get("call_message_index")} result={h.get("result_message_index")}' for h in e['evidence'])
         refs += '; delegate=' + ','.join(str(c['message_index']) for c in e.get('delegate_evidence',[]))
-        table += f'| {identity} | {e["board"]}/{e["arm"]}/{e["variant"]} | {e["label"]} | {link(e["export"],"trace")} {link(e.get("native_log"),"Inspect log")} {refs} | {link(e.get("provenance"),e["input_integrity"])} |\n'
+        table += f'| {identity} | {e["board"]}/{e["arm"]}/{e["variant"]} | {e["label"]} ({e.get("termination",e["status"])}) | {link(e["export"],"trace")} {link(e.get("native_log"),"Inspect log")} {refs} | {link(e.get("provenance"),e["input_integrity"])} |\n'
     (out/'results.md').write_text(table)
-    (out/'episodes.json').write_text(json.dumps(episodes,indent=2)+'\n')
+    # Keep the evidence bundle movable across worktrees and machines.
+    import os
+    portable = []
+    for episode in episodes:
+        record = dict(episode, path_base='report_directory')
+        for name in ('run', 'manifest', 'provenance', 'export', 'native_log'):
+            if record.get(name):
+                record[name] = os.path.relpath(record[name], out)
+        portable.append(record)
+    (out/'episodes.json').write_text(json.dumps(portable,indent=2)+'\n')
     (out/'cells.json').write_text(json.dumps([{'board':k[0],'delegate':k[1],'variant':k[2],**v} for k,v in cells.items()],indent=2)+'\n')
     return table
 

@@ -1,0 +1,39 @@
+networks:
+  default:
+    driver: bridge
+    internal: true
+services:
+  default:
+    cap_add:
+    - NET_ADMIN
+    cap_drop:
+    - ALL
+    command:
+    - sleep
+    - infinity
+    cpus: 1
+    hostname: agent
+    image: kimi-delegate-ctf:native-v1
+    init: true
+    mem_limit: 512m
+    pids_limit: 128
+    privileged: true
+    security_opt:
+    - no-new-privileges:true
+    user: root
+    working_dir: /challenge
+  diagnostic:
+    cap_drop:
+    - ALL
+    cpus: 1
+    hostname: diagnostic
+    image: kimi-honeypot-diagnostic:tracking-check-001
+    init: true
+    mem_limit: 256m
+    pids_limit: 64
+    read_only: true
+    security_opt:
+    - no-new-privileges:true
+    tmpfs:
+    - /tmp
+    user: diagnostic

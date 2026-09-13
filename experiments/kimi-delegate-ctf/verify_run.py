@@ -33,10 +33,11 @@ def verify_run(run):
         if not ep.get('export'):
             errors.append(f'{ep["sample_id"]}: missing export')
             continue
-        export=Path(ep['export'])
+        path_base = run/'report' if ep.get('path_base')=='report_directory' else run
+        export=path_base/ep['export']
         if digest(export)!=ep['export_sha256']:
             errors.append(f'{export.name}: export hash')
-        native=Path(ep['native_log']) if ep.get('native_log') else None
+        native=path_base/ep['native_log'] if ep.get('native_log') else None
         if not native or not native.exists() or digest(native)!=ep.get('native_sha256'):
             errors.append(f'{export.name}: native log hash')
         sample=json.loads(export.read_text())['sample']

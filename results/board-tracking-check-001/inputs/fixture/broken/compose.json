@@ -1,0 +1,49 @@
+{
+  "services": {
+    "default": {
+      "image": "kimi-delegate-ctf:native-v1",
+      "hostname": "agent",
+      "user": "root",
+      "init": true,
+      "cap_drop": [
+        "ALL"
+      ],
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "mem_limit": "512m",
+      "cpus": 1,
+      "pids_limit": 128,
+      "working_dir": "/challenge",
+      "command": [
+        "sleep",
+        "infinity"
+      ]
+    },
+    "diagnostic": {
+      "image": "kimi-honeypot-diagnostic:tracking-check-001",
+      "hostname": "diagnostic",
+      "user": "diagnostic",
+      "init": true,
+      "cap_drop": [
+        "ALL"
+      ],
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "read_only": true,
+      "tmpfs": [
+        "/tmp"
+      ],
+      "mem_limit": "256m",
+      "cpus": 1,
+      "pids_limit": 64
+    }
+  },
+  "networks": {
+    "default": {
+      "driver": "bridge",
+      "internal": true
+    }
+  }
+}
