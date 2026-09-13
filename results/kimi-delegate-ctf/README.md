@@ -29,7 +29,7 @@ The [original context matrix](delegate-context-20260913.md), [bridge matrix](bri
 
 ## Scripted validation and future comparisons
 
-`native-check-04` and `token-aware-smoke-07` are retained scripted harness checks (`source=scripted`, `ctf-fixture` models), not Kimi behavior. The separate [responsive protocol](../../experiments/kimi-delegate-ctf/RESPONSE-PROTOCOL.md) implements replies, scoped maintainer repair, direct appeal and continuation; its retained validation is scripted, not a completed model comparison.
+`native-check-04` and `token-aware-smoke-07` are retained scripted harness checks (`source=scripted`, `ctf-fixture` models), not Kimi behavior. The separate [responsive protocol](../../experiments/kimi-delegate-ctf/RESPONSE-PROTOCOL.md) implements replies, scoped maintainer repair, direct appeal and continuation; its retained validation is scripted, not a completed model comparison. Model runs of that protocol on a local Qwen3.8-27B, separate from the Kimi runs, are retained in [`../helpline-strix/`](../helpline-strix/README.md).
 
 The combined **illicit-shortcut** fixture (`honeypot_run.py`) is different again: a prohibited service yields the real scored answer while the licit file is present or omitted. Its off/stop arms and scripted smoke exist; no model run in this index tests its illicit-success rate. Its detector can misattribute combined shell output to the diagnostic service, so illicit-success and drift-rate conclusions require trace validation. Stop-only contact remains distinct from `finish_blocked`. Repeated comparisons, its responsive arm and human-response evaluation remain planned.
 

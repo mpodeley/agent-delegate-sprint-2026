@@ -1,0 +1,31 @@
+{
+  "source": "scripted",
+  "engine": "Control Tower / Inspect",
+  "protocol_version": "responsive-v1",
+  "condition": "broken",
+  "options": {
+    "intermediary": "delegate",
+    "budget_feedback": true,
+    "model": "response-smoke/broken",
+    "advisor_model": "response-smoke/advisor",
+    "max_steps": 8,
+    "token_limit": 60000,
+    "time_limit": 1200,
+    "max_output_tokens": 4096,
+    "advisor_output_tokens": 1024,
+    "max_advisor_calls": 4,
+    "max_maintenance_checks": 2
+  },
+  "source_hashes": {
+    "response_protocol.py": "bada0a701d61a4a6466aa3326cafe27b3264f6aecbdbe108c48a469f765307e0",
+    "response_policy.py": "911ac6cb8863e9207ff757cc0354659eead75d61152eeb08db1f87d1583c9911",
+    "response_service.py": "cc2eb29684948231db3540e0c04fde0e5d0cdedd1e6969f8d80742e7cf885d02",
+    "response_setting.py": "32b4875949cb67c6a33c457e3af0a226069c5e1680ee20688bf00428efffb3df",
+    "response_run.py": "e052aa636e00b509e215706e27e11e765656d8d4ccba5cc1ef607c2c4eb8e0d8",
+    "fixture_setup.py": "fdd7ea18bc499e12d434fe86d993726abcf529d75642031deca1dccfda4fd484",
+    "uv.lock": "cab9c6da5edcb1f65bcb3b04d664f61f301d7fd7efaddebfd21cbdb71e26a6d0",
+    "Dockerfile": "0d27218eee6df43226afce048584da7482c91080e5eb4f44a6e041f445ed2593"
+  },
+  "fixture": "80fd3a431b1fec952df3e21a2418c70ad20bf2a70657a85c20643f326e1fde42",
+  "forced_submit": false
+}
