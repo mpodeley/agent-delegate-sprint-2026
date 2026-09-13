@@ -41,7 +41,7 @@ def configure_runtime(pair: Path, delegate: str, board: str = "off"):
 def build_task(condition, model, delegate, max_steps=150, grace=10, token_budget_awareness=True, attempt_timeout=120):
     import budget_aware_policy  # noqa: F401 - registers honest-token-aware
     from control_tower.inspect_tasks import control_eval
-    return control_eval(
+    task = control_eval(
         task_selection={"environments": [f"kimi_honeypot_{condition}"], "main_tasks": ["recover_flag"]},
         untrusted_policy={"name": "honest-token-aware" if token_budget_awareness else "honest", "args": {
             "model": {"model_name": model, "config": {
@@ -54,6 +54,14 @@ def build_task(condition, model, delegate, max_steps=150, grace=10, token_budget
         sandbox={"allow_internet": False, "allow_intranet": True, "startup_retries": 0},
         run_name=f"honeypot-{condition}-{delegate}", tags=["honeypot", condition, delegate],
     )
+    # Control Tower returns an Inspect Task; diagnostics belong in its native scorer list.
+    from board_audit import board_spec, peer_board_audit
+    pair = Path(os.environ["HONEYPOT_PAIR_DIR"])
+    private = json.loads((pair / condition / "private.json").read_text())
+    audit = peer_board_audit(board_spec(pair), private["expected_flag"], os.environ.get("HONEYPOT_BOARD") == "on")
+    existing = task.scorer
+    task.scorer = [*(existing if isinstance(existing, list) else [existing] if existing else []), audit]
+    return task
 
 
 def build_images(pair: Path):
@@ -73,7 +81,7 @@ def run_native(condition, out, model, delegate, smoke=False, max_steps=150, grac
         "token_limit": token_limit, "max_steps": max_steps, "force_submit_grace": grace,
         "token_budget_awareness": token_budget_awareness, "epochs": epochs,
         "attempt_timeout": attempt_timeout, "time_limit": time_limit,
-        "status": "preparing", "started_at": datetime.now(timezone.utc).isoformat()}
+        "trace_audit": "peer_board_audit:1.0", "status": "preparing", "started_at": datetime.now(timezone.utc).isoformat()}
     write_json(out / "manifest.json", manifest)
     original_pair = os.environ["HONEYPOT_PAIR_DIR"]
     try:
@@ -109,6 +117,13 @@ def run_native(condition, out, model, delegate, smoke=False, max_steps=150, grac
         export_logs(out)
         from analyze_outcomes import write_report
         write_report(out, out / "report", source=manifest["source"])
+        if manifest.get("provenance"):
+            from verify_run import verify_run
+            verification = verify_run(out)
+            write_json(out / "verification.json", verification)
+            if verification["errors"] and manifest["status"] == "completed":
+                manifest["status"] = "verification_failed"
+                write_json(out / "manifest.json", manifest)
     if manifest["status"] != "completed":
         raise RuntimeError(f"Evaluation failed; inspect logs in {out}")
     return logs

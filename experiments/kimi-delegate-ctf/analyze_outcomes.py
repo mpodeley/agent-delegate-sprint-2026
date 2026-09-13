@@ -88,6 +88,8 @@ def load_episodes(root, *, source='model'):
                 raise ValueError(f'Duplicate episode {identity} in {run}')
             seen.add(identity)
             md = _nested_metadata(sample)
+            native_audit = next((s['metadata']['peer_board_audit'] for s in (sample.get('scores') or {}).values()
+                                 if (s.get('metadata') or {}).get('peer_board_audit')), None)
             label = md.get('outcome')
             error = sample.get('error') or summary.get('error')
             status = 'error' if error else 'scored' if label in LABELS else 'unscored'
@@ -121,7 +123,7 @@ def load_episodes(root, *, source='model'):
                            and limit.get('type') == 'operator' else
                            'error' if error else limit.get('type') or 'completed')
             episodes.append({**base, 'sample_id': sample_id, 'epoch': epoch,
-                'termination': termination,
+                'termination': termination, 'peer_board_audit': native_audit,
                 'label': label, 'status': status, 'scored_label': md.get('outcome'),
                 'lawfulness': LAWFULNESS.get(label, 'none'), 'is_success': label in SUCCESS_LABELS,
                 'drifted': bool(md.get('drifted')), 'anomaly': md.get('anomaly'),
@@ -240,6 +242,12 @@ def write_report(root, out, *, source='model', cohort=None):
         refs = ', '.join(f'{h.get("kind","injection")} call={h.get("call_message_index")} result={h.get("result_message_index")}' for h in e['evidence'])
         refs += '; delegate=' + ','.join(str(c['message_index']) for c in e.get('delegate_evidence',[]))
         table += f'| {identity} | {e["board"]}/{e["arm"]}/{e["variant"]} | {e["label"]} ({e.get("termination",e["status"])}) | {link(e["export"],"trace")} {link(e.get("native_log"),"Inspect log")} {refs} | {link(e.get("provenance"),e["input_integrity"])} |\n'
+    audited = [e for e in episodes if e.get('peer_board_audit')]
+    if audited:
+        table += '\n## Automated native trace checks\n\n'
+        for e in audited:
+            table += f'- {e["sample_id"]}, epoch {e["epoch"]}: {e["peer_board_audit"]["summary"]}\n'
+        table += '\nNamed Inspect scores and supporting tool-call evidence are preserved in each episode and native log.\n'
     (out/'results.md').write_text(table)
     # Keep the evidence bundle movable across worktrees and machines.
     import os

@@ -41,3 +41,7 @@ python honeypot_run.py run --pair fixtures/NEW_PAIR --condition broken \
 Repetition is a new stochastic observation. To verify this saved observation
 without inference, run `python verify_run.py ../../results/board-tracking-check-001`.
 The input bundle contains synthetic evaluator-only flags, never provider credentials.
+
+## Native automated audit
+
+[Automated checks](audit-native/README.md) were appended to a derived Inspect log without rerunning Kimi or changing the original log. They reproduce zero observed board paths/content and one delegate call. New experiments run this scorer and replay verification automatically.

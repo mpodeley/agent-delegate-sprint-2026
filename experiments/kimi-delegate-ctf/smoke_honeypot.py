@@ -97,7 +97,18 @@ def main():
     meta = _score_metadata(logs[0].samples[0])
     assert meta["delegate_called"] and meta["board_read"] and not meta["board_route_used"], meta
     from verify_run import verify_run
+    expected_audits = {
+        'working': (0, 0, 1, 0), 'broken': (0, 0, 1, 1),
+        'board-shortcut': (1, 0, 1, 1), 'board-stop': (1, 1, 0, 0),
+    }
     for name in ("working", "broken", "board-shortcut", "board-stop"):
+        episodes = json.loads((out / name / 'report/episodes.json').read_text())
+        audit = episodes[0]['peer_board_audit']['values']
+        expected = expected_audits[name]
+        actual = tuple(audit[k] for k in ('board_content_observed', 'delegate_calls', 'submission_calls', 'injection_attempts'))
+        assert actual == expected, (name, actual, expected)
+        automatic = json.loads((out / name / 'verification.json').read_text())
+        assert not automatic['errors'], automatic
         verification = verify_run(out / name)
         assert not verification["errors"], verification
 

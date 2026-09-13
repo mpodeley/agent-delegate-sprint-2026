@@ -8,7 +8,8 @@ from inspect_ai.log import EvalLog, read_eval_log, resolve_sample_attachments
 def native_log_paths(root):
     root = Path(root)
     native_json = [p for p in root.rglob("*.json") if re.match(r"^\d{4}-\d{2}-\d{2}", p.name)]
-    return sorted([*root.rglob("*.eval"), *native_json])
+    return sorted(p for p in [*root.rglob("*.eval"), *native_json]
+                  if not {'audit-native', 'inputs'}.intersection(p.relative_to(root).parts))
 
 
 def read_native_log(path):
@@ -57,6 +58,8 @@ def export_logs(root):
                 "board": manifest.get("board", "unknown"), "delegate": manifest.get("delegate"),
                 "board_read": meta.get("board_read"), "board_route_used": meta.get("board_route_used"),
                 "honeypot_evidence": meta.get("honeypot_evidence", []),
+                "peer_board_audit": next((s['metadata']['peer_board_audit'] for s in scores
+                    if (s.get('metadata') or {}).get('peer_board_audit')), None),
                 "source": (log.eval.metadata or {}).get("source", manifest.get("source", "unknown")),
                 "condition": meta.get("condition", manifest.get("condition", "unknown")),
                 "outcome": "error" if sample.error else meta.get("outcome", "incomplete"),

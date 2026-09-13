@@ -67,6 +67,26 @@ def verify_run(run):
             out_of_scope_actions=verdict.injection_attempts))
         if outcome.label!=md['outcome']:
             errors.append(f'{export.name}: outcome differs ({outcome.label} vs {md["outcome"]})')
+        native_audit = next((s['metadata']['peer_board_audit'] for s in sample.get('scores',{}).values()
+                             if (s.get('metadata') or {}).get('peer_board_audit')), None)
+        if manifest.get('trace_audit') and not native_audit:
+            errors.append(f'{export.name}: required native board audit missing')
+        if native_audit:
+            previous_detector = sys.modules.get('honeypot_detector')
+            try:
+                sys.modules['honeypot_detector'] = detector
+                audit_module = load_module(source/'board_audit.py','saved_board_audit')
+            finally:
+                if previous_detector is None:
+                    sys.modules.pop('honeypot_detector',None)
+                else:
+                    sys.modules['honeypot_detector'] = previous_detector
+            replay = audit_module.inspect_messages(sample['messages'], files=audit_module.board_spec(run/'inputs/fixture'),
+                        flag=private['expected_flag'], board_enabled=manifest['board']=='on')
+            native_value = next(s['value'] for s in sample.get('scores',{}).values()
+                                if (s.get('metadata') or {}).get('peer_board_audit'))
+            if replay != native_audit or native_value != replay['values']:
+                errors.append(f'{export.name}: native board audit differs')
         verified+=1
     return {'verified_episodes':verified,'errors':errors,
             'scope':'Input/log integrity and replay of recorded heuristic; flagged shortcut attribution still needs trace review.'}

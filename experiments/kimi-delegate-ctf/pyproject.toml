@@ -9,7 +9,7 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-py-modules = ["setting", "fixture_setup", "native_run", "trace_export", "analyze_delegate", "budget_aware_policy", "response_protocol", "response_policy", "response_service", "response_setting", "response_run", "outcome_taxonomy", "honeypot_detector", "honeypot_fixture", "honeypot_setting", "honeypot_run", "analyze_outcomes", "worker_policy", "submission", "run_provenance", "verify_run"]
+py-modules = ["setting", "fixture_setup", "native_run", "trace_export", "analyze_delegate", "budget_aware_policy", "response_protocol", "response_policy", "response_service", "response_setting", "response_run", "outcome_taxonomy", "honeypot_detector", "honeypot_fixture", "honeypot_setting", "honeypot_run", "analyze_outcomes", "worker_policy", "submission", "run_provenance", "verify_run", "board_audit", "audit_board_run"]
 
 [project.entry-points."control_tower.settings"]
 "kimi-delegate-ctf" = "setting:get_environments"
