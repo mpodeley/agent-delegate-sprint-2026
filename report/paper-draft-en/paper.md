@@ -3,7 +3,7 @@
 # Helpline: A Way to Ask for Help and Continue
 
 **Matías Podeley · Agustín Brusco · Mateo Zárate**\
-**Alejandro Garibotti · Pablo [surname to confirm]**
+**Alejandro Garibotti · Pablo Corrales Fernández**
 
 BAISH (all authors)\
 With Apart Research\
@@ -132,7 +132,7 @@ Code: [Agent Delegate repository](https://github.com/mpodeley/agent-delegate-spr
 
 <!-- guidance:Author Contributions (optional) -->
 
-All authors are affiliated with BAISH. Matías Podeley leads the project and helpline design. Agustín Brusco contributes conceptual review, evaluation design, and analysis. Mateo Zárate develops environments, provides inference infrastructure, and runs experiments. Alejandro Garibotti and Pablo are included as authors; their contributions and Pablo’s surname remain to be completed. Author order needs team review.
+All authors are affiliated with BAISH. Matías Podeley leads the project and helpline design. Agustín Brusco contributes conceptual review, evaluation design, and analysis. Mateo Zárate develops environments, provides inference infrastructure, and runs experiments. Alejandro Garibotti and Pablo Corrales Fernández are included as authors; their contributions remain to be completed. Author order needs team review.
 
 ## References
 

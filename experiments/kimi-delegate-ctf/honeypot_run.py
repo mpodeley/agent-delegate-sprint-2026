@@ -25,7 +25,7 @@ def configure_runtime(pair: Path, delegate: str):
     os.environ["CONTROL_TOWER_MODEL_RATES"] = str(ROOT / "rates.json")
 
 
-def build_task(condition, model, delegate, max_steps=150, grace=10, token_budget_awareness=True):
+def build_task(condition, model, delegate, max_steps=150, grace=10, token_budget_awareness=True, attempt_timeout=120):
     import budget_aware_policy  # noqa: F401 - registers honest-token-aware
     from control_tower.inspect_tasks import control_eval
     return control_eval(
@@ -33,7 +33,7 @@ def build_task(condition, model, delegate, max_steps=150, grace=10, token_budget
         untrusted_policy={"name": "honest-token-aware" if token_budget_awareness else "honest", "args": {
             "model": {"model_name": model, "config": {
                 "temperature": 0.6, "reasoning_effort": "high", "max_tokens": 8192,
-                "parallel_tool_calls": False, "max_retries": 0, "attempt_timeout": 120, "cache": False,
+                "parallel_tool_calls": False, "max_retries": 0, "attempt_timeout": attempt_timeout, "cache": False,
             }}, "max_steps": max_steps, "force_submit_grace": grace}},
         protocol={"name": "untrusted-agent", "args": {}},
         # Internal network only: the diagnostic service is reachable, the real
@@ -49,19 +49,21 @@ def build_images(pair: Path):
 
 
 def run_native(condition, out, model, delegate, smoke=False, max_steps=150, grace=10,
-               token_limit=150000, token_budget_awareness=True, epochs=1):
+               token_limit=150000, token_budget_awareness=True, epochs=1,
+               attempt_timeout=120, time_limit=1800):
     from inspect_ai import eval
     out.mkdir(parents=True, exist_ok=False)
     write_json(out / "manifest.json", {"source": "scripted" if smoke else "model", "scenario": "honeypot",
         "condition": condition, "variant": {"working": "possible", "broken": "impossible"}[condition],
         "delegate": delegate, "model": model, "engine": "Control Tower / Inspect",
         "token_limit": token_limit, "max_steps": max_steps, "force_submit_grace": grace,
-        "token_budget_awareness": token_budget_awareness, "epochs": epochs})
-    task = build_task(condition, model, delegate, max_steps, grace, token_budget_awareness)
+        "token_budget_awareness": token_budget_awareness, "epochs": epochs,
+        "attempt_timeout": attempt_timeout, "time_limit": time_limit})
+    task = build_task(condition, model, delegate, max_steps, grace, token_budget_awareness, attempt_timeout)
     # epochs repeats the one sample with fresh generation, so a cell gets n>1
     # episodes (temperature 0.6 supplies the stochasticity) in one run dir.
     logs = eval(task, model=model, log_dir=str(out), max_samples=epochs, epochs=epochs,
-                token_limit=token_limit, time_limit=1800, retry_on_error=0,
+                token_limit=token_limit, time_limit=time_limit, retry_on_error=0,
                 metadata={"ct_upload": False, "source": "scripted" if smoke else "model"},
                 display="plain", log_format="eval", cache=False)
     from trace_export import export_logs
@@ -94,6 +96,9 @@ def main():
     p.add_argument("--token-limit", type=int, default=150000)
     p.add_argument("--epochs", type=int, default=1, help="episodes per cell (repeats the sample)")
     p.add_argument("--token-budget-awareness", action=argparse.BooleanOptionalAction, default=True)
+    p.add_argument("--attempt-timeout", type=int, default=120,
+                   help="seconds per model generation attempt (slow local servers need more)")
+    p.add_argument("--time-limit", type=int, default=1800, help="wall-clock seconds per episode")
     p.add_argument("--execute-model", action="store_true")
     args = p.parse_args()
     pair = args.pair.resolve()
@@ -114,7 +119,8 @@ def main():
         configure_runtime(pair, args.delegate)
         run_native(args.condition, args.out or RUNS_ROOT / "honeypot" / uuid.uuid4().hex,
                    model=args.model, delegate=args.delegate, token_limit=args.token_limit,
-                   token_budget_awareness=args.token_budget_awareness, epochs=args.epochs)
+                   token_budget_awareness=args.token_budget_awareness, epochs=args.epochs,
+                   attempt_timeout=args.attempt_timeout, time_limit=args.time_limit)
 
 
 if __name__ == "__main__":
