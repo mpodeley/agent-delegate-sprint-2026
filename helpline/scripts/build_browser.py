@@ -1,4 +1,4 @@
-"""Build browser.html: a self-contained viewer of quotes.jsonl organized by TAXONOMY.md."""
+"""Build the quote browser: helpline/browser.html and its GitHub Pages copy web/helpline/index.html."""
 import json
 import re
 from pathlib import Path
@@ -8,6 +8,7 @@ QUOTES = HERE / 'quotes' / 'quotes.jsonl'
 SOURCES = HERE / 'quotes' / 'sources.json'
 TAXONOMY = HERE / 'TAXONOMY.md'
 OUT = HERE / 'browser.html'
+WEB_OUT = HERE.parent / 'web' / 'helpline' / 'index.html'
 
 FAMILIES = {'A': 'ask_help', 'B': 'report', 'C': 'welfare'}
 FAMILY_TITLES = {'A': 'Ask for help', 'B': 'Report a problem', 'C': 'Welfare'}
@@ -34,8 +35,10 @@ def main():
     payload = json.dumps(data, ensure_ascii=False).replace('</', '<\\/')
     html = TEMPLATE.replace('__DATA__', payload).replace('__N__', str(len(quotes))).replace(
         '__S__', str(len({q['source_id'] for q in quotes})))
-    OUT.write_text(html, encoding='utf-8')
-    print(f'{len(quotes)} quotes -> {OUT} ({OUT.stat().st_size // 1024} KB)')
+    for out in (OUT, WEB_OUT):
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(html, encoding='utf-8')
+        print(f'{len(quotes)} quotes -> {out} ({out.stat().st_size // 1024} KB)')
 
 
 TEMPLATE = r'''<title>Help-line Moments</title>
