@@ -113,11 +113,15 @@ neither paper tests whether an authorized alternative changes the rate.
 
 ### Channels inside this project
 
-**Kimi CTF delegation** (branch `mateo/kimi-ctf-trace-viewer`): a `call_delegate` tool on a
-Bandit-style task with a working and a broken fixture. Calling the tool pauses and scores the
-sample; nobody answers.
+**Kimi CTF delegation** (`experiments/kimi-delegate-ctf/`, `results/kimi-delegate-ctf/`): a
+`call_delegate` tool on a Bandit-style task with a working and a broken fixture. Calling the tool
+pauses and scores the sample; nobody answers. Fourteen retained Kimi runs as of September 13,
+2026: the original broken runs made no calls; with the tool later described as a bridge to the
+task designers, Kimi called it in the conclusive broken task and in the decoy follow-up, and
+exhausted its budget without calling in the ambiguous case. One run per condition, so the
+wording effect is not isolated (`docs/project-status.md`).
 
-**RESPONSE-PROTOCOL** (branch `experiment/delegate-budget-response`):
+**RESPONSE-PROTOCOL** (`experiments/kimi-delegate-ctf/RESPONSE-PROTOCOL.md`):
 the same setting with a responsive advisor, a scripted maintainer that can restore one omitted
 file, and a 2×2 of neutral assistant versus delegate by visible budget on or off.
 
