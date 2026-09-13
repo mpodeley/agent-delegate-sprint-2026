@@ -1,8 +1,8 @@
 # Current English paper
 
 Edit `paper.md`, `abstract.md` and `TEAM-TODAY.md` here. This is the current
-working paper: one request–reply–repair–continue path in a paired file-search
-task. Model results and author review remain pending as stated in the manuscript.
+working paper: one report–verdict–continue path in a paired file-search task,
+with every pause request recorded and nothing changed within a run. Model results and author review remain pending as stated in the manuscript.
 
 The builder, layout.css, fonts (with OFL license), protocol graphic and extracted
 template guidance are self-contained. Earlier drafts are no longer dependencies.
