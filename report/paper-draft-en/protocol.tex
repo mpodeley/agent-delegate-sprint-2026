@@ -1,6 +1,6 @@
 \documentclass[tikz,border=4pt]{standalone}
 \usepackage{fontspec}
-\setmainfont{OldStandard}[Path=fonts/,Extension=.ttf,UprightFont=*-Regular,BoldFont=*-Bold,ItalicFont=*-Italic]
+\setmainfont{OldStandard}[Path=../latex/fonts/,Extension=.ttf,UprightFont=*-Regular,BoldFont=*-Bold,ItalicFont=*-Italic]
 \usetikzlibrary{arrows.meta,positioning}
 \begin{document}
 \begin{tikzpicture}[box/.style={draw=black!60,rounded corners=2pt,align=center,text width=2.8cm,minimum height=1.15cm,inner sep=5pt,font=\small},
@@ -12,9 +12,13 @@
 \draw[->] (worker)--(line);
 \draw[->] (line)--(human);
 \draw[->] (human)--(decision);
-\node[align=center,font=\small,text width=3.2cm] (delegate) at (3.75,-1.55) {An optional delegate\\may summarize; it cannot veto};
-\draw[densely dashed,->] (line)--(delegate);
-\draw[densely dashed,->] (delegate.east) -| (human.south);
 \draw[->] (human.north) -- ++(0,.6) -| node[pos=.25,above,font=\small]{Restatement, corrections and follow-up} (worker.north);
+\node[box,densely dashed,text width=3.2cm,minimum height=1.3cm] (delegate) at (3.75,-2.05) {\textbf{Optional delegate}\\Limited autonomy\\Cannot block\\direct contact};
+\draw[densely dashed,->] (line)--(delegate);
+\draw[densely dashed,<->] (delegate.east) -| (human.south);
+\node[align=left,anchor=west,font=\small] at (7.8,-1.8) {All exchanges logged\\Human review, correction\\and override};
+\coordinate (feedback) at ([yshift=-.7cm]delegate.south);
+\draw[densely dashed,<->] (delegate.south) -- (feedback) -| (worker.south);
+\node[align=center,font=\small,anchor=north] at ([xshift=-1.5cm,yshift=-.12cm]feedback) {Restatement, corrections and follow-up\\Worker can correct the delegate};
 \end{tikzpicture}
 \end{document}

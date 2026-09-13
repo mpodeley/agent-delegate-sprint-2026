@@ -19,8 +19,10 @@
   ],
   "abstract_words": 150,
   "planned_pages": 6,
-  "diagram_source": "report/latex/figures/protocol.pdf",
-  "diagram_sha256": "1fd31aec116df22bcbaac9396325148b30a118593da49f47765431bdb25cd6d1",
+  "diagram_source": "report/paper-draft-en/protocol.tex",
+  "diagram_predecessor": "report/latex/figures/protocol.pdf",
+  "diagram_revision": "Optional delegate with limited autonomy, worker feedback, and human review",
+  "diagram_sha256": "9d2470737c5f47e206d7de6cf42a17729a45f0d5b26f15c8e485998b2d19586d",
   "language": "en",
   "new_model_runs": false
 }

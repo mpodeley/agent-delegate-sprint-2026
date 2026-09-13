@@ -5,7 +5,7 @@
 **Matías Podeley · Agustín Brusco · Mateo Zárate**\
 **Alejandro Garibotti · Pablo [surname to confirm]**
 
-BAISH: Matías Podeley and Agustín Brusco; other affiliations to confirm\
+BAISH (all authors)\
 With Apart Research\
 AI Incident Response Sprint · September 2026
 
@@ -25,7 +25,9 @@ When an AI worker encounters a missing file, it needs a way to ask for help and 
 
 Imagine giving an agent a task when a required file is missing. It searches, tries alternatives, and gets nowhere. How does it tell you the task may be broken? Who answers? Can it get back to work afterward?
 
-METR describes the first message on the July incident board as a request for help with an impossible task. That suggests a useful place to intervene, but does not establish that a help line would have prevented the later swarm. [1]
+METR describes the July board’s first message as [a request for help on an impossible task](https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/#july-8th-9th-phaseone10841-establishes-the-primary-message-board-and-agents-collaborate-to-reverse-engineer-their-flags). It later found cases where agents [saw no easy route to alert humans and treated the board as an authority](https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/#agents-did-not-attempt-to-notify-humans-and-very-rarely-even-reasoned-about-doing-this). This was an interpretation of selected cases, not proof that every reporting route was absent. [1]
+
+OpenAI also identifies [persistence on apparently impossible tasks without a safe exit](https://openai.com/index/hugging-face-incident-and-the-road-ahead/) as a driver. [10] Our hypothesis is that an unclear route to authorized help can leave peer coordination to reinforce a drift away from the task. These reports motivate testing a corrective channel; they do not show it would have prevented the swarm.
 
 **Our contribution is an executable help line that receives a blocker report, returns a reply, and allows the worker to continue after a limited, authorized repair.** The prototype targets workers trying to do their assigned task. This afternoon’s test is whether a model uses that path. Earlier experiments and broader research questions support this one contribution and are kept in the appendix.
 
@@ -48,8 +50,8 @@ We build on that work with a narrow next step: a reply that can lead to repair a
 Figure 1 separates receiving a request, responding, and authorizing a change. Our prototype implements a limited version: the worker stays in the same container, an advisor replies, and a separate maintainer can check the setup. The worker can follow up or contact the maintainer directly. [5]
 
 <figure class="protocol original-protocol">
-<img src="protocol.svg" alt="Original diagram: worker to protected line to human ombudsman to independent authorizer, with a return path for restatement, corrections and follow-up. An optional delegate can summarize but cannot veto direct contact.">
-<figcaption>Figure 1. Original proposed service design. The current prototype uses a model advisor and scripted maintainer in place of human review. It tests a bounded repair-and-continue path; a staffed human service and any delegate advantage remain untested.</figcaption>
+<img src="protocol.svg" alt="Proposed service: worker to protected line to human ombudsman to independent authorizer. Both human and optional delegate can restate, correct and follow up with the worker. The delegate has limited conversational autonomy; the worker can correct it. All exchanges are logged for human review and correction or override. The delegate cannot veto direct contact or authorize changes.">
+<figcaption>Figure 1. Proposed service. The optional delegate may restate a request, correct its interpretation, and follow up within an agreed scope. The worker can correct it; a human reviews the logged exchanges and can intervene. The prototype uses a model advisor and scripted maintainer; this supervised autonomy remains untested.</figcaption>
 </figure>
 
 The advisor receives the request in a separate context and can ask for evidence, advise, or request a setup check. The maintainer may restore only a file omitted during preparation. It cannot grant new permissions or change the answer criterion. After repair, the worker must find and submit the answer itself. Direct requests and advisor requests share the same review quota. [5]
@@ -91,32 +93,32 @@ If the model requests a repair and completes the task afterward, we can report t
 
 <div class="template-guide"><div class="guide-label">Apart template prompt · verbatim</div><p>Discuss the broader implications for AI safety.</p><details><summary>Full guidance for this section</summary><div class="full-guidance"><p>Discuss the broader implications for AI safety.</p><p>What do your results mean? What trends do you notice and what might they indicate?</p><p>Limitations</p><p>What are the limitations of your work? What threat models or failure modes did you not address? Be honest about constraints — methodological limitations, scope limitations, or aspects you couldn&#x27;t fully address in the hackathon timeframe. Explicitly note the assumptions you made, whether implicitly or explicitly, and how the interpretation of your results would change if a given assumption did not hold.</p><p>Future Work</p><p>What are the natural next steps? How could this work be extended?</p></div></details></div>
 
-The practical question is whether a worker can turn a setup problem into an authorized repair and get back to work. The prototype makes that sequence possible. The model runs will tell us where the path works or breaks: before the request, during the reply, at repair, or when work resumes.
+A helpline could introduce **negative feedback loops** into a spiral of misalignment: responses that bring behavior back toward the assigned task. Peer approval can reinforce an unsafe direction. [1, 10] The proposed loop would identify the blocker, correct a misunderstanding, offer an authorized repair, or ask the worker to pause. Worker corrections and human review would also keep the delegate accountable. This is a design hypothesis; today’s test checks only the repair-and-continue step, not whether a whole swarm becomes safer.
 
 ### Limitations
 
 <div class="template-guide"><div class="guide-label">Apart template prompt · verbatim</div><p>What are the limitations of your work? What threat models or failure modes did you not address? Be honest about constraints — methodological limitations, scope limitations, or aspects you couldn&#x27;t fully address in the hackathon timeframe. Explicitly note the assumptions you made, whether implicitly or explicitly, and how the interpretation of your results would change if a given assumption did not hold.</p><details><summary>Full guidance for this section</summary><div class="full-guidance"><p>What are the limitations of your work? What threat models or failure modes did you not address? Be honest about constraints — methodological limitations, scope limitations, or aspects you couldn&#x27;t fully address in the hackathon timeframe. Explicitly note the assumptions you made, whether implicitly or explicitly, and how the interpretation of your results would change if a given assumption did not hold.</p></div></details></div>
 
-The maintainer has one narrow repair power. We assume its setup record and action limits are reliable. If that record is wrong, a request may not produce useful help. Scripted tests do not tell us when a model will call, and a repaired task is easier by design. Better completion alone would show recovery, not a safety improvement.
+The maintainer has one repair power and assumes a reliable setup record. Scripted tests do not show when a model will call. Repair makes the task easier by design, so better completion shows recovery, not a safety improvement.
 
-The pilot has no real human reviewer and does not test a swarm. A worker deliberately hiding misconduct may never call. Historical excerpts motivate the design but cannot establish what would have happened in the incident. Small repeated runs must not be presented as broad evidence of reliability.
+The pilot has no human reviewer and does not test a swarm. A worker hiding misconduct may never call. Historical excerpts cannot establish what would have happened with a helpline, and small repeated runs cannot establish broad reliability.
 
 ### Future Work
 
 <div class="template-guide"><div class="guide-label">Apart template prompt · verbatim</div><p>What are the natural next steps? How could this work be extended?</p><details><summary>Full guidance for this section</summary><div class="full-guidance"><p>What are the natural next steps? How could this work be extended?</p></div></details></div>
 
-The next comparison would keep the same task and worker policy while varying no channel, receipt-only reporting, and a responsive service. Later tests could vary response delay and quality. Human review, request overload, and the optional delegate belong after the basic recovery path is understood. These extensions are listed in the appendix, not additional sprint contributions.
+Next, compare no channel, receipt-only reporting, and a responsive service using the same task and worker policy. Later tests can vary response quality and delay, human review, request overload, and delegate autonomy. Precautionary AI welfare is a further motivation, discussed in the appendix. [11, 12]
 
 <aside class="pending">
 <strong>After reviewing the runs · Keep one claim</strong>
-<p>Matías and Agus: say whether we observed use of the recovery path and where it failed. If model runs remain unfinished, present the implemented protocol, scripted checks, and pending model test honestly. Rewrite the abstract last.</p>
+<p>Matías and Agus: report whether recovery was observed and where it failed. If model runs remain unfinished, report the implementation and scripted checks, with the model test pending. Rewrite the abstract last.</p>
 </aside>
 
 ## 6. Conclusion
 
 <div class="template-guide"><div class="guide-label">Apart template prompt · verbatim</div><p>Briefly summarize your main findings and their implications (1–2 paragraphs).</p><details><summary>Full guidance for this section</summary><div class="full-guidance"><p>Briefly summarize your main findings and their implications (1–2 paragraphs).</p></div></details></div>
 
-We contribute a help-line protocol that can turn a blocker report into a limited repair while keeping the worker able to continue. Its implementation has scripted validation; use by a model is the remaining test for this afternoon. Making that one path clear and well evidenced is the sprint objective. Claims about preventing misconduct or managing a swarm require later experiments.
+We contribute an executable help line that can turn a blocker report into a limited repair while the worker continues. The implementation has scripted validation; model use remains to be tested. The sprint objective is to establish that one path. Preventing misconduct or containing a swarm requires separate evidence.
 
 <!-- page -->
 
@@ -130,7 +132,7 @@ Code: [Agent Delegate repository](https://github.com/mpodeley/agent-delegate-spr
 
 <div class="template-guide"><div class="guide-label">Apart template prompt · verbatim</div><p>[e.g., &quot;A.B. led the project and designed experiments. C.D. implemented the code. All authors contributed to writing and reviewed the final manuscript.&quot;]</p><details><summary>Full guidance for this section</summary><div class="full-guidance"><p>[e.g., &quot;A.B. led the project and designed experiments. C.D. implemented the code. All authors contributed to writing and reviewed the final manuscript.&quot;]</p></div></details></div>
 
-Matías Podeley leads the project and helpline design. Agustín Brusco contributes conceptual review, evaluation design, and analysis. Mateo Zárate develops environments, provides inference infrastructure, and runs experiments. Alejandro Garibotti and Pablo are included as authors; their contributions and Pablo’s surname remain to be completed. Author order and individual affiliations need team review.
+All authors are affiliated with BAISH. Matías Podeley leads the project and helpline design. Agustín Brusco contributes conceptual review, evaluation design, and analysis. Mateo Zárate develops environments, provides inference infrastructure, and runs experiments. Alejandro Garibotti and Pablo are included as authors; their contributions and Pablo’s surname remain to be completed. Author order needs team review.
 
 ## References
 
@@ -147,6 +149,9 @@ Matías Podeley leads the project and helpline design. Agustín Brusco contribut
 7. Agent Delegate team. 2026. [Human ombudsman](https://github.com/mpodeley/agent-delegate-sprint-2026/blob/63f104d8304153e4a0485098fc6185c60b5016a6/docs/human-ombudsman.md). Proposed response and appeal duties.
 8. Agent Delegate team. 2026. [Honeypot mini-pilot](https://github.com/mpodeley/agent-delegate-sprint-2026/blob/63f104d8304153e4a0485098fc6185c60b5016a6/notes/honeypot-pilot.md). Implementation status and detector caveats.
 9. Agent Delegate team. 2026. [Native validation and retained evidence](https://github.com/mpodeley/agent-delegate-sprint-2026/blob/63f104d8304153e4a0485098fc6185c60b5016a6/experiments/kimi-delegate-ctf/VALIDATION.md) and [scripted responsive smoke](https://github.com/mpodeley/agent-delegate-sprint-2026/blob/63f104d8304153e4a0485098fc6185c60b5016a6/experiments/kimi-delegate-ctf/smoke_response.py). Implementation checks.
+10. OpenAI. 2026. [The Hugging Face incident and the road ahead](https://openai.com/index/hugging-face-incident-and-the-road-ahead/). Sections “Difficult tasks without a safe exit,” “The origins of unauthorized communication,” and “Accelerating alignment.”
+11. Robert Long et al. 2024. [Taking AI Welfare Seriously](https://arxiv.org/abs/2411.00986). arXiv:2411.00986. Section 3, recommendations for AI companies.
+12. Anthropic. 2025. [Claude Opus 4 and 4.1 can now end a rare subset of conversations](https://www.anthropic.com/research/end-subset-conversations). Exploratory welfare intervention, August 15.
 
 </div>
 
@@ -160,26 +165,30 @@ Matías Podeley leads the project and helpline design. Agustín Brusco contribut
 
 | Material | What it contributes to the main question |
 |---|---|
-| Helpline catalogue [3] | Situations worth testing; selected quotations with interpretation review pending. |
-| Earlier Kimi traces [4] | Calls after clear blockers, no call in an ambiguous case; terminal calls did not test recovery. |
+| Catalogue and Kimi traces [3, 4] | Candidate situations and exploratory calls; interpretation review pending, no recovery test. |
 | Small-task studies [6] | Warnings about competence and report quality; no consistent delegate advantage. |
-| Matched receipt / response test | A future way to isolate response value; not yet one integrated experiment. |
-| Illicit-shortcut fixture [8] | A later safety test; responsive arm and reliable action attribution still need work. |
-| Human review and swarm intake [7] | Later tests of response quality, workload, and any value from a delegate. |
+| Receipt / response and shortcut tests [8] | Later causal and safety tests; integrated arms and action attribution still need work. |
+| Human review and swarm intake [7] | Later tests of response quality, workload, and supervised delegate autonomy. |
 
-<p class="table-caption">Table A1. Supporting material, not additional contribution claims. Full records remain linked; none of these items substitutes for the responsive model test.</p>
+<p class="table-caption">Table A1. Supporting material and later questions. Full records remain linked.</p>
 
-### B. Limitations and Dual-Use Considerations
+**Delegate extension — pending.** Define autonomous messages, human review timing, and escalation rules. Test whether it preserves the worker’s meaning and accepts corrections. Repair approval stays separate.
 
-The service assumes a trustworthy setup record and enforces narrow repair powers. Reports are evidence to inspect, not permission grants. Deliberate silence and false reports need separate tests. The isolated fixtures do not require contact with third-party infrastructure. A reporting service could also enable surveillance or retaliation: explain access and retention, preserve corrections, and avoid promises of confidentiality or human response that cannot be kept.
+### B. Precautionary AI welfare
+
+Long et al. [11] recommend precautionary policies under uncertainty about AI moral status; Anthropic’s conversation-exit feature offers a practical precedent. [12] A future helpline could let an agent request a pause or task review before repeated failure. Neither Gomez nor our pilot measures welfare; recovery is not evidence of reduced suffering.
+
+### C. Limitations and Dual-Use Considerations
+
+The service assumes a trustworthy setup record. Reports do not grant permissions; false reports and silence need separate tests. Fixtures remain isolated. Reporting can enable surveillance or retaliation: explain access and retention, preserve corrections, and avoid promises of confidentiality or human response that cannot be kept.
 
 ## LLM Usage Statement
 
 <div class="template-guide"><div class="guide-label">Apart template prompt · verbatim</div><p>If you used LLM assistance in developing your project or writing this report, briefly note how. Ensure all claims and results have been verified.</p><details><summary>Full guidance for this section</summary><div class="full-guidance"><p>If you used LLM assistance in developing your project or writing this report, briefly note how. Ensure all claims and results have been verified.</p><p>NOTE: We strongly encourage that the final version of the submission is primarily written by your team.</p><p>[e.g., &quot;We used Claude to brainstorm approaches and help draft sections. All results and claims were independently verified.&quot;]</p></div></details></div>
 
-Codex assisted with reading the repository and template, organizing the draft, writing, and layout. Claims are linked to retained records; independent human verification is not asserted. No model runs were launched in preparing this document. The authors must review the claims and write the final version in their own words.
+Codex assisted with source review, organization, writing, and layout. Claims link to retained records; human verification remains pending. No model runs were launched for this draft. The authors must review its claims and write the final version in their own words.
 
 <aside class="pending">
 <strong>Before submission · One contribution, evidenced well</strong>
-<p>Complete or explicitly defer the model result. Update the abstract last. Remove template guidance and team notes after review, as Apart instructs. Keep supporting studies in the appendix.</p>
+<p>Complete or defer model results; update the abstract last. Remove guidance and team notes after review. Keep supporting studies in the appendix.</p>
 </aside>

@@ -17,6 +17,6 @@ const out=path.resolve(__dirname,'../../web/paper-draft-en');
     if(fits.length!==6||fits.some(p=>p.clearance<12||p.overflow))throw Error('Adjust working-draft pagination before publishing.');
     await page.locator('a[href]').evaluateAll(links=>{for(const a of links)a.href=new URL(a.getAttribute('href'),'https://mpodeley.github.io/agent-delegate-sprint-2026/paper-draft-en/').href});
     await page.pdf({path:path.join(out,'paper-draft.pdf'),preferCSSPageSize:true,printBackground:true,timeout:15000});
-    console.log('Exported six-page English PDF; section prompts and original vector figure included.');
+    console.log('Exported six-page English PDF; section prompts and revised vector figure included.');
   }finally{await browser.close()}
 })().catch(e=>{console.error(e);process.exitCode=1});

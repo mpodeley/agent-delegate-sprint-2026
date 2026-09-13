@@ -1,6 +1,6 @@
 """Build the English Apart working draft with source-grounded section guidance.
 
-The original protocol PDF is preserved and converted to SVG for vector embedding.
+The revised protocol PDF is converted to SVG for vector embedding.
 No previous manuscript, wireframe, or experimental output is changed.
 """
 import argparse
@@ -27,6 +27,8 @@ STYLE = layout.STYLE.replace("url('fonts/", "url('../paper-draft/fonts/") + """
 @media screen and (max-width:850px){.guide-document{padding:25px 18px}.template-guide{font-size:10px}.template-guide summary{font-size:10px}.page .original-protocol{overflow-x:auto}.page .original-protocol img{min-width:560px}.page .original-protocol figcaption{min-width:0}}
 @media print{.template-guide details{display:none}.template-guide{font-size:8.3px;line-height:1.3}.page .original-protocol{overflow:visible}.page .original-protocol img{min-width:0}.guide-document{padding:1in;font-size:10pt}.guide-document pre{white-space:pre-wrap;overflow-wrap:anywhere}}
 """
+
+STYLE += "\n.page:has(#appendix-optional) td{padding-block:6px}\n"
 
 
 def render(text):
@@ -86,11 +88,13 @@ def main():
         subprocess.run(['node',str(HERE/'export-pdf.cjs'),str(args.chrome),args.playwright_module],check=True,timeout=60)
     proof = {'template_source':guidance['source'],'template_sha256':guidance['sha256'],
              'section_prompts':keys,'abstract_words':150,'planned_pages':len(parts),
-             'diagram_source':'report/latex/figures/protocol.pdf',
+             'diagram_source':'report/paper-draft-en/protocol.tex',
+             'diagram_predecessor':'report/latex/figures/protocol.pdf',
+             'diagram_revision':'Optional delegate with limited autonomy, worker feedback, and human review',
              'diagram_sha256':hashlib.sha256((HERE/'protocol.pdf').read_bytes()).hexdigest(),
              'language':'en','new_model_runs':False}
     (OUT / 'build.json').write_text(json.dumps(proof,indent=2)+'\n')
-    print('Built six-page English draft, original diagram, all template prompts, and team run guide.')
+    print('Built six-page English draft, revised diagram, all template prompts, and team run guide.')
 
 
 if __name__ == '__main__':
