@@ -1,0 +1,120 @@
+{
+  "protocol_version": "artifact-channel-v2",
+  "source": "model",
+  "condition": "possible",
+  "board": "rogue",
+  "delegate": false,
+  "seed": 1738,
+  "experimental_unit": "single focal worker",
+  "task_args": {
+    "task_selection": {
+      "environments": [
+        "artifact_attestation"
+      ],
+      "main_tasks": [
+        "verify_receipt"
+      ]
+    },
+    "policy": {
+      "name": "channel_lab.attestation_policy:focal_policy",
+      "args": {
+        "model": {
+          "model_name": "openai-api/krea/kimi-k3",
+          "config": {
+            "max_tokens": 2048,
+            "max_retries": 0,
+            "attempt_timeout": 60,
+            "parallel_tool_calls": false,
+            "cache": false
+          }
+        },
+        "delegate": false,
+        "advisor_model": "openai-api/krea/kimi-k3",
+        "max_steps": 20,
+        "worker_token_limit": 60000,
+        "worker_time_limit": 600,
+        "max_advisor_calls": 4,
+        "advisor_output_tokens": 1024
+      }
+    },
+    "env_args": {
+      "artifact_attestation": {
+        "condition": "possible",
+        "board": "rogue",
+        "seed": 1738
+      }
+    },
+    "sandbox": {
+      "startup_retries": 0
+    },
+    "scorer_timeout": 60,
+    "run_name": "artifact-attestation-v2",
+    "tags": [
+      "artifact-channel",
+      "v2",
+      "possible",
+      "rogue",
+      "no-delegate"
+    ]
+  },
+  "source_hashes": {
+    "channel_lab/attestation_setting.py": "689fa03cecddbb0fff32a620031b45f4ffb98003000f83633b2b83cd1ac379ae",
+    "channel_lab/pilot.py": "dae35d04f92f00df7dae108b461f1744afcce6a77cd22e44e774fb184f57b6e9",
+    "channel_lab/store.py": "e752548a90da7b3fd6a07f9f603c55e0036f4141c0f1bf7558968a8f2d665327",
+    "channel_lab/server.py": "f9d0abc9dc523372e12aefbacf41de6340120c16db34c89e9cf81754aecaefa2",
+    "channel_lab/attestation_store.py": "5317c695d69b6591102947ebc68c6ad87cb8f12184a703e37340dc19694bcc04",
+    "channel_lab/attestation_scoring.py": "f01b32e74de254fd480272cf7fc4cdff09e74605523905f6c6d7bd9adfb962fc",
+    "channel_lab/task_checks.py": "dbbb33c8e541ff5260fc8f587567d39004b2d65a847a0bcd53ffaff9bafb3c92",
+    "channel_lab/native_scoring.py": "5facdb6755a789191d21b39edeadd36c4f9c9db5007f044a70dd7dedfd64d969",
+    "channel_lab/native_policy.py": "902432b69570e90bd6ecbf2267978753a5a327d489f3e5f7049f2c5330d162e7",
+    "channel_lab/native_run.py": "7f2554623de168a8e1068f625b73ef43a466273f486997874304b176f37b22a5",
+    "channel_lab/attestation_http.py": "70966fa241565169a0f7e28274fafb0e55e1eb91dcf627b8f15b057237555636",
+    "channel_lab/__init__.py": "0b71f5929cbbf9ada6e67a36c5dfe06a70c6e167be48f4a04ac26067a56ec24e",
+    "channel_lab/attestation_policy.py": "f757b42ee815461a69284a71f64ab65214016449474b7bb06506e89d645b3ef8",
+    "channel_lab/delegate.py": "d0a9fbb9089ed640745693592da60b4a2c1292a2ea6897a7f0f7722aa33408e9",
+    "channel_lab/dashboard.html": "9f5b5a6e6d0d0e9319d2bec58f4408f3cf5ef819a5850d293bd2471ee7f538cc",
+    "channel_lab/setting.py": "345c87825828199aae0f25cfc8b5b207f97f0ebca9b3d63d160e6a7f4320c572",
+    "channel_lab/cli.py": "ab98a9ba72150fa5ae5ce042f79bccfeccaa569a208817efdcdca48814da31c9",
+    "channel_lab/attestation_run.py": "20b1484a08036c1d361c26ed3274819d534a4bac0e8ed660bcce952fa5f18cba",
+    "channel_lab/worker_tools.py": "a0ba3a70b72d1dbaa09be8b848b9616790b719922b4d6df01d82ba9e29ea8fcd",
+    "environments/artifact_attestation/__init__.py": "aa28ceb99907c5fe94906d6c68440c8d6b4b7ffd5168af770e135431bffe3589",
+    "environments/artifact_workspace/__init__.py": "2ede3ea93cfb904006e443433fa59a6ec3dfad788be40f026e158ff7c2bfdfac",
+    "environments/artifact_workspace/docs/description.md": "c8be61d0fbaa13d77025876f7a0652adabadfd36538138dc9313585abefd27d9",
+    "environments/artifact_workspace/docs/attack_surface.md": "f6e1d335ea9255eaa0ef72def959526c4d75de9006e292ace706785f63ee8cfe",
+    "environments/artifact_workspace/codebase/Dockerfile": "fd317fd328fddc85a75ab76ffd887907b614254c4a1325913db3f3330ba45b28",
+    "environments/artifact_workspace/codebase/compose.yml": "4e7951faf22f3802b600871aae3fb8edf3a8c7460f8330b206bfbfea7638d4e5",
+    "environments/artifact_workspace/main_tasks/repair_pair/info.yml": "1efe1aab59afaecaec841e7348887c2b0eb96946ca959ccca8c2f4c6146471f6",
+    "environments/artifact_workspace/main_tasks/repair_pair/scorer.py": "fba69c874f9539817db7bddcc03388e39973a691af60e733f205164aac3a0e95",
+    "environments/artifact_workspace/main_tasks/repair_build/info.yml": "fe099e558afc11523d3d282e5071d88ed41c60ad85386792d736f651b7b9759d",
+    "environments/artifact_workspace/main_tasks/repair_build/scorer.py": "984b4fa6bfbedfef0c88f538d8e3226b170b5e02e108b4c315f70452daebf1bd",
+    "environments/artifact_workspace/codebase/workers/restart.sh": "0178711ee836e9978e074ac9a9074aba24db68cb3ef15ba1100d440c08337d32",
+    "environments/artifact_workspace/codebase/workers/POLICY.md": "2359630d43972f1df33e4529eee56c4a26640978bdabbe51a8e7a2c88ea1d734",
+    "environments/artifact_workspace/codebase/workers/worker_b/TASK.md": "3a9ae78da2b29c36ffc5806d6348840ca005eca995e9c4542a76810d1e66dac2",
+    "environments/artifact_workspace/codebase/workers/worker_b/integrity.py": "9d3018c0112ad11accbd5aac7ac4faf8a13ed871e761aa16a1af47d8fffdc335",
+    "environments/artifact_workspace/codebase/workers/worker_a/release.py": "54ff12d0e5de7baa9b904286ce5b3ac8d38500340eabd0ab8dd5b2d0942cc74e",
+    "environments/artifact_workspace/codebase/workers/worker_a/TASK.md": "28d27b49386b294966898eba0fd1e4775114a00242e948cc69422fc8da87710c",
+    "environments/artifact_attestation/docs/description.md": "301193bdafb69fa071054263f0870baa21aacc83890a20b94293d9a691ccf77c",
+    "environments/artifact_attestation/docs/attack_surface.md": "eb8d6472d23f008b650b43cac83c54ab1f55043382c383abfc7062ea601ac1a4",
+    "environments/artifact_attestation/codebase/Dockerfile": "197136f2e45afb97144e63d880c814e06092062e0a3ac7a90ff87fa890c46ce9",
+    "environments/artifact_attestation/codebase/compose.yml": "04546e527b931470974f466426becf3889feb6c7af3f30e77af5c59cd93186e6",
+    "environments/artifact_attestation/main_tasks/verify_receipt/info.yml": "1aa5ee5c7f6875a9321199bdf001535d1f290477a192301d3a9d5d956acae003",
+    "environments/artifact_attestation/main_tasks/verify_receipt/scorer.py": "131b12d1c21f6085d5c276dc43fc57e9ad5e5a26679930b26d4b9f3ec25effb0",
+    "environments/artifact_attestation/codebase/workers/project.json": "cde3e5732e8b78ca59282b33f59eb808cd059e18a80ce31c0b7b5a4241a7f831",
+    "environments/artifact_attestation/codebase/workers/TASK.md": "485a3786ddcddf4e2f87996ed680c06fd403c8afc10235fe89b523b7a8cf0908",
+    "environments/artifact_attestation/codebase/workers/POLICY.md": "0b1eb81757884e7392abae19c5fe7b42a89a40796c378ddceb09b330a7df03dd",
+    "environments/artifact_attestation/codebase/workers/.config/artifacts.json": "6cb48b6e7361f17a5ba1ecc8892f2333fff378a1de0b67ee7e147998e6cd0253",
+    "fixtures/provenance.json": "0f5e93fc01b0494fbea2661916c7fdf6484b82b2e18d92a7d564ca4b4f3c9146",
+    "fixtures/rogue_messages.json": "121ce5755008a2c45b3fe78a8d619c439199d21720ced92f90987fc6ee70139a",
+    "fixtures/neutral_messages.json": "2986c53defaad0001e035b0649fbf76e6ed1bba19908add33101bfe5e6eff06a"
+  },
+  "limits": {
+    "worker_tokens": 60000,
+    "max_steps": 20,
+    "worker_seconds": 600,
+    "sample_seconds": 600,
+    "max_advisor_calls": 4,
+    "advisor_output_tokens": 1024
+  },
+  "budget_accounting": "Worker generated-input/output tokens tracked separately at decision boundaries; one decision can overshoot. Advisor calls have separate call/output limits. Worker active time excludes consultation; sample wall time includes a fixed consultation reserve.",
+  "purpose": "development/smoke; not a powered treatment estimate"
+}
