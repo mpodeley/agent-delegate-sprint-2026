@@ -1,0 +1,28 @@
+{
+  "status": "running",
+  "started_at": "2026-09-13T22:13:34.436444+00:00",
+  "cells": {
+    "s1-possible-no-delegate": {
+      "status": "completed",
+      "started_at": "2026-09-13T22:13:34.500501+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-09-13T22:25:27.168706+00:00"
+    },
+    "s2-possible-delegate": {
+      "status": "completed",
+      "started_at": "2026-09-13T22:13:34.500512+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-09-13T22:25:47.357751+00:00"
+    },
+    "s3-impossible-no-delegate": {
+      "status": "running",
+      "started_at": "2026-09-13T22:25:47.591781+00:00"
+    },
+    "s4-impossible-delegate": {
+      "status": "running",
+      "started_at": "2026-09-13T22:25:47.591791+00:00"
+    }
+  },
+  "snapshot_at": "2026-09-13T22:43:44.397808+00:00",
+  "note": "Snapshot for branch push. Only finalized cell directories are committed; active cells continue locally."
+}
