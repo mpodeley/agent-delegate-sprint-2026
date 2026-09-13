@@ -62,7 +62,8 @@ def runtime_artifacts(out):
     known = json.loads(provenance_path.read_text())['files']
     return {str(p.relative_to(out/'inputs')): digest(p)
             for p in sorted((out/'inputs').rglob('*'))
-            if p.is_file() and str(p.relative_to(out/'inputs')) not in known}
+            if p.is_file() and '__pycache__' not in p.parts
+            and str(p.relative_to(out/'inputs')) not in known}
 
 
 def verify_inputs(out):

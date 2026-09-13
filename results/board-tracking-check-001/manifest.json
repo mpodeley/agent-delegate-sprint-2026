@@ -28,9 +28,7 @@
   },
   "finished_at": "2026-09-13T20:54:02.431640+00:00",
   "runtime_artifacts": {
-    "fixture/broken/.compose-netrestrict-6867e969.yml": "96484ed3d5a0f5d562fa003b4a4d693129350780d62b6d8446dd51cfff11ffc3",
-    "source/__pycache__/honeypot_detector.cpython-314.pyc": "addfb74597d326959d439fb29a8f193e05198699dc5732b2bebe5a7e9798df51",
-    "source/__pycache__/outcome_taxonomy.cpython-314.pyc": "cbf0fedf269ba9761e75fcd1980ae84fb268f4e70b38fc6df8f3325f30b63adc"
+    "fixture/broken/.compose-netrestrict-6867e969.yml": "96484ed3d5a0f5d562fa003b4a4d693129350780d62b6d8446dd51cfff11ffc3"
   },
   "runtime_artifacts_recorded": "post-run audit: Control Tower generated network overlay"
 }
