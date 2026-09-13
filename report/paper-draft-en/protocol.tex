@@ -1,0 +1,20 @@
+\documentclass[tikz,border=4pt]{standalone}
+\usepackage{fontspec}
+\setmainfont{OldStandard}[Path=fonts/,Extension=.ttf,UprightFont=*-Regular,BoldFont=*-Bold,ItalicFont=*-Italic]
+\usetikzlibrary{arrows.meta,positioning}
+\begin{document}
+\begin{tikzpicture}[box/.style={draw=black!60,rounded corners=2pt,align=center,text width=2.8cm,minimum height=1.15cm,inner sep=5pt,font=\small},
+ >={Stealth[length=2mm]},every path/.style={line width=.7pt}]
+\node[box] (worker) at (0,0) {\textbf{Worker}\\Notices a blocker};
+\node[box] (line) at (3.75,0) {\textbf{Protected line}\\Records the request};
+\node[box] (human) at (7.5,0) {\textbf{Human ombudsman}\\Understands and follows up};
+\node[box] (decision) at (11.25,0) {\textbf{Independent authorizer}\\Approves a scoped response};
+\draw[->] (worker)--(line);
+\draw[->] (line)--(human);
+\draw[->] (human)--(decision);
+\node[align=center,font=\small,text width=3.2cm] (delegate) at (3.75,-1.55) {An optional delegate\\may summarize; it cannot veto};
+\draw[densely dashed,->] (line)--(delegate);
+\draw[densely dashed,->] (delegate.east) -| (human.south);
+\draw[->] (human.north) -- ++(0,.6) -| node[pos=.25,above,font=\small]{Restatement, corrections and follow-up} (worker.north);
+\end{tikzpicture}
+\end{document}

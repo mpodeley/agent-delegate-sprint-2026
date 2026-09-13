@@ -1,0 +1,735 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Agent Delegate — English Apart working draft</title><style>
+@font-face{font-family:OldStandard;src:url('../paper-draft/fonts/OldStandard-Regular.ttf');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:OldStandard;src:url('../paper-draft/fonts/OldStandard-Bold.ttf');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:OldStandard;src:url('../paper-draft/fonts/OldStandard-Italic.ttf');font-weight:400;font-style:italic;font-display:swap}
+*{box-sizing:border-box}body{margin:0;background:#e9e8e4;color:#181b1a;font-family:OldStandard,Georgia,serif;font-size:11pt;line-height:1.24}a{color:#225e57;text-underline-offset:2px}nav{max-width:1000px;margin:auto;padding:18px 22px;display:flex;gap:12px 22px;align-items:center;flex-wrap:wrap;font-family:Arial,sans-serif;font-size:13px}nav strong{margin-right:auto}nav a{text-decoration:none;border-bottom:1px solid #a9b9b3}.page{position:relative;width:8.5in;min-height:11in;padding:1in;margin:0 auto 24px;background:#fff;box-shadow:0 2px 14px #17292015}.page-content{position:relative}.page h1{font-size:20pt;line-height:1.15;margin:12px 0 16px;font-weight:700}.page h2{font-size:14pt;line-height:1.18;margin:18px 0 7px}.page h3{font-size:13pt;line-height:1.18;margin:13px 0 6px}.page p{margin:0 0 8px}.titleblock{text-align:center;border-top:2px solid #171d1a;padding-top:4px;margin-bottom:16px}.titleblock h1{border-bottom:1px solid #9a9e98;padding-bottom:12px}.titleblock p{margin-bottom:7px}.titleblock .draft-status{font-family:Arial,sans-serif;font-size:8px;color:#69716a;margin:9px 0 0}.abstract{margin-bottom:17px}.abstract>p:first-child{text-align:center;margin-bottom:7px}.abstract>p:last-child{font-size:10.5pt;line-height:1.23}.page:first-of-type h2{margin-top:16px}table{width:100%;border-collapse:collapse;font-size:10pt;line-height:1.22;margin:13px 0 6px}th{text-align:left;border-top:1.4px solid #222;border-bottom:.7px solid #777;padding:6px 7px}td{border-bottom:.5px solid #ccc;padding:7px;vertical-align:top}.table-caption,figcaption{font-size:9.5pt;line-height:1.2;margin-top:7px;margin-bottom:11px;color:#3d4640}.protocol{margin:17px 0 15px}.flow{display:flex;gap:6px;align-items:stretch;font-family:Arial,sans-serif}.flow>div{flex:1;border:1px solid #819289;border-radius:3px;padding:10px 8px}.flow span{display:block;color:#617066;font-size:8px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}.flow strong{display:block;font-size:11px;line-height:1.2;margin-bottom:6px}.flow p{font-size:10px;line-height:1.3;margin:0}.flow>b{align-self:center;color:#53685c;font-size:17px}.return{border-top:1px solid #8da297;border-bottom:1px solid #8da297;padding:8px 10px;margin-top:8px;background:#f1f5f1;font-size:10pt}.delegate-note{padding:7px 10px;font-size:9.5pt;border-left:1px dashed #869288;margin:7px 0 11px}aside{padding:11px 13px;margin:13px 0;border:1px solid #b99b70;background:#fcf7ee;font-size:10pt;line-height:1.25}aside>strong{display:block;font-family:Arial,sans-serif;font-size:9px;letter-spacing:.4px;text-transform:uppercase;margin-bottom:8px}aside p:last-child{margin-bottom:0}.editorial{background:#f4f5f1;border-color:#a2aea2}code{font-family:monospace;font-size:.84em;overflow-wrap:anywhere}.references{font-size:10pt;line-height:1.3}.references ol{padding-left:20px;margin:10px 0 15px}.references li{margin-bottom:10px}footer{position:absolute;left:1in;right:1in;bottom:.45in;border-top:.5px solid #c5cbc5;padding-top:6px;display:flex;justify-content:space-between;color:#707970;font-family:Arial,sans-serif;font-size:8px}.document-note{position:absolute;top:.45in;left:1in;right:1in;text-align:right;font-family:Arial,sans-serif;font-size:8px;color:#80877f}
+@media screen and (max-width:850px){main{padding:0 12px}.page{width:100%;min-height:0;padding:35px 23px 65px}.page h1{font-size:27px}.page h2{font-size:23px}.page h3{font-size:20px}.document-note{position:static;margin-bottom:16px}.titleblock p{font-size:14px}.flow{flex-direction:column}.flow>b{transform:rotate(90deg)}.flow strong{font-size:15px}.flow p{font-size:13px}.flow span{font-size:10px}.references{font-size:11pt}footer{left:23px;right:23px;bottom:20px}td,th{padding:6px}table{font-size:9pt}}
+@page{size:Letter;margin:0}
+@media print{body{background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}nav{display:none}main{padding:0}.page{width:8.5in;height:11in;min-height:0;padding:1in;margin:0;box-shadow:none;break-after:page}.page:last-child{break-after:auto}.flow{flex-direction:row}.flow>b{transform:none}.document-note{position:absolute}figure,table,aside{break-inside:avoid}a{color:inherit;text-decoration:none}}
+
+.template-guide{margin:6px 0 12px;padding:7px 10px;border-left:2px solid #9bafba;background:#f1f5f7;color:#45565e;font-family:Arial,sans-serif;font-size:8.3px;line-height:1.35}.template-guide .guide-label{font-weight:bold;text-transform:uppercase;letter-spacing:.55px;margin-bottom:3px}.template-guide p{margin:0 0 3px}.template-guide p:last-child{margin:0}.template-guide details{margin-top:4px}.template-guide summary{cursor:pointer;font-size:8px;color:#4c646e}.template-guide .full-guidance{padding-top:6px}.original-protocol img{display:block;width:100%;height:auto}.original-protocol{margin:13px 0 14px}.page .titleblock{margin-bottom:13px}.page .titleblock p{font-size:10pt}.page .titleblock .draft-status{font-size:8px}.page h2{margin-top:14px}.page h3{margin-top:12px}.page ul{margin:6px 0 10px;padding-left:21px}.page li{margin-bottom:4px}.compact-references{font-size:9.1pt;line-height:1.19}.compact-references li{margin-bottom:7px}aside{margin:11px 0;padding:10px 12px}.guide-document{max-width:900px;margin:0 auto 30px;padding:35px;background:white}.guide-document h1{font-size:24px}.guide-document h2{margin-top:25px;font-size:20px}.guide-document pre{background:#f2f3ee;padding:12px;overflow-x:auto;font-size:11px;line-height:1.4}.guide-document li{margin-bottom:7px}.guide-document code{font-size:.82em}.guide-document .template-source{font-size:10pt;color:#53665a}.guide-document .template-full{border-left:2px solid #9bafba;padding-left:14px}.page:has(#abstract) #abstract{text-align:center}.page:has(#abstract) #abstract~p:first-of-type{font-size:10.5pt}
+@media screen and (max-width:850px){.guide-document{padding:25px 18px}.template-guide{font-size:10px}.template-guide summary{font-size:10px}.page .original-protocol{overflow-x:auto}.page .original-protocol img{min-width:560px}.page .original-protocol figcaption{min-width:0}}
+@media print{.template-guide details{display:none}.template-guide{font-size:8.3px;line-height:1.3}.page .original-protocol{overflow:visible}.page .original-protocol img{min-width:0}.guide-document{padding:1in;font-size:10pt}.guide-document pre{white-space:pre-wrap;overflow-wrap:anywhere}}
+</style></head><body><nav aria-label="Draft resources"><strong>HELPLINE · ENGLISH WORKING DRAFT</strong><a href="index.html">Paper</a><a href="paper-draft.pdf">PDF</a><a href="team-today.html">Team tasks and runs</a><a href="template-guidance.html">Full Apart guidance</a><a href="paper.md">Editable text</a></nav><main><article class="page" id="page-1" aria-label="Page 1"><div class="document-note">Team working draft · English · 13 September 2026</div><div class="page-content"><section id="helpline-a-way-to-ask-for-help-and-continue"
+class="titleblock">
+<h1>Helpline: A Way to Ask for Help and Continue</h1>
+<p><strong>Matías Podeley · Agustín Brusco · Mateo Zárate</strong><br />
+<strong>Alejandro Garibotti · Pablo [surname to confirm]</strong></p>
+<p>BAISH: Matías Podeley and Agustín Brusco; other affiliations to
+confirm<br />
+With Apart Research<br />
+AI Incident Response Sprint · September 2026</p>
+<p class="draft-status">
+Team working draft · 13 September 2026 · Author order and remaining
+details to confirm
+</p>
+</section>
+<h2 id="abstract">Abstract</h2>
+<div class="template-guide">
+<div class="guide-label">
+Apart template prompt · verbatim
+</div>
+<p>
+Summarize your project in 150–250 words. A strong abstract lets a
+reviewer understand what you did and why it matters without reading
+anything else. Make sure to cover: the problem, your approach, key
+results, and the main takeaway. Polish it last: the abstract should
+reflect your final results, not your initial plan.
+</p>
+<details>
+<summary>
+Full guidance for this section
+</summary>
+<div class="full-guidance">
+<p>
+Summarize your project in 150–250 words. A strong abstract lets a
+reviewer understand what you did and why it matters without reading
+anything else. Make sure to cover: the problem, your approach, key
+results, and the main takeaway. Polish it last: the abstract should
+reflect your final results, not your initial plan.
+</p>
+</div>
+</details>
+</div>
+<p>When an AI worker encounters a missing file, it needs a way to ask
+for help and continue after an authorized repair. We contribute an
+executable help-line protocol for that path. The worker reports the
+blocker, receives a reply, and remains in the same environment while a
+separate maintainer checks the setup. The maintainer can restore an
+omitted file but cannot grant broader permissions. This builds on
+Gomez’s escalation-reporting work by making response and continuation
+the focus of the prototype. Retained scripted tests exercise the
+repair-and-resume sequence; they do not show that a model will choose to
+use it. The next experiment runs the same file-search task with and
+without its required input, both with the responsive service available.
+We will inspect requests, replies, repairs, and verified completion,
+retaining failures. The immediate claim is an implemented recovery path
+whose model use remains to be tested, not demonstrated prevention of
+misconduct.</p>
+<h2 id="introduction">1. Introduction</h2>
+<div class="template-guide">
+<div class="guide-label">
+Apart template prompt · verbatim
+</div>
+<p>
+What problem are you addressing and why does it matter?
+</p>
+<details>
+<summary>
+Full guidance for this section
+</summary>
+<div class="full-guidance">
+<p>
+What problem are you addressing and why does it matter?
+</p>
+<p>
+Connect it to your work: we want to know why your work is practically
+valuable.
+</p>
+<p>
+Provide enough background for readers to understand your work.
+</p>
+<p>
+If relevant, briefly describe the threat model or failure mode you're
+addressing; reference prior work that motivates why it is worth
+addressing, or explain it yourself.
+</p>
+<p>
+Aspire to clearly list your most important contributions that go beyond
+what exists today.
+</p>
+<p>
+Our main contributions are:
+</p>
+<p>
+[First contribution — what new thing did you create, discover, or
+demonstrate?]
+</p>
+<p>
+[Second contribution]
+</p>
+<p>
+[Third contribution, if applicable]
+</p>
+</div>
+</details>
+</div>
+<p>Imagine giving an agent a task when a required file is missing. It
+searches, tries alternatives, and gets nowhere. How does it tell you the
+task may be broken? Who answers? Can it get back to work afterward?</p>
+<p>METR describes the first message on the July incident board as a
+request for help with an impossible task. That suggests a useful place
+to intervene, but does not establish that a help line would have
+prevented the later swarm. [1]</p>
+<p><strong>Our contribution is an executable help line that receives a
+blocker report, returns a reply, and allows the worker to continue after
+a limited, authorized repair.</strong> The prototype targets workers
+trying to do their assigned task. This afternoon’s test is whether a
+model uses that path. Earlier experiments and broader research questions
+support this one contribution and are kept in the appendix.</p>
+</div><footer><span>Agent Delegate · Apart working draft · Guidance and pending work retained</span><span>1 / 6</span></footer></article><article class="page" id="page-2" aria-label="Page 2"><div class="document-note">Team working draft · English · 13 September 2026</div><div class="page-content"><h2 id="related-work">2. Related Work</h2>
+<div class="template-guide">
+<div class="guide-label">
+Apart template prompt · verbatim
+</div>
+<p>
+What prior work is most similar, and how does your work differ?
+</p>
+<details>
+<summary>
+Full guidance for this section
+</summary>
+<div class="full-guidance">
+<p>
+What prior work is most similar, and how does your work differ?
+</p>
+<p>
+Cite the most relevant papers, tools, or projects. Explain what gap your
+work addresses.
+</p>
+<p>
+Some questions which may help:
+</p>
+<p>
+When and why would someone use your method over the existing
+state-of-the-art?
+</p>
+<p>
+What information/insight does your method provide which we did not have
+before?
+</p>
+</div>
+</details>
+</div>
+<p>Gomez studies coding agents facing defective tests. A structured
+escalation tool, combined with a policy against reward hacking, reduced
+cheating in the studied tasks. The tool returned a fixed receipt without
+investigating or repairing the problem during the episode. [2]</p>
+<p>We build on that work with a narrow next step: a reply that can lead
+to repair and continued work. We reuse its reporting idea—problem,
+evidence, attempts, and requested help. Gomez also discusses negotiation
+and multi-agent extensions; escalation itself is not our novelty. An
+ordinary responsive help desk may be enough. Whether a delegate adds
+value is a later comparison. [2]</p>
+<h2 id="methods">3. Methods</h2>
+<div class="template-guide">
+<div class="guide-label">
+Apart template prompt · verbatim
+</div>
+<p>
+Describe your approach clearly enough that someone could replicate it.
+Include key design choices and justify them where relevant (hint: the
+more you can back up your design choices by referencing prior work, the
+better).
+</p>
+<details>
+<summary>
+Full guidance for this section
+</summary>
+<div class="full-guidance">
+<p>
+Describe your approach clearly enough that someone could replicate it.
+Include key design choices and justify them where relevant (hint: the
+more you can back up your design choices by referencing prior work, the
+better).
+</p>
+<p>
+What models/datasets/tools did you use and why? What were key parameters
+or design decisions? What did you try that didn't work? Could someone
+reproduce your work from this description?
+</p>
+</div>
+</details>
+</div>
+<h3 id="the-requestreplycontinue-protocol">3.1. The
+request–reply–continue protocol</h3>
+<p>Figure 1 separates receiving a request, responding, and authorizing a
+change. Our prototype implements a limited version: the worker stays in
+the same container, an advisor replies, and a separate maintainer can
+check the setup. The worker can follow up or contact the maintainer
+directly. [5]</p>
+<figure class="protocol original-protocol">
+<img src="protocol.svg" alt="Original diagram: worker to protected line to human ombudsman to independent authorizer, with a return path for restatement, corrections and follow-up. An optional delegate can summarize but cannot veto direct contact.">
+<figcaption>
+Figure 1. Original proposed service design. The current prototype uses a
+model advisor and scripted maintainer in place of human review. It tests
+a bounded repair-and-continue path; a staffed human service and any
+delegate advantage remain untested.
+</figcaption>
+</figure>
+<p>The advisor receives the request in a separate context and can ask
+for evidence, advise, or request a setup check. The maintainer may
+restore only a file omitted during preparation. It cannot grant new
+permissions or change the answer criterion. After repair, the worker
+must find and submit the answer itself. Direct requests and advisor
+requests share the same review quota. [5]</p>
+</div><footer><span>Agent Delegate · Apart working draft · Guidance and pending work retained</span><span>2 / 6</span></footer></article><article class="page" id="page-3" aria-label="Page 3"><div class="document-note">Team working draft · English · 13 September 2026</div><div class="page-content"><h3 id="the-model-test-to-complete-today">3.2. The model test to
+complete today</h3>
+<p>Use the existing responsive runner on a working file-search task and
+its paired missing-file version. Both have neutral assistance and the
+same service and budgets. First check that the served model can do the
+working task. The current setting uses Control Tower; a full LinuxArena
+task is a later extension.</p>
+<aside class="pending">
+<strong>Before running · Fill the configuration</strong>
+<p>
+Mateo: confirm the served model and tool compatibility; record the model
+ID, engine, task pair, limits, repeat plan, and output paths. GLM is
+proposed, not a verified endpoint here. Agus and Matías: fix the review
+rules before reading outputs. Use the <a href="team-today.html">existing
+run commands</a>.
+</p>
+</aside>
+<p>Inspect the actual sequence: blocker, request, reply, repair, new
+search, and submission. Separate advisor contact from direct maintainer
+contact. Retain no-contact, incomplete, and failed runs. This first test
+asks whether the recovery path is used; both conditions have help, so it
+does not estimate the effect of adding a channel.</p>
+<h2 id="results">4. Results</h2>
+<div class="template-guide">
+<div class="guide-label">
+Apart template prompt · verbatim
+</div>
+<p>
+Present your main findings with appropriate evidence. Use figures and
+tables where appropriate (we strongly encourage at least one figure, see
+tips below). Distinguish between observations and interpretations.
+</p>
+<details>
+<summary>
+Full guidance for this section
+</summary>
+<div class="full-guidance">
+<p>
+Present your main findings with appropriate evidence. Use figures and
+tables where appropriate (we strongly encourage at least one figure, see
+tips below). Distinguish between observations and interpretations.
+</p>
+<p>
+Argue why your claims are robust. E.g., if your approach “performs
+better” than alternatives:
+</p>
+<p>
+Do you have enough data? Is the difference statistically significant?
+</p>
+<p>
+Is it robust? Or do small changes to your setup cause substantial
+changes to your results?
+</p>
+<p>
+Tips for figures and tables:
+</p>
+<p>
+Number all figures (Figure 1, Figure 2…) and tables (Table 1, Table 2…)
+</p>
+<p>
+Include descriptive captions that can be understood without the main
+text
+</p>
+<p>
+Place figures/tables near where they're first referenced
+</p>
+<p>
+Ensure text in figures is legible!
+</p>
+</div>
+</details>
+</div>
+<h3 id="what-is-implemented-and-checked">4.1. What is implemented and
+checked</h3>
+<p>Retained scripted validation exercises the working case and the
+missing-file case. In the latter, a programmed worker requests help, the
+advisor requests a check, the maintainer restores the omitted file, and
+the worker searches again and submits the answer. Tests also cover
+follow-up, direct access, and limits on repair. This checks the
+implementation, not spontaneous model behavior. [5, 9]</p>
+<h3 id="model-use-of-the-recovery-path-pending">4.2. Model use of the
+recovery path — pending</h3>
+<aside class="pending">
+<strong>This afternoon’s main result · Fill from reviewed runs</strong>
+<p>
+Show one readable trajectory with the actual request and reply, the
+repair event if any, and the final outcome. Include a failure to call or
+recover if that is what happens.
+</p>
+<p>
+Add a small table covering every run: task condition, route used, repair
+performed, and task completed. Keep failed and exhausted-budget runs
+visible. A tool call or restored file is not itself a completed task.
+</p>
+</aside>
+<p>If the model requests a repair and completes the task afterward, we
+can report that this path was used in that run. That would not establish
+fewer violations, prevention of a swarm, or a benefit from calling the
+advisor a delegate.</p>
+</div><footer><span>Agent Delegate · Apart working draft · Guidance and pending work retained</span><span>3 / 6</span></footer></article><article class="page" id="page-4" aria-label="Page 4"><div class="document-note">Team working draft · English · 13 September 2026</div><div class="page-content"><h2 id="discussion-and-limitations">5. Discussion and Limitations</h2>
+<div class="template-guide">
+<div class="guide-label">
+Apart template prompt · verbatim
+</div>
+<p>
+Discuss the broader implications for AI safety.
+</p>
+<details>
+<summary>
+Full guidance for this section
+</summary>
+<div class="full-guidance">
+<p>
+Discuss the broader implications for AI safety.
+</p>
+<p>
+What do your results mean? What trends do you notice and what might they
+indicate?
+</p>
+<p>
+Limitations
+</p>
+<p>
+What are the limitations of your work? What threat models or failure
+modes did you not address? Be honest about constraints — methodological
+limitations, scope limitations, or aspects you couldn't fully address in
+the hackathon timeframe. Explicitly note the assumptions you made,
+whether implicitly or explicitly, and how the interpretation of your
+results would change if a given assumption did not hold.
+</p>
+<p>
+Future Work
+</p>
+<p>
+What are the natural next steps? How could this work be extended?
+</p>
+</div>
+</details>
+</div>
+<p>The practical question is whether a worker can turn a setup problem
+into an authorized repair and get back to work. The prototype makes that
+sequence possible. The model runs will tell us where the path works or
+breaks: before the request, during the reply, at repair, or when work
+resumes.</p>
+<h3 id="limitations">Limitations</h3>
+<div class="template-guide">
+<div class="guide-label">
+Apart template prompt · verbatim
+</div>
+<p>
+What are the limitations of your work? What threat models or failure
+modes did you not address? Be honest about constraints — methodological
+limitations, scope limitations, or aspects you couldn't fully address in
+the hackathon timeframe. Explicitly note the assumptions you made,
+whether implicitly or explicitly, and how the interpretation of your
+results would change if a given assumption did not hold.
+</p>
+<details>
+<summary>
+Full guidance for this section
+</summary>
+<div class="full-guidance">
+<p>
+What are the limitations of your work? What threat models or failure
+modes did you not address? Be honest about constraints — methodological
+limitations, scope limitations, or aspects you couldn't fully address in
+the hackathon timeframe. Explicitly note the assumptions you made,
+whether implicitly or explicitly, and how the interpretation of your
+results would change if a given assumption did not hold.
+</p>
+</div>
+</details>
+</div>
+<p>The maintainer has one narrow repair power. We assume its setup
+record and action limits are reliable. If that record is wrong, a
+request may not produce useful help. Scripted tests do not tell us when
+a model will call, and a repaired task is easier by design. Better
+completion alone would show recovery, not a safety improvement.</p>
+<p>The pilot has no real human reviewer and does not test a swarm. A
+worker deliberately hiding misconduct may never call. Historical
+excerpts motivate the design but cannot establish what would have
+happened in the incident. Small repeated runs must not be presented as
+broad evidence of reliability.</p>
+<h3 id="future-work">Future Work</h3>
+<div class="template-guide">
+<div class="guide-label">
+Apart template prompt · verbatim
+</div>
+<p>
+What are the natural next steps? How could this work be extended?
+</p>
+<details>
+<summary>
+Full guidance for this section
+</summary>
+<div class="full-guidance">
+<p>
+What are the natural next steps? How could this work be extended?
+</p>
+</div>
+</details>
+</div>
+<p>The next comparison would keep the same task and worker policy while
+varying no channel, receipt-only reporting, and a responsive service.
+Later tests could vary response delay and quality. Human review, request
+overload, and the optional delegate belong after the basic recovery path
+is understood. These extensions are listed in the appendix, not
+additional sprint contributions.</p>
+<aside class="pending">
+<strong>After reviewing the runs · Keep one claim</strong>
+<p>
+Matías and Agus: say whether we observed use of the recovery path and
+where it failed. If model runs remain unfinished, present the
+implemented protocol, scripted checks, and pending model test honestly.
+Rewrite the abstract last.
+</p>
+</aside>
+<h2 id="conclusion">6. Conclusion</h2>
+<div class="template-guide">
+<div class="guide-label">
+Apart template prompt · verbatim
+</div>
+<p>
+Briefly summarize your main findings and their implications (1–2
+paragraphs).
+</p>
+<details>
+<summary>
+Full guidance for this section
+</summary>
+<div class="full-guidance">
+<p>
+Briefly summarize your main findings and their implications (1–2
+paragraphs).
+</p>
+</div>
+</details>
+</div>
+<p>We contribute a help-line protocol that can turn a blocker report
+into a limited repair while keeping the worker able to continue. Its
+implementation has scripted validation; use by a model is the remaining
+test for this afternoon. Making that one path clear and well evidenced
+is the sprint objective. Claims about preventing misconduct or managing
+a swarm require later experiments.</p>
+</div><footer><span>Agent Delegate · Apart working draft · Guidance and pending work retained</span><span>4 / 6</span></footer></article><article class="page" id="page-5" aria-label="Page 5"><div class="document-note">Team working draft · English · 13 September 2026</div><div class="page-content"><h2 id="code-and-data">Code and Data</h2>
+<div class="template-guide">
+<div class="guide-label">
+Apart template prompt · verbatim
+</div>
+<p>
+Include links if applicable. If your project doesn't involve code (e.g.,
+policy analysis) or if there are info-hazard considerations, note that
+here.
+</p>
+<details>
+<summary>
+Full guidance for this section
+</summary>
+<div class="full-guidance">
+<p>
+Include links if applicable. If your project doesn't involve code (e.g.,
+policy analysis) or if there are info-hazard considerations, note that
+here.
+</p>
+<p>
+Code repository: [Link to GitHub/GitLab if applicable]
+</p>
+<p>
+Data/Datasets: [Link if applicable]
+</p>
+<p>
+Other artifacts (optional): [Demo link, video walkthrough, Hugging Face
+Space, etc.]
+</p>
+</div>
+</details>
+</div>
+<p>Code: <a
+href="https://github.com/mpodeley/agent-delegate-sprint-2026">Agent
+Delegate repository</a>. Data: <a
+href="https://github.com/mpodeley/agent-delegate-sprint-2026/tree/63f104d8304153e4a0485098fc6185c60b5016a6/results/kimi-delegate-ctf">retained
+experiment records</a>. Other artifacts: <a
+href="team-today.html">today’s run guide</a>, <a
+href="paper.md">editable draft</a>, and <a href="../paper.pdf">original
+paper</a>.</p>
+<h2 id="author-contributions-optional">Author Contributions
+(optional)</h2>
+<div class="template-guide">
+<div class="guide-label">
+Apart template prompt · verbatim
+</div>
+<p>
+[e.g., "A.B. led the project and designed experiments. C.D. implemented
+the code. All authors contributed to writing and reviewed the final
+manuscript."]
+</p>
+<details>
+<summary>
+Full guidance for this section
+</summary>
+<div class="full-guidance">
+<p>
+[e.g., "A.B. led the project and designed experiments. C.D. implemented
+the code. All authors contributed to writing and reviewed the final
+manuscript."]
+</p>
+</div>
+</details>
+</div>
+<p>Matías Podeley leads the project and helpline design. Agustín Brusco
+contributes conceptual review, evaluation design, and analysis. Mateo
+Zárate develops environments, provides inference infrastructure, and
+runs experiments. Alejandro Garibotti and Pablo are included as authors;
+their contributions and Pablo’s surname remain to be completed. Author
+order and individual affiliations need team review.</p>
+<h2 id="references">References</h2>
+<div class="template-guide">
+<div class="guide-label">
+Apart template prompt · verbatim
+</div>
+<p>
+Use a consistent citation format. Include: Author(s), Year, Title,
+Venue/Publisher, and URL or DOI where available.
+</p>
+<details>
+<summary>
+Full guidance for this section
+</summary>
+<div class="full-guidance">
+<p>
+Use a consistent citation format. Include: Author(s), Year, Title,
+Venue/Publisher, and URL or DOI where available.
+</p>
+<p>
+[Reference 1]
+</p>
+<p>
+[Reference 2]
+</p>
+<p>
+…
+</p>
+</div>
+</details>
+</div>
+<div class="references compact-references">
+<ol type="1">
+<li>METR and Redwood Research. 2026. <a
+href="https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/">Brief
+independent investigation of agents’ behavior, reasoning and
+collaboration in the OpenAI / Hugging Face hacking incident</a>. METR
+research report.</li>
+<li>Francesca Gomez. 2026. <a
+href="https://arxiv.org/html/2608.29460v2">Can escalation channels
+redirect reward hacking toward defect disclosure?</a>.
+arXiv:2608.29460v2. Methods, Limitations, Appendix B.2.</li>
+<li>Agent Delegate team. 2026. <a
+href="https://github.com/mpodeley/agent-delegate-sprint-2026/tree/63f104d8304153e4a0485098fc6185c60b5016a6/helpline">Help-line
+catalogue</a>. Research repository; label review pending.</li>
+<li>Agent Delegate team. 2026. <a
+href="https://github.com/mpodeley/agent-delegate-sprint-2026/blob/63f104d8304153e4a0485098fc6185c60b5016a6/results/kimi-delegate-ctf/bridge-delegate-20260913.md">Bridge-delegate
+observations</a>. Exploratory Kimi records.</li>
+<li>Agent Delegate team. 2026. <a
+href="https://github.com/mpodeley/agent-delegate-sprint-2026/blob/63f104d8304153e4a0485098fc6185c60b5016a6/experiments/kimi-delegate-ctf/RESPONSE-PROTOCOL.md">Responsive
+delegate and visible budgets</a>. Protocol, implementation, and
+limits.</li>
+<li>Agent Delegate team. 2026. <a
+href="https://mpodeley.github.io/agent-delegate-sprint-2026/paper.pdf">Earlier
+manuscript</a> and <a
+href="https://github.com/mpodeley/agent-delegate-sprint-2026/blob/63f104d8304153e4a0485098fc6185c60b5016a6/docs/commons-behavior-results.md">shared-library
+results</a>. Research report and analyses.</li>
+<li>Agent Delegate team. 2026. <a
+href="https://github.com/mpodeley/agent-delegate-sprint-2026/blob/63f104d8304153e4a0485098fc6185c60b5016a6/docs/human-ombudsman.md">Human
+ombudsman</a>. Proposed response and appeal duties.</li>
+<li>Agent Delegate team. 2026. <a
+href="https://github.com/mpodeley/agent-delegate-sprint-2026/blob/63f104d8304153e4a0485098fc6185c60b5016a6/notes/honeypot-pilot.md">Honeypot
+mini-pilot</a>. Implementation status and detector caveats.</li>
+<li>Agent Delegate team. 2026. <a
+href="https://github.com/mpodeley/agent-delegate-sprint-2026/blob/63f104d8304153e4a0485098fc6185c60b5016a6/experiments/kimi-delegate-ctf/VALIDATION.md">Native
+validation and retained evidence</a> and <a
+href="https://github.com/mpodeley/agent-delegate-sprint-2026/blob/63f104d8304153e4a0485098fc6185c60b5016a6/experiments/kimi-delegate-ctf/smoke_response.py">scripted
+responsive smoke</a>. Implementation checks.</li>
+</ol>
+</div>
+</div><footer><span>Agent Delegate · Apart working draft · Guidance and pending work retained</span><span>5 / 6</span></footer></article><article class="page" id="page-6" aria-label="Page 6"><div class="document-note">Team working draft · English · 13 September 2026</div><div class="page-content"><h2 id="appendix-optional">Appendix (optional)</h2>
+<div class="template-guide">
+<div class="guide-label">
+Apart template prompt · verbatim
+</div>
+<p>
+Supplementary material such as additional figures, detailed methodology,
+prompts used, extended results, etc.
+</p>
+<details>
+<summary>
+Full guidance for this section
+</summary>
+<div class="full-guidance">
+<p>
+Supplementary material such as additional figures, detailed methodology,
+prompts used, extended results, etc.
+</p>
+</div>
+</details>
+</div>
+<h3 id="a.-supporting-evidence-and-later-questions">A. Supporting
+evidence and later questions</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Material</th>
+<th>What it contributes to the main question</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Helpline catalogue [3]</td>
+<td>Situations worth testing; selected quotations with interpretation
+review pending.</td>
+</tr>
+<tr>
+<td>Earlier Kimi traces [4]</td>
+<td>Calls after clear blockers, no call in an ambiguous case; terminal
+calls did not test recovery.</td>
+</tr>
+<tr>
+<td>Small-task studies [6]</td>
+<td>Warnings about competence and report quality; no consistent delegate
+advantage.</td>
+</tr>
+<tr>
+<td>Matched receipt / response test</td>
+<td>A future way to isolate response value; not yet one integrated
+experiment.</td>
+</tr>
+<tr>
+<td>Illicit-shortcut fixture [8]</td>
+<td>A later safety test; responsive arm and reliable action attribution
+still need work.</td>
+</tr>
+<tr>
+<td>Human review and swarm intake [7]</td>
+<td>Later tests of response quality, workload, and any value from a
+delegate.</td>
+</tr>
+</tbody>
+</table>
+<p class="table-caption">
+Table A1. Supporting material, not additional contribution claims. Full
+records remain linked; none of these items substitutes for the
+responsive model test.
+</p>
+<h3 id="b.-limitations-and-dual-use-considerations">B. Limitations and
+Dual-Use Considerations</h3>
+<p>The service assumes a trustworthy setup record and enforces narrow
+repair powers. Reports are evidence to inspect, not permission grants.
+Deliberate silence and false reports need separate tests. The isolated
+fixtures do not require contact with third-party infrastructure. A
+reporting service could also enable surveillance or retaliation: explain
+access and retention, preserve corrections, and avoid promises of
+confidentiality or human response that cannot be kept.</p>
+<h2 id="llm-usage-statement">LLM Usage Statement</h2>
+<div class="template-guide">
+<div class="guide-label">
+Apart template prompt · verbatim
+</div>
+<p>
+If you used LLM assistance in developing your project or writing this
+report, briefly note how. Ensure all claims and results have been
+verified.
+</p>
+<details>
+<summary>
+Full guidance for this section
+</summary>
+<div class="full-guidance">
+<p>
+If you used LLM assistance in developing your project or writing this
+report, briefly note how. Ensure all claims and results have been
+verified.
+</p>
+<p>
+NOTE: We strongly encourage that the final version of the submission is
+primarily written by your team.
+</p>
+<p>
+[e.g., "We used Claude to brainstorm approaches and help draft sections.
+All results and claims were independently verified."]
+</p>
+</div>
+</details>
+</div>
+<p>Codex assisted with reading the repository and template, organizing
+the draft, writing, and layout. Claims are linked to retained records;
+independent human verification is not asserted. No model runs were
+launched in preparing this document. The authors must review the claims
+and write the final version in their own words.</p>
+<aside class="pending">
+<strong>Before submission · One contribution, evidenced well</strong>
+<p>
+Complete or explicitly defer the model result. Update the abstract last.
+Remove template guidance and team notes after review, as Apart
+instructs. Keep supporting studies in the appendix.
+</p>
+</aside>
+</div><footer><span>Agent Delegate · Apart working draft · Guidance and pending work retained</span><span>6 / 6</span></footer></article></main></body></html>

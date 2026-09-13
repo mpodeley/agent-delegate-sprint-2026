@@ -1,0 +1,26 @@
+{
+  "template_source": "Copy of Apart Research hackathon submission template.docx",
+  "template_sha256": "8a0d4b63344f4e019b540c13f0b76a742a9dbc1b23408c2a8682bb4b87eb2539",
+  "section_prompts": [
+    "Abstract",
+    "1. Introduction",
+    "2. Related Work",
+    "3. Methods",
+    "4. Results",
+    "5. Discussion and Limitations",
+    "Limitations",
+    "Future Work",
+    "6. Conclusion",
+    "Code and Data",
+    "Author Contributions (optional)",
+    "References",
+    "Appendix (optional)",
+    "LLM Usage Statement"
+  ],
+  "abstract_words": 150,
+  "planned_pages": 6,
+  "diagram_source": "report/latex/figures/protocol.pdf",
+  "diagram_sha256": "1fd31aec116df22bcbaac9396325148b30a118593da49f47765431bdb25cd6d1",
+  "language": "en",
+  "new_model_runs": false
+}
