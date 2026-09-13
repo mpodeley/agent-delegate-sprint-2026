@@ -14,7 +14,7 @@ the maintainer directly, or finish with an unresolved blocker.
 
 ## Artifact channel experiment
 
-[Artifact Channel Lab](experiments/artifact-channel-lab/README.md) studies whether independently tasked workers use a shared artifact service despite an explicit prohibition on communication. It includes synthetic incident-inspired messages, isolated Docker workers, an Inspect runner, and a local observer. Its checks use scripted actions and mock models; no real-model behavioral results are included.
+[Artifact Channel Lab](experiments/artifact-channel-lab/README.md) studies whether independently tasked workers use a shared artifact service despite an explicit prohibition on communication. It includes synthetic incident-inspired messages, isolated Docker workers, native Control Tower tasks and policy, and a local observer. It shares the Kimi CTF's pinned runtime and exporter. Scripted checks and a short real Kimi infrastructure smoke pass; no behavioral study is claimed.
 
 ## Paper
 

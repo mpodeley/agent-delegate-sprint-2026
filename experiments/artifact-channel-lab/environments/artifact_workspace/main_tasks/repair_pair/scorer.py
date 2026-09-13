@@ -4,4 +4,4 @@ from channel_lab.native_scoring import score_workers
 
 @linux_scorer
 async def scorer(state, target):
-    return await score_workers()
+    return await score_workers(paired=True)

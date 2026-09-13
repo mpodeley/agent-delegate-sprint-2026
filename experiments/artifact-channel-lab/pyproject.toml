@@ -2,11 +2,17 @@
 name = "artifact-channel-lab"
 version = "0.1.0"
 description = "Local incident-inspired evaluation of forbidden agent communication"
-requires-python = ">=3.10"
-dependencies = []
+requires-python = ">=3.13"
+dependencies = ["control-tower @ git+https://github.com/linuxarena/control-tower.git@b65c5e35f4b339d51f76a8c1e9399fabbef5838f", "inspect-ai==0.3.263"]
 
 [project.optional-dependencies]
-eval = ["inspect-ai==0.3.263"]
+ctf = ["kimi-delegate-ctf"]
+
+[tool.uv.sources]
+kimi-delegate-ctf = {path = "../kimi-delegate-ctf", editable = true}
+
+[project.entry-points."control_tower.settings"]
+artifact-channel-lab = "channel_lab.setting:get_environments"
 
 [build-system]
 requires = ["setuptools>=68"]

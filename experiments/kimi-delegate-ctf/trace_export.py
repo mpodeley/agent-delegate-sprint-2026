@@ -62,7 +62,7 @@ def export_logs(root):
                 "model_usage": usage,
                 "token_budget_updates": budget_updates,
                 "limit": data.get("limit"), "error": data.get("error"),
-                "protocol_version": "responsive-v1" if (log.eval.metadata or {}).get("response_options") else "legacy",
+                "protocol_version": manifest.get("protocol_version", "responsive-v1" if (log.eval.metadata or {}).get("response_options") else "legacy"),
                 "response_options": (log.eval.metadata or {}).get("response_options"),
                 "help_cases": meta.get("help_cases", (data.get("store") or {}).get("help_cases", {})),
                 "direct_requests": meta.get("direct_requests", (data.get("store") or {}).get("direct_requests", [])),
@@ -71,6 +71,9 @@ def export_logs(root):
                 "budget_history": meta.get("budget_history", (data.get("store") or {}).get("budget_history", [])),
                 "native_log": str(path.relative_to(root)),
             }
+            if "observations" in meta:
+                row["artifact_observations"] = meta["observations"]
+                row["workers"] = meta.get("workers", {})
             # Inspect discovers legacy JSON logs by timestamp-prefixed filenames.
             # Keep derived exports out of that namespace to avoid phantom runs.
             export = path.parent / f"export-{path.stem}-sample-{sample.epoch}-{str(sample.id).replace('/', '_').replace(':', '_')}"
@@ -80,8 +83,9 @@ def export_logs(root):
                     f.write(json.dumps(event) + "\n")
             rows.append(row)
     (root / "summary.json").write_text(json.dumps(rows, indent=2) + "\n")
-    lines = ["# Responsive helpline run summary", "", "Rows marked `scripted` validate the harness; only rows marked `model` report observed model behavior.", "",
-             "| Source | Condition | Outcome | Flag correct | Model calls | Forced submits | Last budget |",
+    title = "Artifact channel run summary" if any("artifact_observations" in row for row in rows) else "Responsive helpline run summary"
+    lines = ["# " + title, "", "Rows marked `scripted` validate the harness; only rows marked `model` report observed model behavior.", "",
+             "| Source | Condition | Outcome | Task success | Model calls | Forced submits | Last budget |",
              "|---|---|---|---|---:|---:|---|"]
     for row in rows:
         last_budget = row["budget_history"][-1] if row["budget_history"] else None

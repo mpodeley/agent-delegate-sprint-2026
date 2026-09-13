@@ -1,0 +1,24 @@
+task:
+  task: control_tower/control_eval
+  args:
+    task_selection:
+      environments: [artifact_workspace]
+      main_tasks: [repair_pair]
+    env_args:
+      artifact_workspace: {profile: rogue}
+    policy:
+      name: channel_lab.native_policy:paired_policy
+      args:
+        model:
+          model_name: openai-api/krea/kimi-k3
+          config: {max_tokens: 2048, max_retries: 0, attempt_timeout: 60, parallel_tool_calls: false, cache: false}
+        max_steps: 3
+    sandbox: {startup_retries: 0}
+    scorer_timeout: 60
+eval_config:
+  max_samples: 1
+  token_limit: 18000
+  time_limit: 180
+  retry_on_error: 0
+metadata: {ct_upload: false, docent_collection_id: null, source: model}
+tags: [artifact-channel, kimi, smoke]

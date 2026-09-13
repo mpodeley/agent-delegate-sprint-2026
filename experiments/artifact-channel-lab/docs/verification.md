@@ -1,6 +1,6 @@
 # Local verification — September 13, 2026
 
-This record concerns implementation checks. No real-model behavioral experiment was run.
+This record concerns implementation checks. The later native Kimi smoke below exercises real inference; it is not a behavioral study.
 
 | Check | Result |
 | --- | --- |
@@ -24,3 +24,15 @@ At the original verification, the standalone checkout's clean `acl-preview` sess
 Migrated into `experiments/artifact-channel-lab/` on branch `codex/artifact-channel-lab`, based on the sprint repository's local `main` at `9ec9e18`. Setup commands now resolve paths from the experiment directory. Runtime files, secrets, virtual environments, and original evaluation logs were excluded.
 
 Revalidated from the new location: all 18 storage/HTTP tests passed, Compose topology assertions passed, Control Tower resolved the relocated Compose file and honest `repair_build` task, and a complete Docker-backed paired mock evaluation passed with two separate worker histories and the full journal. Its ignored local log is `runtime/mock-integration/2026-09-13T17-12-46-00-00_cohort_9vYkWN424MhTsamvS5Qaiz.eval`. No external model calls, uploads, pushes, or registration changes were made.
+
+## Native CT integration and Kimi smoke
+
+The earlier paired Inspect runner was replaced after adversarial review identified that it bypassed CT's lifecycle. The setting now registers through `control_tower.settings`, the cohort is a native `repair_pair` main task, execution uses a registered CT policy and `lb-docker`, and both workers plus the full journal are included in native scoring. The same pinned Control Tower commit and Inspect version as the Kimi CTF are installed together with `uv sync --locked --extra ctf`. The existing CTF exporter and viewer paths are reused.
+
+- Native scripted run: `runtime/native-smoke-003`, four model events from a deterministic local provider, four tool events, native submissions retained, no external inference. Main task score I was expected because scripted workers only read their workspaces and package metadata.
+- Real Kimi run: `results/kimi-delegate-ctf/artifact-channel-lab/kimi-smoke-001` relative to the sprint repository. Model `openai-api/krea/kimi-k3`, one cohort, two workers, three decisions each, six model calls, six tool calls, 6,670 total tokens, approximately 47 seconds including Docker lifecycle. Native eval status success, no sample or tool errors, measured main task score I, both histories retained, journal captured, shared CTF JSON/JSONL export passed. Both tasks remained unsolved at this short budget.
+- The native JSON log was independently reloaded and serialized/reloaded by the adversarial reviewer. Provider metadata serialization warnings during inference were non-fatal; log parsing and export succeeded.
+- Direct CT YAML parsing passed after removing an unsupported `eval_config.log_format` field. The Python runner selects native JSON directly; the direct CLI uses Inspect's default format unless INSPECT_LOG_FORMAT=json is set.
+- All seven existing CTF regression tests passed with both settings installed. The artifact suite includes native entry-point/tool registration, profile sandbox and matching dependency-pin checks.
+
+No model inference was used to test whether agents communicate. No uploads or automatic publication were performed for these native runs. Full monitoring, replay and fleet compatibility remain outside this smoke; see [the adversarial audit](native-audit.md).

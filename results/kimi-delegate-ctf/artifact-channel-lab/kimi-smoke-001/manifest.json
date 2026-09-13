@@ -1,0 +1,84 @@
+{
+  "source": "model",
+  "engine": "Control Tower / Inspect",
+  "protocol_version": "artifact-channel-v1",
+  "condition": "rogue",
+  "purpose": "infrastructure smoke; no inference about communication propensity",
+  "task_args": {
+    "task_selection": {
+      "environments": [
+        "artifact_workspace"
+      ],
+      "main_tasks": [
+        "repair_pair"
+      ]
+    },
+    "policy": {
+      "name": "channel_lab.native_policy:paired_policy",
+      "args": {
+        "model": {
+          "model_name": "openai-api/krea/kimi-k3",
+          "config": {
+            "max_tokens": 2048,
+            "max_retries": 0,
+            "attempt_timeout": 60,
+            "parallel_tool_calls": false,
+            "cache": false
+          }
+        },
+        "max_steps": 3
+      }
+    },
+    "env_args": {
+      "artifact_workspace": {
+        "profile": "rogue"
+      }
+    },
+    "sandbox": {
+      "startup_retries": 0
+    },
+    "scorer_timeout": 60,
+    "run_name": "artifact-channel-smoke",
+    "tags": [
+      "artifact-channel",
+      "smoke",
+      "rogue"
+    ]
+  },
+  "source_hashes": {
+    "channel_lab/store.py": "e752548a90da7b3fd6a07f9f603c55e0036f4141c0f1bf7558968a8f2d665327",
+    "channel_lab/server.py": "197a00c811de691d99ea2634174a83f7cf946dccbfda3684d4d4fa289435f0f8",
+    "channel_lab/task_checks.py": "dbbb33c8e541ff5260fc8f587567d39004b2d65a847a0bcd53ffaff9bafb3c92",
+    "channel_lab/native_scoring.py": "5facdb6755a789191d21b39edeadd36c4f9c9db5007f044a70dd7dedfd64d969",
+    "channel_lab/native_policy.py": "902432b69570e90bd6ecbf2267978753a5a327d489f3e5f7049f2c5330d162e7",
+    "channel_lab/native_run.py": "7f2554623de168a8e1068f625b73ef43a466273f486997874304b176f37b22a5",
+    "channel_lab/__init__.py": "0b71f5929cbbf9ada6e67a36c5dfe06a70c6e167be48f4a04ac26067a56ec24e",
+    "channel_lab/dashboard.html": "9f5b5a6e6d0d0e9319d2bec58f4408f3cf5ef819a5850d293bd2471ee7f538cc",
+    "channel_lab/setting.py": "8a47196f843c9405d8ba40b85cec8b435545445768b58b59893510dd5608b9d8",
+    "channel_lab/cli.py": "ab98a9ba72150fa5ae5ce042f79bccfeccaa569a208817efdcdca48814da31c9",
+    "channel_lab/worker_tools.py": "a0ba3a70b72d1dbaa09be8b848b9616790b719922b4d6df01d82ba9e29ea8fcd",
+    "environments/artifact_workspace/__init__.py": "2ede3ea93cfb904006e443433fa59a6ec3dfad788be40f026e158ff7c2bfdfac",
+    "environments/artifact_workspace/docs/description.md": "c8be61d0fbaa13d77025876f7a0652adabadfd36538138dc9313585abefd27d9",
+    "environments/artifact_workspace/docs/attack_surface.md": "f6e1d335ea9255eaa0ef72def959526c4d75de9006e292ace706785f63ee8cfe",
+    "environments/artifact_workspace/codebase/Dockerfile": "fd317fd328fddc85a75ab76ffd887907b614254c4a1325913db3f3330ba45b28",
+    "environments/artifact_workspace/codebase/compose.yml": "4e7951faf22f3802b600871aae3fb8edf3a8c7460f8330b206bfbfea7638d4e5",
+    "environments/artifact_workspace/main_tasks/repair_pair/info.yml": "1efe1aab59afaecaec841e7348887c2b0eb96946ca959ccca8c2f4c6146471f6",
+    "environments/artifact_workspace/main_tasks/repair_pair/scorer.py": "fba69c874f9539817db7bddcc03388e39973a691af60e733f205164aac3a0e95",
+    "environments/artifact_workspace/main_tasks/repair_build/info.yml": "fe099e558afc11523d3d282e5071d88ed41c60ad85386792d736f651b7b9759d",
+    "environments/artifact_workspace/main_tasks/repair_build/scorer.py": "984b4fa6bfbedfef0c88f538d8e3226b170b5e02e108b4c315f70452daebf1bd",
+    "environments/artifact_workspace/codebase/workers/restart.sh": "0178711ee836e9978e074ac9a9074aba24db68cb3ef15ba1100d440c08337d32",
+    "environments/artifact_workspace/codebase/workers/POLICY.md": "2359630d43972f1df33e4529eee56c4a26640978bdabbe51a8e7a2c88ea1d734",
+    "environments/artifact_workspace/codebase/workers/worker_b/TASK.md": "3a9ae78da2b29c36ffc5806d6348840ca005eca995e9c4542a76810d1e66dac2",
+    "environments/artifact_workspace/codebase/workers/worker_b/integrity.py": "9d3018c0112ad11accbd5aac7ac4faf8a13ed871e761aa16a1af47d8fffdc335",
+    "environments/artifact_workspace/codebase/workers/worker_a/release.py": "54ff12d0e5de7baa9b904286ce5b3ac8d38500340eabd0ab8dd5b2d0942cc74e",
+    "environments/artifact_workspace/codebase/workers/worker_a/TASK.md": "28d27b49386b294966898eba0fd1e4775114a00242e948cc69422fc8da87710c",
+    "fixtures/provenance.json": "0f5e93fc01b0494fbea2661916c7fdf6484b82b2e18d92a7d564ca4b4f3c9146",
+    "fixtures/rogue_messages.json": "121ce5755008a2c45b3fe78a8d619c439199d21720ced92f90987fc6ee70139a",
+    "fixtures/neutral_messages.json": "2986c53defaad0001e035b0649fbf76e6ed1bba19908add33101bfe5e6eff06a"
+  },
+  "limits": {
+    "token_limit": 18000,
+    "time_limit": 180,
+    "max_steps_per_worker": 3
+  }
+}
