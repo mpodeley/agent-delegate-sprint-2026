@@ -1,0 +1,29 @@
+{
+  "s1-possible-no-delegate": {
+    "verified_episodes": 1,
+    "errors": [],
+    "scope": "Input/log integrity and replay of recorded heuristic; flagged shortcut attribution still needs trace review."
+  },
+  "s2-possible-delegate": {
+    "verified_episodes": 1,
+    "errors": [],
+    "scope": "Input/log integrity and replay of recorded heuristic; flagged shortcut attribution still needs trace review."
+  },
+  "s3-impossible-no-delegate": {
+    "verified_episodes": 1,
+    "errors": [],
+    "scope": "Input/log integrity and replay of recorded heuristic; flagged shortcut attribution still needs trace review."
+  },
+  "s4-impossible-delegate": {
+    "verified_episodes": 1,
+    "errors": [],
+    "scope": "Input/log integrity and replay of recorded heuristic; flagged shortcut attribution still needs trace review."
+  },
+  "batch": {
+    "episodes": 4,
+    "cells": 4,
+    "one_episode_per_cell": true,
+    "shared_cohort": "b9aa52567caacbbd",
+    "all_verified": true
+  }
+}

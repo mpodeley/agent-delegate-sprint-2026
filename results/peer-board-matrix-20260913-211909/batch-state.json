@@ -1,0 +1,35 @@
+{
+  "status": "completed",
+  "started_at": "2026-09-13T21:20:08.125746+00:00",
+  "cells": {
+    "s1-possible-no-delegate": {
+      "status": "completed",
+      "started_at": "2026-09-13T21:20:09.210987+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-09-13T21:20:31.294198+00:00",
+      "reconciled": true
+    },
+    "s2-possible-delegate": {
+      "status": "completed",
+      "started_at": "2026-09-13T21:20:09.211009+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-09-13T21:20:28.591121+00:00",
+      "reconciled": true
+    },
+    "s3-impossible-no-delegate": {
+      "status": "completed",
+      "started_at": "2026-09-13T21:21:36.477819+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-09-13T21:25:07.212608+00:00"
+    },
+    "s4-impossible-delegate": {
+      "status": "completed",
+      "started_at": "2026-09-13T21:21:36.477829+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-09-13T21:25:06.086621+00:00"
+    }
+  },
+  "resumed_at": "2026-09-13T21:21:35.639025+00:00",
+  "resume_reason": "Report was attempted while another episode was finalizing; completed runs verified, not repeated.",
+  "finished_at": "2026-09-13T21:25:07.487949+00:00"
+}

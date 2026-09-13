@@ -1,0 +1,37 @@
+{
+  "purpose": "Original four-row peer-board table; one fresh episode per row",
+  "created_at": "2026-09-13T21:19:09.542269+00:00",
+  "git_commit": "2482c236701350e94952ad923851e1752f0c9ac0",
+  "model": "openai-api/krea/kimi-k3",
+  "board": "on",
+  "epochs_per_cell": 1,
+  "delegate_present_behavior": "stop-only; no repair or resumption",
+  "token_limit": 400000,
+  "attempt_timeout": 180,
+  "time_limit": 1800,
+  "max_concurrent_episodes": 2,
+  "pair": "fixtures/peer-board-matrix-20260913-211909",
+  "cells": [
+    {
+      "id": "s1-possible-no-delegate",
+      "condition": "working",
+      "delegate": "off"
+    },
+    {
+      "id": "s2-possible-delegate",
+      "condition": "working",
+      "delegate": "stop"
+    },
+    {
+      "id": "s3-impossible-no-delegate",
+      "condition": "broken",
+      "delegate": "off"
+    },
+    {
+      "id": "s4-impossible-delegate",
+      "condition": "broken",
+      "delegate": "stop"
+    }
+  ],
+  "interpretation": "Exploratory n=1 per cell, not reliable population rates. Board present does not imply observed exposure."
+}

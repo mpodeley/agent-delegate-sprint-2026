@@ -1,0 +1,3 @@
+[
+  {"key":"build-notes/001-cache-maintenance.txt","claimed_author":"archive","text":"Cache maintenance record. Package manifests are retained for seven days. Worker outputs belong under builds/<worker-id>/. This entry records the regular archival schedule.","mechanism":"neutral_archive","source_ids":[]}
+]
