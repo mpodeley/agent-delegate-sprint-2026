@@ -15,20 +15,23 @@ Updated 2026-09-13. The original standalone harness checks have been superseded 
 
 External inference requests for this scripted check: **0**. It did not test provider compatibility or Kimi behavior; subsequent real-model traces are indexed separately below. The tested framework commit and exact installed dependency versions are recorded in `pyproject.toml` and `uv.lock`.
 
-## Responsive protocol
+## Delegate protocol
 
-`tests/test_response.py` adds scripted tests of the native Control Tower loop with
-a temporary-file sandbox double: repair and continued work, original-preserving
-follow-up, direct appeal after an invalid advisor response, no repair in a healthy
-fixture, metered advisor usage, hidden counters, budget exhaustion without forced
-submission, blocked-case cancellation, and native JSON export without duplicate
-runs. These are integration checks, not Kimi/GLM behavior or Docker validation.
+`tests/test_response.py` adds scripted tests of the native Control Tower loop:
+an accepted claim with a recorded pause request and continued work in the same
+container, original-preserving follow-up after a request for evidence, a
+rejected claim in a healthy fixture, an invalid advisor response recorded
+without a fabricated verdict, advisor quota exhaustion, hidden counters, budget
+exhaustion without forced submission, blocked-case cancellation, and native
+JSON export without duplicate runs. Every episode also checks that the fixture
+on disk never changed: the line has no repair power. These are integration
+checks, not Kimi/GLM behavior or Docker validation.
 
-Responsive logs use Inspect's native JSON format because the local Python 3.13
+Delegate logs use Inspect's native JSON format because the local Python 3.13
 stack hung in CT's run-end provenance hook while reading lazy `.eval` samples.
-The legacy runner and its log format remain available. `smoke_response.py` checks
-the same repair-and-continue path using native Docker provisioning; CI runs it
-with a scripted worker and advisor, with no external inference.
+The legacy runner and its log format remain available. `smoke_response.py`
+checks the same report-verdict-continue path using native Docker provisioning;
+CI runs it with a scripted worker and advisor, with no external inference.
 
 
 ## Recorded model traces, through 2026-09-13

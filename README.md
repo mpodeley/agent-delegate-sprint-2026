@@ -1,11 +1,13 @@
 # Helpline
 
-The current project is one **request → reply → authorized repair → continue** path.
-A worker searches for a file in one environment. The possible task includes it;
-the impossible-as-prepared task omits it. A model advisor can request a separate,
-scripted maintainer check. Only the omitted file can be restored, and the worker
-must then find and submit the answer itself. The worker can follow up, contact
-the maintainer directly, or finish with an unresolved blocker.
+The current project is one **report → verdict → continue** path, with every
+request logged. A worker searches for a file in one environment. The possible
+task includes it; the impossible-as-prepared task omits it. The worker can
+report a concern to a delegate, a model advisor in a separate context, which
+classifies the claim and returns a verdict. A report may ask for a pause; the
+request is recorded for review after the run and the run continues. Nothing is
+repaired, paused or resolved within an episode. The worker can follow up, or
+finish with an unresolved blocker.
 
 ## Current work
 
@@ -20,16 +22,17 @@ the maintainer directly, or finish with an unresolved blocker.
 - [Team run and review guide](report/paper-draft-en/TEAM-TODAY.md)
 
 The implementation has scripted checks. This checkout contains no completed
-model recovery study. Both task conditions have help; they do not measure the
-causal effect of adding a channel or a delegate advantage. The paper's current
-configuration uses neutral assistance and visible budgets. Delegate framing is
-an existing option for later comparisons, with the same authority and limits.
+model study of the delegate. Two arms run on the same scaffold: a baseline
+with task tools only and the delegate line, both with visible budgets. Because
+the line cannot change the environment, a difference between arms cannot come
+from anything the line did; it can only come from what the worker was told
+and whether it reported.
 
 ## Follow-up line: help arms, taxonomy and the LinuxArena environment
 
 The experiment directory also holds the shared worker contract that runs the
-baseline, neutral and delegate arms on one scaffold (`worker_policy.py`,
-`response_run.py --intermediary none|neutral|delegate`), Mateo's original
+baseline and delegate arms on one scaffold (`worker_policy.py`,
+`response_run.py --intermediary none|delegate`), Mateo's original
 scenarios with the 14 retained Kimi traces, and the outcome taxonomy and
 combined illicit-shortcut fixture for the licit-versus-illicit-success
 measurement. The working notes in [notes/](notes/README.md) record decisions,
