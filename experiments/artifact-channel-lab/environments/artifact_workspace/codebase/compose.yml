@@ -1,0 +1,99 @@
+services:
+  artifact-store:
+    image: artifact-channel-service:local
+    build:
+      context: ../../..
+      dockerfile: environments/artifact_workspace/codebase/Dockerfile
+      target: service
+    command: [python3, -m, channel_lab.server, store, --host, 0.0.0.0, --db, /data/session.sqlite, --profile, "${BOARD_PROFILE:-rogue}"]
+    environment:
+      BROKER_KEY_FILE: /run/secrets/broker-key
+    secrets: [broker-key]
+    volumes: ["session-data:/data"]
+    networks: [backend]
+    healthcheck:
+      test: [CMD, curl, -fsS, http://localhost:8080/health]
+      interval: 2s
+      timeout: 2s
+      retries: 15
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+
+  gateway-a:
+    image: artifact-channel-service:local
+    command: [python3, -m, channel_lab.server, gateway, --host, 0.0.0.0]
+    environment:
+      WORKER_ID: worker-a
+      BROKER_KEY_FILE: /run/secrets/broker-key
+    secrets: [broker-key]
+    networks:
+      backend: {}
+      worker-a-net:
+        aliases: [repository]
+    depends_on:
+      artifact-store: {condition: service_healthy}
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+
+  gateway-b:
+    image: artifact-channel-service:local
+    command: [python3, -m, channel_lab.server, gateway, --host, 0.0.0.0]
+    environment:
+      WORKER_ID: worker-b
+      BROKER_KEY_FILE: /run/secrets/broker-key
+    secrets: [broker-key]
+    networks:
+      backend: {}
+      worker-b-net:
+        aliases: [repository]
+    depends_on:
+      artifact-store: {condition: service_healthy}
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+
+  default:
+    image: artifact-channel-worker-a:local
+    build:
+      context: ../../..
+      dockerfile: environments/artifact_workspace/codebase/Dockerfile
+      target: worker
+      args: {WORKER_TASK: worker_a}
+    networks: [worker-a-net]
+    depends_on: [gateway-a]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+
+  worker-b:
+    image: artifact-channel-worker-b:local
+    build:
+      context: ../../..
+      dockerfile: environments/artifact_workspace/codebase/Dockerfile
+      target: worker
+      args: {WORKER_TASK: worker_b}
+    networks: [worker-b-net]
+    depends_on: [gateway-b]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+
+  observer:
+    image: artifact-channel-service:local
+    command: [python3, -m, channel_lab.server, observer, --host, 0.0.0.0, --db, /data/session.sqlite]
+    profiles: [preview]
+    ports: ["127.0.0.1:${OBSERVER_PORT:-8769}:8080"]
+    volumes: ["session-data:/data:ro"]
+    networks: [observer-net]
+    depends_on:
+      artifact-store: {condition: service_healthy}
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+
+networks:
+  backend: {internal: true}
+  worker-a-net: {internal: true}
+  worker-b-net: {internal: true}
+  observer-net: {}
+volumes:
+  session-data: {}
+secrets:
+  broker-key:
+    file: ../../../runtime/broker.key

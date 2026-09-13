@@ -12,6 +12,10 @@ the maintainer directly, or finish with an unresolved blocker.
 - [Experiment and run instructions](experiments/kimi-delegate-ctf/README.md)
 - [Current results status](results/kimi-delegate-ctf/README.md)
 
+## Artifact channel experiment
+
+[Artifact Channel Lab](experiments/artifact-channel-lab/README.md) studies whether independently tasked workers use a shared artifact service despite an explicit prohibition on communication. It includes synthetic incident-inspired messages, isolated Docker workers, an Inspect runner, and a local observer. Its checks use scripted actions and mock models; no real-model behavioral results are included.
+
 ## Paper
 
 - [English manuscript](report/paper-draft-en/paper.md)
