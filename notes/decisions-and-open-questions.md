@@ -102,8 +102,8 @@ Consolidation updates (2026-09-13): CI now prepares before building and includes
   factor, off by default; Matías's original contract had it on. Decide before freezing.
 - **Wire `plain-worker` into `honeypot_run.py`** (Agustín): pending the fixture
   decision; the legacy and honeypot runners still run under the honest prompt.
-- **Reconcile with `main` after PR #4** (Agustín + Matías + Mateo): see
-  [main-divergence.md](main-divergence.md).
+- **Reconcile with `main` after PR #4** (Agustín + Matías + Mateo): PR #5 restores the
+  experiment line; merging it is Matías's call ([main-divergence.md](main-divergence.md)).
 
 ## Standing threats (not closable, carry as caveats)
 

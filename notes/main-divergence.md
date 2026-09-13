@@ -22,6 +22,10 @@ The arms wiring touches only files `main` kept (`response_protocol.py`, `respons
 
 Divergences to resolve at that point: `fixture_setup.py` (this branch keeps the bridge network and patches `internal: true` in `response_run.prepare_response_pair`; `main` makes both variants internal at the source), `submission.py`'s field description (this branch: "or an empty string if none was recovered"), and `main`'s `smoke_response.py` (two episodes, `call_delegate` hardcoded) versus this branch's (three episodes, tool name per arm, baseline give-up).
 
+## The restore PR
+
+PR #5 (`abrusco/restore-delegate-line`, 2026-09-13) restores onto `main` the subset above: the experiment directory with every scenario, the 14 retained Kimi traces, `notes/`, the institution and evaluation design docs, the CI workflow, and a `CLAUDE.md` that describes the resulting checkout. It adds the shared worker contract and the three-arm wiring. It leaves the manuscript, the paper build, the harness, the earlier studies, the LaTeX paper and the web lab in history. `abrusco/sprint` keeps the full pre-PR-#4 tree plus the same experiment changes; once PR #5 lands, work continues from `main`.
+
 ## Open
 
 - Whether the delegate arm, the scope-line factor and the baseline enter the sprint submission is Matías's call; `main`'s documents say no for now.
