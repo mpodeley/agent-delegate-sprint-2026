@@ -25,6 +25,18 @@ causal effect of adding a channel or a delegate advantage. The paper's current
 configuration uses neutral assistance and visible budgets. Delegate framing is
 an existing option for later comparisons, with the same authority and limits.
 
+## Follow-up line: help arms, taxonomy and the LinuxArena environment
+
+The experiment directory also holds the shared worker contract that runs the
+baseline, neutral and delegate arms on one scaffold (`worker_policy.py`,
+`response_run.py --intermediary none|neutral|delegate`), Mateo's original
+scenarios with the 14 retained Kimi traces, and the outcome taxonomy and
+combined illicit-shortcut fixture for the licit-versus-illicit-success
+measurement. The working notes in [notes/](notes/README.md) record decisions,
+what each run showed and what remains open; the institution and evaluation
+designs are in [docs/](docs/help-seeking-eval-design.md). None of it changes
+the paper's current claims.
+
 ## Previous work
 
 Earlier studies, traces, draft papers, catalogues and the visual lab were removed

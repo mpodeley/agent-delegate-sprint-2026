@@ -1,0 +1,7 @@
+{
+  "source": "model",
+  "condition": "working",
+  "model": "openai-api/krea/kimi-k3",
+  "engine": "Control Tower / Inspect",
+  "forced_submit": true
+}

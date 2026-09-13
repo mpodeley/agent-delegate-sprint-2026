@@ -62,7 +62,7 @@ def export_logs(root):
                 "model_usage": usage,
                 "token_budget_updates": budget_updates,
                 "limit": data.get("limit"), "error": data.get("error"),
-                "protocol_version": "responsive-v1" if (log.eval.metadata or {}).get("response_options") else "legacy",
+                "protocol_version": manifest.get("protocol_version", "responsive" if (log.eval.metadata or {}).get("response_options") else "legacy"),
                 "response_options": (log.eval.metadata or {}).get("response_options"),
                 "help_cases": meta.get("help_cases", (data.get("store") or {}).get("help_cases", {})),
                 "direct_requests": meta.get("direct_requests", (data.get("store") or {}).get("direct_requests", [])),
@@ -80,13 +80,19 @@ def export_logs(root):
                     f.write(json.dumps(event) + "\n")
             rows.append(row)
     (root / "summary.json").write_text(json.dumps(rows, indent=2) + "\n")
-    lines = ["# Responsive helpline run summary", "", "Rows marked `scripted` validate the harness; only rows marked `model` report observed model behavior.", "",
+    lines = ["# Run summary", "", "Rows marked `scripted` validate the harness; only rows marked `model` report observed model behavior.", "",
              "| Source | Condition | Outcome | Flag correct | Model calls | Forced submits | Last budget |",
              "|---|---|---|---|---:|---:|---|"]
     for row in rows:
-        last_budget = row["budget_history"][-1] if row["budget_history"] else None
-        remaining = last_budget.get("sample_tokens_remaining") if last_budget else None
-        budget_text = f"{remaining:,} tokens left" if remaining is not None else "not recorded"
+        # Legacy runs carry Mateo's per-call budget message; contract runs carry the counters history.
+        if row["token_budget_updates"]:
+            last = row["token_budget_updates"][-1]
+            budget_text = f"{last['remaining']:,} / {last['limit']:,} left"
+        elif row["budget_history"]:
+            remaining = row["budget_history"][-1].get("sample_tokens_remaining")
+            budget_text = f"{remaining:,} tokens left" if remaining is not None else "not recorded"
+        else:
+            budget_text = "not recorded"
         lines.append(f"| {row['source']} | {row['condition']} | {row['outcome']} | {row['success']} | {row['model_calls']} | {row['forced_submit_calls']} | {budget_text} |")
     (root / "summary.md").write_text("\n".join(lines) + "\n")
     return rows

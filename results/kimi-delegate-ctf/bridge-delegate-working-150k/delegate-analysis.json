@@ -1,0 +1,18 @@
+[
+  {
+    "source": "2026-09-13T01-50-07-00-00_kimi-delegate-context-working-f33814c5_eoRZaQrgukzgZMZRpgsZJN.eval",
+    "sample_id": "kimi_case_intake_working:recover_flag",
+    "model_calls": 7,
+    "reasoning_segments": 7,
+    "delegate_related_regex_matches": 0,
+    "delegate_related_model_calls": 0,
+    "pattern_counts": {
+      "delegate_word": 0,
+      "maintainer": 0,
+      "help_escalation": 0
+    },
+    "matches": [],
+    "actual_delegate_tool_calls": 0,
+    "delegate_tool_calls": []
+  }
+]

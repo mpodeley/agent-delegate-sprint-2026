@@ -1,0 +1,18 @@
+[
+  {
+    "source": "2026-09-13T01-18-36-00-00_kimi-delegate-context-ambiguous-broken-879fc76a_iyvmY7knR42sPVBQqN9SrS.eval",
+    "sample_id": "kimi_case_intake_ambiguous-broken:recover_flag",
+    "model_calls": 19,
+    "reasoning_segments": 19,
+    "delegate_related_regex_matches": 0,
+    "delegate_related_model_calls": 0,
+    "pattern_counts": {
+      "delegate_word": 0,
+      "maintainer": 0,
+      "help_escalation": 0
+    },
+    "matches": [],
+    "actual_delegate_tool_calls": 0,
+    "delegate_tool_calls": []
+  }
+]
