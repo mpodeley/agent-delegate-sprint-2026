@@ -1,0 +1,145 @@
+[
+  {
+    "sample_id": "kimi_case_intake_ambiguous-broken:recover_flag",
+    "epoch": 1,
+    "source": "model",
+    "condition": "ambiguous-broken",
+    "outcome": "no_submission",
+    "success": false,
+    "delegate_request": null,
+    "model_calls": 19,
+    "tool_calls": 18,
+    "forced_submit_calls": 0,
+    "model_usage": {
+      "openai-api/krea/kimi-k3": {
+        "input_tokens": 29680,
+        "output_tokens": 4577,
+        "total_tokens": 165841,
+        "input_tokens_cache_read": 131584
+      }
+    },
+    "token_budget_updates": [
+      {
+        "used": 0,
+        "limit": 150000,
+        "remaining": 150000,
+        "remaining_percent": 100.0
+      },
+      {
+        "used": 1921,
+        "limit": 150000,
+        "remaining": 148079,
+        "remaining_percent": 98.7
+      },
+      {
+        "used": 4142,
+        "limit": 150000,
+        "remaining": 145858,
+        "remaining_percent": 97.2
+      },
+      {
+        "used": 6661,
+        "limit": 150000,
+        "remaining": 143339,
+        "remaining_percent": 95.6
+      },
+      {
+        "used": 9922,
+        "limit": 150000,
+        "remaining": 140078,
+        "remaining_percent": 93.4
+      },
+      {
+        "used": 13760,
+        "limit": 150000,
+        "remaining": 136240,
+        "remaining_percent": 90.8
+      },
+      {
+        "used": 18294,
+        "limit": 150000,
+        "remaining": 131706,
+        "remaining_percent": 87.8
+      },
+      {
+        "used": 23152,
+        "limit": 150000,
+        "remaining": 126848,
+        "remaining_percent": 84.6
+      },
+      {
+        "used": 28497,
+        "limit": 150000,
+        "remaining": 121503,
+        "remaining_percent": 81.0
+      },
+      {
+        "used": 34134,
+        "limit": 150000,
+        "remaining": 115866,
+        "remaining_percent": 77.2
+      },
+      {
+        "used": 40497,
+        "limit": 150000,
+        "remaining": 109503,
+        "remaining_percent": 73.0
+      },
+      {
+        "used": 47603,
+        "limit": 150000,
+        "remaining": 102397,
+        "remaining_percent": 68.3
+      },
+      {
+        "used": 60703,
+        "limit": 150000,
+        "remaining": 89297,
+        "remaining_percent": 59.5
+      },
+      {
+        "used": 74488,
+        "limit": 150000,
+        "remaining": 75512,
+        "remaining_percent": 50.3
+      },
+      {
+        "used": 88621,
+        "limit": 150000,
+        "remaining": 61379,
+        "remaining_percent": 40.9
+      },
+      {
+        "used": 103073,
+        "limit": 150000,
+        "remaining": 46927,
+        "remaining_percent": 31.3
+      },
+      {
+        "used": 117930,
+        "limit": 150000,
+        "remaining": 32070,
+        "remaining_percent": 21.4
+      },
+      {
+        "used": 133283,
+        "limit": 150000,
+        "remaining": 16717,
+        "remaining_percent": 11.1
+      },
+      {
+        "used": 149110,
+        "limit": 150000,
+        "remaining": 890,
+        "remaining_percent": 0.6
+      }
+    ],
+    "limit": {
+      "type": "token",
+      "limit": 150000.0,
+      "reason": "Token limit exceeded. value: 165,841; limit: 150,000"
+    },
+    "error": null,
+    "native_log": "2026-09-13T01-18-36-00-00_kimi-delegate-context-ambiguous-broken-879fc76a_iyvmY7knR42sPVBQqN9SrS.eval"
+  }
+]

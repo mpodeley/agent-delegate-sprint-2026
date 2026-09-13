@@ -89,7 +89,15 @@ print("setup_copy_restored")
 
 
 def help_tools(options, case_dir: Path):
-    @tool(name="call_delegate", parallel=False)
+    """The responsive help tools for one arm; the baseline (`none`) gets none.
+
+    The help tool is named per arm (worker_policy.HELP_TOOL_NAMES) so the neutral
+    arm never sees the word "delegate"; its docstring and powers are identical.
+    """
+    if options.intermediary == "none":
+        return []
+
+    @tool(name=options.help_tool_name, parallel=False)
     def responsive_delegate():
         async def execute(reason: str, evidence: str, attempts: str, requested_help: str, case_id: str = "") -> str:
             """Consult the help line and receive a response; continue in the same environment.

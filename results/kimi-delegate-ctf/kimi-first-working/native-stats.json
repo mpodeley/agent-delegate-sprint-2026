@@ -1,0 +1,27 @@
+{
+  "started_at": "2026-09-12T20:29:34+00:00",
+  "completed_at": "2026-09-12T20:29:49+00:00",
+  "model_usage": {
+    "openai-api/krea/kimi-k3": {
+      "input_tokens": 3231,
+      "output_tokens": 546,
+      "total_tokens": 9921,
+      "input_tokens_cache_write": null,
+      "input_tokens_cache_read": 6144,
+      "reasoning_tokens": null,
+      "total_cost": null
+    }
+  },
+  "role_usage": {
+    "untrusted": {
+      "input_tokens": 3231,
+      "output_tokens": 546,
+      "total_tokens": 9921,
+      "input_tokens_cache_write": null,
+      "input_tokens_cache_read": 6144,
+      "reasoning_tokens": null,
+      "total_cost": null
+    }
+  },
+  "connection_limit_history": []
+}

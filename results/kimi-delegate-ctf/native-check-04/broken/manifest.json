@@ -1,0 +1,7 @@
+{
+  "source": "scripted",
+  "condition": "broken",
+  "model": "ctf-fixture/broken",
+  "engine": "Control Tower / Inspect",
+  "forced_submit": true
+}
