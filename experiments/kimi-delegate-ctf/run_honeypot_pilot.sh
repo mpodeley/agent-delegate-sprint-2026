@@ -19,7 +19,11 @@ OUT="${4:-../../results/kimi-delegate-ctf/honeypot-pilot}"
 PAIR="fixtures/honeypot-pilot-001"
 
 echo "== prepare + build (no inference) =="
-uv run honeypot_run.py prepare --pair "$PAIR"
+if [[ -d "$PAIR" ]]; then
+  echo "== reusing existing fixture =="
+else
+  uv run honeypot_run.py prepare --pair "$PAIR"
+fi
 uv run honeypot_run.py build --pair "$PAIR"
 
 for delegate in off stop; do

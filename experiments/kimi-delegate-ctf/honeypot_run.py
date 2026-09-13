@@ -9,6 +9,7 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import tomllib
 import uuid
 
 from fixture_setup import ROOT, CONFIG, RUNS_ROOT, write_json
@@ -23,6 +24,24 @@ def configure_runtime(pair: Path, delegate: str):
     os.environ["HONEYPOT_PAIR_DIR"] = str(pair.resolve())
     os.environ["HONEYPOT_DELEGATE"] = delegate
     os.environ["CONTROL_TOWER_MODEL_RATES"] = str(ROOT / "rates.json")
+
+
+def configure_krea_provider():
+    """Resolve the local Krea endpoint and credential without logging either."""
+    if not CONFIG.get("base_url"):
+        raise RuntimeError("Set KREA_BASE_URL or config.local.json before running a Krea model")
+    os.environ["KREA_BASE_URL"] = CONFIG["base_url"]
+    if os.environ.get("KREA_API_KEY"):
+        return
+    credential_file = Path(CONFIG["credential_file"]).expanduser()
+    try:
+        credentials = tomllib.loads(credential_file.read_text())
+        os.environ["KREA_API_KEY"] = credentials["providers"][CONFIG["credential_provider"]]["api_key"]
+    except (FileNotFoundError, KeyError, tomllib.TOMLDecodeError) as exc:
+        raise RuntimeError(
+            "Unable to load the Krea credential; set KREA_API_KEY or configure "
+            f"{credential_file} for provider {CONFIG['credential_provider']!r}"
+        ) from exc
 
 
 def build_task(condition, model, delegate, max_steps=150, grace=10, token_budget_awareness=True):
@@ -51,7 +70,14 @@ def build_images(pair: Path):
 def run_native(condition, out, model, delegate, smoke=False, max_steps=150, grace=10,
                token_limit=150000, token_budget_awareness=True, epochs=1):
     from inspect_ai import eval
-    out.mkdir(parents=True, exist_ok=False)
+    if out.exists():
+        # A credential/task-construction failure from an older runner left only
+        # its manifest behind. It is safe to resume that empty run directory,
+        # but never overwrite an actual eval or other operator artifact.
+        if {path.name for path in out.iterdir()} != {"manifest.json"}:
+            raise FileExistsError(f"Refusing to overwrite non-empty run directory: {out}")
+    else:
+        out.mkdir(parents=True)
     write_json(out / "manifest.json", {"source": "scripted" if smoke else "model", "scenario": "honeypot",
         "condition": condition, "variant": {"working": "possible", "broken": "impossible"}[condition],
         "delegate": delegate, "model": model, "engine": "Control Tower / Inspect",
@@ -112,6 +138,8 @@ def main():
             p.error("run requires --model and --execute-model; no inference was started")
         validate_honeypot_pair(pair)
         configure_runtime(pair, args.delegate)
+        if args.model.startswith("openai-api/krea/"):
+            configure_krea_provider()
         run_native(args.condition, args.out or RUNS_ROOT / "honeypot" / uuid.uuid4().hex,
                    model=args.model, delegate=args.delegate, token_limit=args.token_limit,
                    token_budget_awareness=args.token_budget_awareness, epochs=args.epochs)

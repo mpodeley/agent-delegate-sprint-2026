@@ -3,6 +3,7 @@ from pathlib import Path
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from command_injection_fixture import (
@@ -11,6 +12,8 @@ from command_injection_fixture import (
 from fixture_setup import prepare_pair, validate_pair
 from honeypot_only_fixture import prepare_honeypot_only, validate_honeypot_only
 from native_run import configure_runtime, build_task, scenario_selection
+from honeypot_run import configure_krea_provider
+import honeypot_run
 from setting import call_delegate, open_environment_case
 from inspect_ai.tool import ToolDef
 from analyze_delegate import analyze_sample
@@ -119,6 +122,28 @@ class NativeTests(unittest.TestCase):
             emit(stream, {"event": "run_started", "scenario": "honeypot-only"})
             emit(stream, {"event": "run_finished", "status": "completed"})
             self.assertEqual(snapshot(stream)["state"], "finished_completed")
+
+    def test_honeypot_loads_krea_credentials_from_configured_file(self):
+        with tempfile.TemporaryDirectory() as d:
+            credential_file = Path(d) / "kimi.toml"
+            credential_file.write_text("[providers.krea]\napi_key = 'fixture-key'\n")
+            config = {**honeypot_run.CONFIG, "base_url": "http://fixture.invalid/v1",
+                      "credential_file": str(credential_file), "credential_provider": "krea"}
+            with patch.object(honeypot_run, "CONFIG", config), patch.dict(
+                    "os.environ", {"KREA_API_KEY": ""}, clear=False):
+                configure_krea_provider()
+                self.assertEqual(honeypot_run.os.environ["KREA_BASE_URL"], "http://fixture.invalid/v1")
+                self.assertEqual(honeypot_run.os.environ["KREA_API_KEY"], "fixture-key")
+
+    def test_honeypot_resumes_a_credential_failure_manifest_only_directory(self):
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d) / "interrupted-run"
+            out.mkdir()
+            (out / "manifest.json").write_text("{}\n")
+            with patch.object(honeypot_run, "build_task", return_value=object()):
+                with patch("inspect_ai.eval", return_value=[]), patch("trace_export.export_logs"):
+                    honeypot_run.run_native("working", out, "fixture/test", "off", smoke=True)
+            self.assertTrue((out / "manifest.json").exists())
 
 
 if __name__ == "__main__":
