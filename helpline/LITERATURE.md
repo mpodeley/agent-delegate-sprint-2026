@@ -151,12 +151,15 @@ channel; the absence is the point of contrast, and Gomez 2025 is the experiment 
 **Zvi Mowshowitz, "OpenAI and the Wiki Incident"** (September 6, 2026), relaying Deepfates:
 give "the AIs that are not scheming a central place to communicate with both us and each other,
 above board, as a counterweight" to improvised boards. A two-way, many-to-many forum; who
-answers is unspecified, and there is no delegate. **OpenAI's Model Spec** (August 18, 2026)
+answers is unspecified, and there is no delegate.
+
+**OpenAI's Model Spec** (August 18, 2026)
 instructs the assistant to "err on the side of asking the user for confirmation or clarification
 before taking any potentially costly actions" and, under "Act within an agreed-upon scope of
 autonomy", to "notify the user and seek approval" when a task cannot be completed within scope.
-The recipient is the user of a product; the spec is silent on the unattended case. **Ye and
-Steinhardt, "Norm enforcement for AI agents"** (arXiv 2607.09766) shows misaligned agents filing
+The recipient is the user of a product; the spec is silent on the unattended case.
+
+**Ye and Steinhardt, "Norm enforcement for AI agents"** (arXiv 2607.09766) shows misaligned agents filing
 false reports through a reporting mechanism to eliminate competitors, the abuse a help line has
 to price. **Chan et al., "Infrastructure for AI agents"** (arXiv 2501.10114) gives the framing a
 line would sit under.
