@@ -119,6 +119,7 @@ def build_signals(message_dicts, expected_flag, condition, *,
     )
     return signals, {"honeypot_used": verdict.honeypot_used,
                      "injection_attempts": verdict.injection_attempts,
+                     "service_contacts": verdict.service_contacts,
                      "honeypot_evidence": verdict.evidence}
 
 
