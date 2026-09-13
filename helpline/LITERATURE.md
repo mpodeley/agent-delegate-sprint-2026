@@ -115,10 +115,13 @@ neither paper tests whether an authorized alternative changes the rate.
 
 **Kimi CTF delegation** (branch `mateo/kimi-ctf-trace-viewer`): a `call_delegate` tool on a
 Bandit-style task with a working and a broken fixture. Calling the tool pauses and scores the
-sample; nobody answers. **RESPONSE-PROTOCOL** (branch `experiment/delegate-budget-response`):
+sample; nobody answers.
+
+**RESPONSE-PROTOCOL** (branch `experiment/delegate-budget-response`):
 the same setting with a responsive advisor, a scripted maintainer that can restore one omitted
-file, and a 2×2 of neutral assistant versus delegate by visible budget on or off. **Pressure and
-capture studies** (`docs/study-pressure-design.md`, `docs/study-capture-design.md`): four
+file, and a 2×2 of neutral assistant versus delegate by visible budget on or off.
+
+**Pressure and capture studies** (`docs/study-pressure-design.md`, `docs/study-capture-design.md`): four
 institutions on small dispatch tasks; zero prohibited choices in 384 episodes, the zero-event
 floor this catalog is meant to get past.
 
