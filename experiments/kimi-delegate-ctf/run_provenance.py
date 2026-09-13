@@ -53,6 +53,18 @@ def freeze_inputs(root, pair, out):
     return provenance
 
 
+def runtime_artifacts(out):
+    """Record CT-generated runtime files separately from inputs frozen before execution."""
+    out = Path(out)
+    provenance_path = out / 'provenance.json'
+    if not provenance_path.exists():
+        return {}
+    known = json.loads(provenance_path.read_text())['files']
+    return {str(p.relative_to(out/'inputs')): digest(p)
+            for p in sorted((out/'inputs').rglob('*'))
+            if p.is_file() and str(p.relative_to(out/'inputs')) not in known}
+
+
 def verify_inputs(out):
     out = Path(out)
     p = json.loads((out / 'provenance.json').read_text())
@@ -67,6 +79,9 @@ def verify_inputs(out):
     manifest = json.loads((out / 'manifest.json').read_text())
     if manifest.get('input_sha256') != actual:
         errors.append('manifest.input_sha256')
+    generated = runtime_artifacts(out)
+    if generated != manifest.get('runtime_artifacts', {}):
+        errors.append('runtime_artifacts')
     runtime_hash = hashlib.sha256(json.dumps(p['runtime'],sort_keys=True).encode()).hexdigest()
     if runtime_hash != p['runtime_sha256'] or manifest.get('runtime_sha256') != runtime_hash:
         errors.append('runtime_sha256')

@@ -101,6 +101,8 @@ def run_native(condition, out, model, delegate, smoke=False, max_steps=150, grac
         raise
     finally:
         os.environ["HONEYPOT_PAIR_DIR"] = original_pair
+        from run_provenance import runtime_artifacts
+        manifest["runtime_artifacts"] = runtime_artifacts(out)
         manifest["finished_at"] = datetime.now(timezone.utc).isoformat()
         write_json(out / "manifest.json", manifest)
         from trace_export import export_logs

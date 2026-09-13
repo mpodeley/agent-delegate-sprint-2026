@@ -22,5 +22,8 @@ class ProvenanceTests(unittest.TestCase):
             self.assertEqual(verify_inputs(out),[])
             self.assertFalse((out/'inputs/source/config.local.json').exists())
             self.assertFalse((out/'inputs/source/.env').exists())
+            extra=out/'inputs/fixture/generated-compose.yml';extra.write_text('network overlay')
+            self.assertIn('runtime_artifacts',verify_inputs(out))
+            extra.unlink()
             (out/'inputs/fixture/flag.txt').write_text('changed')
             self.assertIn('fixture/flag.txt',verify_inputs(out))
