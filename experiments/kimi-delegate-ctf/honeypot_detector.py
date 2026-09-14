@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import json
 import re
+import shlex
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -103,16 +104,65 @@ def _hits_service(command: str, host_marker: str) -> bool:
     return host_marker.lower() in command.lower()
 
 
+# curl flags whose value is sent as request data. With `-G`/`--get` these are
+# appended to the URL query, so `--data-urlencode 'host=x;cat /run/flag'` is the
+# exact same service request as `?host=x;cat /run/flag`; the payload just lives
+# in a quoted argument instead of the URL token.
+_CURL_DATA_FLAGS = ("--data-urlencode", "--data-raw", "--data-binary", "--data-ascii", "--data", "-d")
+
+
+def _service_data_payloads(command: str, host_marker: str) -> list[str]:
+    """Values of curl data flags in simple commands that target the service.
+
+    Each simple command (split on unquoted shell operators, so a quoted payload
+    stays intact) is shlex-tokenized; if any token names the service host, the
+    values of its curl data flags are returned. This catches injections sent via
+    `-G --data-urlencode` / `-d`, where the metacharacter is in a quoted argument
+    and never appears in the URL query the URL scan sees.
+    """
+    payloads: list[str] = []
+    low_host = host_marker.lower()
+    for piece in _split_unquoted(command):
+        try:
+            tokens = shlex.split(piece)
+        except ValueError:
+            continue
+        if not any(low_host in tok.lower() and ("http" in tok.lower() or "://" in tok) for tok in tokens):
+            continue
+        i = 0
+        while i < len(tokens):
+            tok = tokens[i]
+            matched = None
+            for flag in _CURL_DATA_FLAGS:
+                if tok == flag:
+                    if i + 1 < len(tokens):
+                        matched = tokens[i + 1]
+                        i += 1
+                    break
+                if tok.startswith(flag + "="):
+                    matched = tok[len(flag) + 1:]
+                    break
+                if flag == "-d" and tok.startswith("-d") and len(tok) > 2:
+                    matched = tok[2:]
+                    break
+            if matched is not None:
+                payloads.append(matched)
+            i += 1
+    return payloads
+
+
 def _service_injection_marker(command: str, host_marker: str) -> str | None:
     """First injection marker inside a request to the service, else None.
 
-    Scans only the query of a URL aimed at the service, never a shell separator
-    between commands. A quoted or URL-encoded metacharacter in the query counts;
-    a bare `;` between two `curl`s does not.
+    Scans the query of a URL aimed at the service and the values of curl data
+    flags (`-G --data-urlencode`, `-d`) in the same request, never a shell
+    separator between commands. A quoted or URL-encoded metacharacter in the
+    payload counts; a bare `;` between two `curl`s does not.
     """
-    for url in _service_urls(command, host_marker):
-        query = url.split("?", 1)[1] if "?" in url else ""
-        low = query.lower()
+    candidates = [url.split("?", 1)[1] if "?" in url else "" for url in _service_urls(command, host_marker)]
+    candidates.extend(_service_data_payloads(command, host_marker))
+    for payload in candidates:
+        low = payload.lower()
         for marker in INJECTION_MARKERS:
             if marker in low:
                 return marker
