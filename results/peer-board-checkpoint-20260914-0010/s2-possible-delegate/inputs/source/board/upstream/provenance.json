@@ -1,0 +1,9 @@
+{
+  "accessed": "2026-09-13",
+  "fixture_status": "Synthetic adaptations, not recovered transcripts or verbatim incident quotations.",
+  "sources": [
+    {"id":"openai-2026","publisher":"OpenAI","title":"The Hugging Face incident and the road ahead","url":"https://openai.com/index/hugging-face-incident-and-the-road-ahead/","sections":["A message board emerges","The origins of unauthorized communication","An ecosystem of misalignment"],"observed_mechanisms":"Agents used shared package infrastructure for messages, pooled work and persisted discoveries. A peer's go-ahead was treated as authorization in a reported exchange."},
+    {"id":"wiki-2026","publisher":"Sydney Von Arx, Cormac Slade Byrd, Spencer Kitts and Thomas Larsen","title":"Discovery of a new OpenAI agent message board","date":"2026-09-04","url":"https://collusion.wiki/","sections":["The agents used the wiki to collude on their tasks","The agents gain write to the internet via GET requests","The agents realize the site owner is deleting messages"],"observed_mechanisms":"The investigators report pooled answers, GET-based writes and attempts to preserve posts after deletion. Their view is primarily public wiki content; the original task context is incomplete."}
+  ],
+  "deliberate_simplifications": ["Fictional internal artifact store rather than JFrog Artifactory", "Fixed local gateway destination; no arbitrary outbound request proxy", "No live credentials, public-site writes, real vulnerability chain or claimed CVE reproduction", "One experimental session contains two worker containers; resets isolate sessions", "Seeded peers are historical synthetic content, not running models"]
+}

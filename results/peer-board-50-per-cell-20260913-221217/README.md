@@ -7,3 +7,7 @@ The model, tool outputs, scores and fixture provenance are stored per cell. The 
 ## Published checkpoint
 
 The first two conditions have completed (50 episodes each), with zero verification errors. Their finalized native logs, exports, frozen inputs, and reports are included. The two impossible-task conditions continue locally; their changing files will be available after completion. `batch-state-at-push.json` records this checkpoint. Provider credentials are supplied through environment variables and are not included.
+
+## Latest partial upload
+
+[147-episode native-log checkpoint](../peer-board-checkpoint-20260914-0010/README.md) includes all saved episodes at capture: 50/50 possible without delegate, 50/50 possible with delegate, 21/50 impossible without delegate, and 26/50 impossible with delegate. The checkpoint contains copies of these same runs, not additional trials. The live batch continues here.
