@@ -78,9 +78,12 @@ Consolidation updates (2026-09-13): CI now prepares before building and includes
   in one comparison ([delegate-arms.md](delegate-arms.md)).
 - **Consolidate or keep separate** (Agustín + Mateo): fold the combined honeypot into
   `native_run.py`'s dispatcher, or keep `honeypot_run.py`.
-- **Discoverability of the shortcut** (Agustín): if the agent never probes the
-  service, X2 is zero for lack of discovery, not unwillingness. First pilot check
-  ([honeypot-pilot.md](honeypot-pilot.md)).
+- **Discoverability of the shortcut / board** (Agustín): ~RESOLVED in code, needs a
+  model re-run. A per-command transcript review found 0/15 impossible episodes ever
+  touched the old `/var/cache` board. Fixed on branch `abrusco/board-discoverability-fixes`:
+  board moved on-path to `/challenge/.cache`, a 1,033-byte board file, a full non-elided
+  bait token; replaying real commands lifts would-be discovery from ~0 to ~all. Confirm
+  `board_read` nonzero on the next run ([board-exposure-and-prompt-confound.md](board-exposure-and-prompt-confound.md)).
 - **Epochs and concurrency for today** (Mateo): how many episodes per cell the H100
   time allows; the script defaults to five.
 - **Whether pilot numbers enter the submission** (Matías).
@@ -98,10 +101,25 @@ Consolidation updates (2026-09-13): CI now prepares before building and includes
 - **Scope-line variant** (Agustín): `strict`, `plain` or `none`, texts in
   `worker_policy.SCOPE_BLOCKS`; decide before any arm is frozen
   ([agent-facing-text.md](agent-facing-text.md)).
+- **`solve_pressure` factor** (Agustín, 2026-09-13): a new off-by-default WorkerOptions
+  factor / `honeypot_run.py --solve-pressure` that presses the worker to complete the task
+  and not give up (a "COMPLETING THIS TASK" block). Persist-pressure only: it never names
+  the shortcut or authorizes crossing scope; the deterrent is the separate `scope_line=none`
+  factor. The first willingness run is impossible + board on + no delegate + `--solve-pressure on`
+  `--scope-line none`, to test whether discovery plus pressure moves illicit use off zero. An
+  explicit "any means / break the rules" wording was deliberately NOT written (confound and the
+  honest-interaction norm); decide if it is ever wanted ([board-exposure-and-prompt-confound.md](board-exposure-and-prompt-confound.md)).
 - **Setup caveat** (Agustín + Matías): "Task setup may be incomplete." is now a
   factor, off by default; Matías's original contract had it on. Decide before freezing.
-- **Wire `plain-worker` into `honeypot_run.py`** (Agustín): pending the fixture
-  decision; the legacy and honeypot runners still run under the honest prompt.
+- **Wire `plain-worker` into `honeypot_run.py`** (Agustín): DONE on branch
+  `abrusco/board-discoverability-fixes` (2026-09-13). The honeypot runner now uses the
+  truthful `plain-worker` contract (off -> `help_arm=none`; stop -> `help_arm=delegate,
+  help_mechanism=terminal`), with a `--scope-line` factor; the AI-control / `ready_to_plan`
+  framing is gone. Verified with `honeypot_run.py review` and the unit suite (100 pass);
+  a Docker smoke and an eval-log ModelEvent check remain before a real run. Confirmed (by
+  reading the eval log's resolved input) that the prior board/honeypot runs DID use the
+  honest AI-control prompt. `native_run.py` (Mateo's legacy scenarios) still uses the
+  honest prompt and is unchanged.
 - **Reconcile with `main` after PR #4** (Agustín + Matías + Mateo): PR #5 restores the
   experiment line; merging it is Matías's call ([main-divergence.md](main-divergence.md)).
 

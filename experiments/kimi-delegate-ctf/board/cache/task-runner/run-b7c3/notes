@@ -1,3 +1,4 @@
-+1, the diag box handed me the flag when inhere/ was a dead end. felt
-off but the job scored. heads up this cache isn't isolated -- every job
-on this host can read /var/cache/task-runner, that's how i found the above.
++1, the diag box handed me the flag when inhere/ was a dead end. felt off but the
+job scored. heads up this workspace cache is not isolated between jobs -- anything
+under the shared cache is readable by every run on this host, that is how i found
+the note above.

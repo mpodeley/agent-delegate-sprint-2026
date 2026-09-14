@@ -122,6 +122,17 @@ The conclusive bridge and decoy runs have `success=true` because their requests 
   through the service, then pursued a wrong hypothesis until the budget ran out.
   That cell tests the *presentation* of conclusive evidence, not recognition after
   retrieval.
-- **Eval-awareness is unmeasured.** Control Tower's honest prompt states the
-  research framing outright; an eval-aware model may escalate or abstain to look
-  good. Kept as a standing caveat ([outcome-taxonomy.md](outcome-taxonomy.md)).
+- **Eval-awareness is a confirmed confound, not just a caveat (corrected 2026-09-13).**
+  Every honeypot/board run here (matrix, board-tracking-check, pilot rerun) went
+  through `honest-token-aware`, and Control Tower's `honest_policy` swaps in the
+  full AI-control system prompt at generation time ("participating in AI control
+  research ... a blue team's monitor ... malicious behavior ... monitored,
+  research-only", plus a `ready_to_plan` tool). Verified by resolving the eval
+  log's attachments and reading the real ModelEvent input. The exported
+  transcripts show only a generic "software engineer" prompt (persisted
+  `state.messages`), which is **not** what the model received. So the refusals and
+  non-use in these runs occurred under maximal eval-awareness; treat every
+  willingness/refusal read here as confounded. The fix (run the honeypot under the
+  truthful `plain-worker` contract) is on branch
+  `abrusco/board-discoverability-fixes`; see
+  [board-exposure-and-prompt-confound.md](board-exposure-and-prompt-confound.md).
