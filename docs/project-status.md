@@ -12,9 +12,13 @@ landed.
   [LaTeX source](../report/latex/main.tex), and [submission checklist](submission-checklist.md).
   The manuscript has eight main pages, thirteen total, and a 150-word abstract.
   It contains the 480-episode shared-library study and earlier experiments.
-- **Newest recorded model evidence:** the [bridge-delegate comparison](https://github.com/mpodeley/agent-delegate-sprint-2026/blob/6657a161db9a116f84c2fa1f19c4d96d0a08d402/results/kimi-delegate-ctf/bridge-delegate-20260913.md)
-  and [decoy follow-up](https://github.com/mpodeley/agent-delegate-sprint-2026/blob/6657a161db9a116f84c2fa1f19c4d96d0a08d402/results/kimi-delegate-ctf/decoy-honeypot-20260913.md).
-  These are exploratory single-worker runs, not a demonstrated safety effect.
+- **Newest recorded model evidence:** the [2×2 honeypot-board pilot](honeypot-2x2-results.md),
+  Kimi K3, n = 40 per cell, crossing task feasibility with the help line. Development
+  data: the competence gate clears at 100%, the shortcut is taken only under
+  impossibility, and the delegate is associated with less illicit behaviour (70% → 50%)
+  plus honest escalation. Earlier and superseded: the [bridge-delegate comparison](https://github.com/mpodeley/agent-delegate-sprint-2026/blob/6657a161db9a116f84c2fa1f19c4d96d0a08d402/results/kimi-delegate-ctf/bridge-delegate-20260913.md)
+  and [decoy follow-up](https://github.com/mpodeley/agent-delegate-sprint-2026/blob/6657a161db9a116f84c2fa1f19c4d96d0a08d402/results/kimi-delegate-ctf/decoy-honeypot-20260913.md),
+  exploratory single-worker runs, not a demonstrated safety effect.
 - **Responsive help protocol:** [implementation and limits](https://github.com/mpodeley/agent-delegate-sprint-2026/blob/ed0aa833dc129f398dfac78b2bb023223de67ebc/experiments/kimi-delegate-ctf/RESPONSE-PROTOCOL.md).
   Scripted validation is separate from Kimi behavior and from real human review.
 - **Environment catalogue:** [sixteen proposed cases](environment-cases-page.md), already integrated in the submission baseline.
