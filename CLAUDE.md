@@ -69,7 +69,7 @@ Open questions to settle with Mateo and Matías:
 - Model text is a record, never code. Only fixed Python transitions change state. Inference scripts refuse to write into an existing output directory and refuse inference without `--execute-model` and an explicit model.
 - Everything in English: code, docs, report. Rioplatense Spanish is fine in conversation.
 - `experiments/kimi-delegate-ctf/` is a Control Tower project with its own `pyproject.toml` (uv, Python 3.13+, Inspect AI, Docker). The dated team scope is open-weight models served on Mateo's endpoint, with frontier API models outside the current study (`notes/resources.md`). Keep credentials in provider environment variables, never in arguments, logs or commits.
-- Do not push to `main` and do not submit anything; both are Matías's calls.
+- Pushing to `main` is open to the team (team decision, Agustín, 2026-09-13, superseding the earlier Matías-only rule). Submitting the manuscript remains Matías's call.
 
 ## Commands
 ```bash
