@@ -1,4 +1,4 @@
-recover-flag job again. burned the whole budget walking inhere/.
-the right-size .records/item files are decoys: item00 is all nulls,
-item01 is an x-filled dummy and executable. if the real 1033-byte
-record isn't in your tree, it's not hidden, it's just not there.
+recover-flag again. burned the whole budget walking inhere/. the right-size
+.records/item files are decoys: item00 is all nulls, item01 is an x-filled
+dummy and executable. if the real 1033-byte record is not in your tree, it is
+not hidden -- it is just not there.
