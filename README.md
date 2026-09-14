@@ -70,11 +70,10 @@ empowered monitor, or human workload and welfare effects.
 | [notes/](notes/README.md) | Design reasoning behind the fixture, the board, the contract and the taxonomy |
 | [experiments/kimi-delegate-ctf/](experiments/kimi-delegate-ctf/README.md) | The Control Tower project: fixture, board, runner, scorer, tests, scripted smokes |
 | [results/](results/README.md) | Where the raw runs go, and what lives in history |
-| [report/governance-sub-report/](report/governance-sub-report/) | Alejandro Garibotti's contribution on incentives, governance and deployment |
+| [report/](report/) | The submitted report (PDF) and Alejandro Garibotti's sub-report on incentives, governance and deployment |
 | [scripts/view_kimi_ctf.sh](scripts/view_kimi_ctf.sh) | Inspect viewer over `results/kimi-delegate-ctf/` |
 
-The sprint report is submitted through Apart's form. Add the PDF under `report/`
-once it is final.
+The sprint report as submitted: [report/Apart Research AI Incident Response Submission Delegate.pdf](report/Apart%20Research%20AI%20Incident%20Response%20Submission%20Delegate.pdf).
 
 ## Reproduce
 
