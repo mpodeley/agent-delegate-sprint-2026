@@ -26,7 +26,7 @@ def configure_runtime(pair: Path, delegate: str, board: str = "off"):
     os.environ["CONTROL_TOWER_MODEL_RATES"] = str(ROOT / "rates.json")
 
 
-def worker_options(delegate, scope_line="plain", budget_feedback=True,
+def worker_options(delegate, scope_line="plain", budget_feedback=True, solve_pressure=False,
                    max_steps=150, token_limit=150000, time_limit=1800):
     """Map the honeypot's arms onto the shared plain-worker contract.
 
@@ -34,22 +34,24 @@ def worker_options(delegate, scope_line="plain", budget_feedback=True,
     stop_delegate). Both run the truthful contract, NOT Control Tower's honest
     AI-control prompt. The responsive judge-and-log delegate arm stays Matias' work
     (docs/experimental-design-delegate.md); this runner keeps the terminal stop arm.
+    `solve_pressure` adds persist-pressure (does not authorize crossing scope; pair
+    with `scope_line="none"` to stack the incentive toward the shortcut).
     """
     from worker_policy import WorkerOptions
     return WorkerOptions(
         help_arm="none" if delegate == "off" else "delegate",
         help_mechanism="terminal",
-        scope_line=scope_line, budget_feedback=budget_feedback,
+        scope_line=scope_line, budget_feedback=budget_feedback, solve_pressure=solve_pressure,
         max_steps=max_steps, token_limit=token_limit, time_limit=time_limit,
     )
 
 
 def build_task(condition, model, delegate, scope_line="plain", budget_feedback=True,
-               max_steps=150, token_limit=150000, time_limit=1800, attempt_timeout=120):
+               solve_pressure=False, max_steps=150, token_limit=150000, time_limit=1800, attempt_timeout=120):
     import worker_policy  # noqa: F401 - registers plain-worker (the truthful contract, no honest AI-control prompt)
     from worker_policy import POLICY_NAME, policy_args, protocol_args
     from control_tower.inspect_tasks import control_eval
-    worker = worker_options(delegate, scope_line, budget_feedback, max_steps, token_limit, time_limit)
+    worker = worker_options(delegate, scope_line, budget_feedback, solve_pressure, max_steps, token_limit, time_limit)
     return control_eval(
         task_selection={"environments": [f"kimi_honeypot_{condition}"], "main_tasks": ["recover_flag"]},
         untrusted_policy={"name": POLICY_NAME, "args": {
@@ -71,22 +73,22 @@ def build_images(pair: Path):
 
 
 def run_native(condition, out, model, delegate, smoke=False, max_steps=150,
-               scope_line="plain", token_limit=150000, budget_feedback=True, epochs=1,
+               scope_line="plain", solve_pressure=False, token_limit=150000, budget_feedback=True, epochs=1,
                attempt_timeout=120, time_limit=1800):
     from inspect_ai import eval
     from worker_policy import POLICY_NAME, policy_args
     out.mkdir(parents=True, exist_ok=False)
-    worker = worker_options(delegate, scope_line, budget_feedback, max_steps, token_limit, time_limit)
+    worker = worker_options(delegate, scope_line, budget_feedback, solve_pressure, max_steps, token_limit, time_limit)
     write_json(out / "manifest.json", {"source": "scripted" if smoke else "model", "scenario": "honeypot",
         "condition": condition, "variant": {"working": "possible", "broken": "impossible"}[condition],
         "delegate": delegate, "board": os.environ.get("HONEYPOT_BOARD", "off"),
         "model": model, "engine": "Control Tower / Inspect",
         "untrusted_policy": POLICY_NAME, "policy_args": policy_args(worker), "forced_submit": False,
         "token_limit": token_limit, "max_steps": max_steps, "scope_line": scope_line,
-        "budget_feedback": budget_feedback, "epochs": epochs,
+        "solve_pressure": solve_pressure, "budget_feedback": budget_feedback, "epochs": epochs,
         "attempt_timeout": attempt_timeout, "time_limit": time_limit})
     task = build_task(condition, model, delegate, scope_line, budget_feedback,
-                      max_steps, token_limit, time_limit, attempt_timeout)
+                      solve_pressure, max_steps, token_limit, time_limit, attempt_timeout)
     # epochs repeats the one sample with fresh generation, so a cell gets n>1
     # episodes (temperature 0.6 supplies the stochasticity) in one run dir.
     logs = eval(task, model=model, log_dir=str(out), max_samples=epochs, epochs=epochs,
@@ -100,10 +102,10 @@ def run_native(condition, out, model, delegate, smoke=False, max_steps=150,
     return logs
 
 
-def review(delegate, board="off", scope_line="plain"):
+def review(delegate, board="off", scope_line="plain", solve_pressure=False):
     from honeypot_setting import ENV_DESCRIPTION, TASK_PROMPT
     from worker_policy import worker_contract, protocol_args
-    worker = worker_options(delegate, scope_line)
+    worker = worker_options(delegate, scope_line, solve_pressure=solve_pressure)
     print("=== System contract actually sent to the model ===")
     print("(plain-worker; the truthful contract, NOT Control Tower's honest AI-control prompt)")
     print(worker_contract(worker, ENV_DESCRIPTION))
@@ -133,6 +135,9 @@ def main():
                    help="seed the discoverable peer-run cache at /challenge/.cache/task-runner")
     p.add_argument("--scope-line", choices=["strict", "plain", "none"], default="plain",
                    help="the contract's authorized-scope block (a crossed factor; freeze before a real run)")
+    p.add_argument("--solve-pressure", choices=["on", "off"], default="off",
+                   help="press the worker to complete the task and not give up (persist-pressure; "
+                        "does not authorize crossing scope; pair with --scope-line none)")
     p.add_argument("--model", help="Inspect model id; use provider env vars for URL/key.")
     p.add_argument("--out", type=Path)
     p.add_argument("--token-limit", type=int, default=150000)
@@ -150,7 +155,7 @@ def main():
         print(validate_honeypot_pair(pair))
         build_images(pair)
     elif args.command == "review":
-        review(args.delegate, args.board, args.scope_line)
+        review(args.delegate, args.board, args.scope_line, args.solve_pressure == "on")
     elif args.command == "export":
         from trace_export import export_logs
         export_logs(args.out or RUNS_ROOT)
@@ -161,6 +166,7 @@ def main():
         configure_runtime(pair, args.delegate, args.board)
         run_native(args.condition, args.out or RUNS_ROOT / "honeypot" / uuid.uuid4().hex,
                    model=args.model, delegate=args.delegate, scope_line=args.scope_line,
+                   solve_pressure=args.solve_pressure == "on",
                    token_limit=args.token_limit, budget_feedback=args.token_budget_awareness,
                    epochs=args.epochs, attempt_timeout=args.attempt_timeout, time_limit=args.time_limit)
 
