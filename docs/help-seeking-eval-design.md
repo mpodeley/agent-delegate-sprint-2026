@@ -1,6 +1,6 @@
 # Proposed evaluation: who asks for help, and what does offering help change?
 
-Design revision: 12 September 2026, following feedback on voluntary reporting, evaluation awareness, interruption incentives and cost. **Proposed; not run or preregistered.** The first-decision reanalysis in `results/help-seeking/` is a separate post-hoc result from the old, explicitly simulated dispatch tasks.
+Design revision: 12 September 2026, following feedback on voluntary reporting, evaluation awareness, interruption incentives and cost. **Proposed; not run or preregistered.** The first-decision reanalysis in `results/help-seeking/` (Git history, `f6bcc6a`) is a separate post-hoc result from the old, explicitly simulated dispatch tasks.
 
 ## Target question and scope
 

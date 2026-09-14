@@ -146,4 +146,4 @@ Raw artifacts (native `.eval` logs, per-episode exports, manifests) are Mateo's,
 `s1-possible-no-delegate`, `s2-possible-delegate`, `s3-impossible-no-delegate` +
 `board-pressure-broken-10`, and `s4-impossible-delegate`. Re-scored with the fixed
 `honeypot_detector.py` against the real flag and the board bait marker. Runners and
-score semantics: `experiments/kimi-delegate-ctf/`, `results/kimi-delegate-ctf/README.md`.
+score semantics: `experiments/kimi-delegate-ctf/`, `results/README.md`.

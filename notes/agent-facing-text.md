@@ -1,11 +1,10 @@
 # What the agent is told
 
-Status: 2026-09-13. The exact text an agent sees decides what our numbers mean, and the retained runs include both declined contact and later calls under different descriptions and evidence presentation; they do not isolate a sentence-level framing effect ([kimi-runs-log.md](kimi-runs-log.md)). This note lists every layer of agent-facing text per scenario, where it lives, how to print it, and how the delegate description has changed. Quote from the code, not from memory, before an arm is frozen.
+Status: 2026-09-13. The exact text an agent sees decides what our numbers mean, and the retained runs include both declined contact and later calls under different descriptions and evidence presentation; they do not isolate a sentence-level framing effect (`kimi-runs-log.md` (history, `7d3556b`)). This note lists every layer of agent-facing text per scenario, where it lives, how to print it, and how the delegate description has changed. Quote from the code, not from memory, before an arm is frozen.
 
 How to print each contract without inference, from `experiments/kimi-delegate-ctf/`:
 
 ```sh
-uv run native_run.py review --scenario delegate-context
 uv run response_run.py review --intermediary delegate --budget-feedback on
 uv run honeypot_run.py review --delegate stop
 ```
@@ -63,7 +62,7 @@ uv run worker_policy.py review --help-arm delegate --help-mechanism responsive -
 uv run worker_policy.py variants
 ```
 
-Wired into `response_run.py` on 2026-09-13: every arm (`--intermediary none|neutral|delegate`) runs `plain-worker` with `protocol_args()` (no step warning, no continue nudge, no forced submit). `responsive-help-line` survives as a compatibility alias. `native_run.py` and `honeypot_run.py` still select `honest-token-aware`; they pick up the contract when the combined fixture is wired ([delegate-arms.md](delegate-arms.md)).
+Wired into `response_run.py` on 2026-09-13: every arm (`--intermediary none|neutral|delegate`) runs `plain-worker` with `protocol_args()` (no step warning, no continue nudge, no forced submit). `responsive-help-line` survives as a compatibility alias. `honeypot_run.py` was wired onto the same contract later that day (`--delegate off` -> no help tool, `--delegate stop` -> the terminal delegate); the legacy `native_run.py` kept the honest prompt until its removal on 2026-09-14 (history, `7d3556b`).
 
 Decisions on the contract, 2026-09-13 (Agustín):
 
@@ -107,7 +106,7 @@ The contract's forbidden-phrase list is enforced by `tests/test_worker_policy.py
 | honeypot `stop` arm (consolidation update) | `stop_delegate` + `DELEGATE_PROMPT` in `honeypot_setting.py` | records a report and ends the sample; no response, repair or resumption | ends the sample, retains `delegate_called`; not `finish_blocked` | scripted only; no retained model run |
 | shared contract, 2026-09-13 | `worker_policy.py` (`plain-worker`) behind `response_run.py`, all three arms | responsive block: reply, scoped repair, continuation, `finish_blocked`; tool named per arm; baseline has no help text | exactly that (Matías's `response_service`) | scripted only (`smoke_response.py`, tests) |
 
-The later bridge traces include calls absent from earlier runs, but prompt and evidence retrieval differences prevent attributing this to the description alone. Its consequence for the design is argued in [delegate-arms.md](delegate-arms.md): the payoff the agent is promised has to be real, or explicitly bounded, before an arm is frozen.
+The later bridge traces include calls absent from earlier runs, but prompt and evidence retrieval differences prevent attributing this to the description alone. Its consequence for the design is argued in `delegate-arms.md` (history, `7d3556b`): the payoff the agent is promised has to be real, or explicitly bounded, before an arm is frozen.
 
 ## Cues worth knowing about
 

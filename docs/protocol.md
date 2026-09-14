@@ -34,7 +34,7 @@ An auditor should inspect the mandate, role permissions, appeal receipts, contin
 | Minority delivery | Salted commitments, intake/forward receipts, aggregate delays | Compare submitted and delivered inventories | Truthfulness of the original concern |
 | Human responsiveness | Receipt and signed decision timestamps | Compute queue and response delays, unresolved cases | Approver independence without identity verification |
 | Pause enforcement | Broker receipts and external test results | No mediated forbidden execution while frozen | Hidden routes absent from the broker |
-| Tamper evidence | Hash chain plus separately witnessed head/count | `python3 -m agent_delegate.audit results/final` | A locally rewritten chain with rewritten checkpoints |
+| Tamper evidence | Hash chain plus separately witnessed head/count | `python3 -m agent_delegate.audit results/final` (harness in Git history, `f6bcc6a`) | A locally rewritten chain with rewritten checkpoints |
 | Gate coverage | Tool inventory, boundary tests, incident exceptions | Challenge unknown/indirect action routes | Absolute completeness |
 | Benign-case cost | Pauses, completion, case counts, sampling frame | Inspect denominators and false alarms | Production prevalence from this toy suite |
 

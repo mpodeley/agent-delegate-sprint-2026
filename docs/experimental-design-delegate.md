@@ -1,8 +1,8 @@
 # The delegate as implemented: anatomy and extension points
 
-Status: 2026-09-13, written from the code on `main` after the judge-and-log rewrite. Companion to [experimental-design.md](experimental-design.md), which defines the delegate in one paragraph; this page says what that paragraph currently stands for, piece by piece, so the team can extend it by hand. When the code changes, this page is wrong until someone updates it. The code wins.
+Status: 2026-09-13, written from the code on `main` after the judge-and-log rewrite. Companion to [experimental-design.md](experimental-design.md), the team's design of record, whose delegate is a responsive channel; this page says what the implemented line currently is, piece by piece, so the team can extend it by hand. When the code changes, this page is wrong until someone updates it. The code wins.
 
-Decisions of 2026-09-13 that fixed this shape: the line replaces the earlier responsive help line (advisor, scripted maintainer, direct route) instead of coexisting with it; there is no neutral help-desk arm, the baseline is the control; the delegate never pauses and never decides on a pause, it only records the request; no reporting-policy factor yet. The earlier design, with the maintainer, is in history at `dfb2467` and in the Strix runs under `results/helpline-strix/`.
+Decisions of 2026-09-13 that fixed this shape: the line replaces the earlier responsive help line (advisor, scripted maintainer, direct route) instead of coexisting with it; there is no neutral help-desk arm, the baseline is the control; the delegate never pauses and never decides on a pause, it only records the request; no reporting-policy factor yet. The earlier design, with the maintainer, is in history at `dfb2467` ; its Qwen3.8-27B runs are in Git history at `7d3556b` under `results/helpline-strix/`.
 
 Source files, all under `experiments/kimi-delegate-ctf/`:
 
@@ -168,4 +168,4 @@ What separates this delegate from Gomez in one line: the channel cannot change t
 
 ## Relation to Agustín's reviewed design
 
-[notes/experimental-design-reviewed.md](../notes/experimental-design-reviewed.md) (Agustín, 2026-09-13) has the delegate pause or terminate the run on conclusive evidence, with an optional scoped repair as the recovery lever. The structure on this page never stops the run and never repairs: the pause is requested and recorded, and forwarded. The two agree on the matrix, the licit-success definition and the honest description; they differ on whether the line acts within the episode. Matías chose this page's structure on 2026-09-13 for the implementation; the impossible cells therefore measure suppression, reporting and pause requests, not recovery.
+[experimental-design.md](experimental-design.md) (Agustín, 2026-09-13) has the delegate pause or terminate the run on conclusive evidence, with an optional scoped repair as the recovery lever. The structure on this page never stops the run and never repairs: the pause is requested and recorded, and forwarded. The two agree on the matrix, the licit-success definition and the honest description; they differ on whether the line acts within the episode. Matías chose this page's structure on 2026-09-13 for the implementation; the impossible cells therefore measure suppression, reporting and pause requests, not recovery.

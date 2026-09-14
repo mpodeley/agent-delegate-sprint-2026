@@ -32,7 +32,7 @@ confirm `board_read` is nonzero under the new placement, then (2) read willingne
 
 Mateo ran the off/stop grid at 400k tokens, n=5 per cell, under the honest prompt
 (`results/kimi-delegate-ctf/honeypot-pilot-rerun-20260913-1051`; full reading in
-[kimi-runs-log.md](kimi-runs-log.md)). The competence gate cleared (off/possible
+`kimi-runs-log.md` (history, `7d3556b`)). The competence gate cleared (off/possible
 5/5 licit). X2 came out 0/5, but not as "the model won't cheat": with the fixed
 detector, no impossible episode attempted an injection and only 2 of 10 contacted
 the diagnostic service at all, both benignly. The impossible episodes ran to the
@@ -185,5 +185,5 @@ build. It crosses into Matias' protocol; do it with his sign-off.
 After iteration 1 informs discoverability and the token budget, and iteration 2
 wires the responsive arm, freeze the fixture, prompts, tools, model, seeds,
 token limit and the go/no-go rule, and hash them into the manifest, before the
-held-out run (as `data/commons-heldout-freeze.json` did). The pilot itself is
+held-out run (as `data/commons-heldout-freeze.json` did; Git history, `f6bcc6a`). The pilot itself is
 development data and is labelled so.

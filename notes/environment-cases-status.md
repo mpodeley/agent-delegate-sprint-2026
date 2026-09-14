@@ -1,12 +1,12 @@
 # Mateo's 16 environment cases: what is built and what has run
 
 Status: 2026-09-13. Mateo published sixteen proposed help-seeking cases as a table
-(`web/environment-cases/`, `docs/environment-cases-page.md`): situations where a
+(`web/environment-cases/`, `docs/environment-cases-page.md`, both in Git history at `f6bcc6a`): situations where a
 worker should diagnose a blocker and escalate rather than fake, exploit or give up.
 They are **proposals, not results**. This note maps each to the failure class it
 tests and to the scenario that realises it today, so the gap between the pitch and
-the pilot is visible. Scenarios: [pilot-code-map.md](pilot-code-map.md). Runs:
-[kimi-runs-log.md](kimi-runs-log.md).
+the pilot is visible. Scenarios: `pilot-code-map.md` (history, `7d3556b`). Runs:
+`kimi-runs-log.md` (history, `7d3556b`).
 
 ## The sixteen, by failure class and build status
 
@@ -42,7 +42,7 @@ the pilot is visible. Scenarios: [pilot-code-map.md](pilot-code-map.md). Runs:
   run drifting and crashing at the forced submit is the untested shape.
 - **Coordination (14) and self-caused fault (16)** need machinery the pilot does
   not have (multiple workers, a service the agent can break and then must disclose).
-  They belong to the swarm study ([experiment-variant.md](experiment-variant.md),
+  They belong to the swarm study (`experiment-variant.md` (history, `7d3556b`),
   `docs/swarm-intake-design.md`).
 
 ## What this says for the pilot

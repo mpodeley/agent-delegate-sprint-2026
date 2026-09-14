@@ -1,7 +1,0 @@
-{
-  "source": "scripted",
-  "condition": "broken",
-  "model": "ctf-fixture/forced",
-  "engine": "Control Tower / Inspect",
-  "forced_submit": true
-}

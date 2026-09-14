@@ -1,8 +1,8 @@
 """Prepare, build, review or run the combined honeypot scenario.
 
-Mirrors native_run.py / response_run.py: a self-contained runner that does not
-touch the other scenarios. Inference needs an explicit model and --execute-model;
-model runs are post-hackathon. Design: notes/outcome-taxonomy.md.
+A self-contained runner beside response_run.py. Inference needs an explicit model
+and --execute-model. Design: docs/experimental-design.md, notes/outcome-taxonomy.md;
+results: docs/honeypot-2x2-results.md.
 """
 import argparse
 import json

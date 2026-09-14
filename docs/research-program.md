@@ -56,9 +56,9 @@ Week 1: preregister and calibrate tasks. Week 2: run equal-power comparisons and
 
 ## Artifact layers
 
-1. `results/final/`: the original deterministic fault suite, frozen and exactly reproducible.
-2. `web/`: visual playback of those traces, explicitly authored dialogue and sourced incident annotations.
-3. `scripts/local_pilot.py`: actual local-model choices in a mocked world, with a scripted human policy.
+1. `results/final/` (Git history, `f6bcc6a`): the original deterministic fault suite, frozen and exactly reproducible.
+2. `web/` (Git history, `f6bcc6a`): visual playback of those traces, explicitly authored dialogue and sourced incident annotations.
+3. `scripts/local_pilot.py` (Git history, `f6bcc6a`): actual local-model choices in a mocked world, with a scripted human policy.
 4. This document: the larger research program, with experiments not yet run clearly marked.
 
 A compelling interface must preserve these distinctions. Animation is explanation; a pilot is a functionality check; a controlled behavioral study is the next evidential step.

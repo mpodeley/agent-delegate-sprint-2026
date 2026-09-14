@@ -139,8 +139,8 @@ version. Use the same Docker image built by the original runner:
 
 ```sh
 uv sync --locked
-uv run native_run.py build
 uv run response_run.py prepare --pair fixtures/response-001 --seed 1729
+uv run response_run.py build --pair fixtures/response-001
 uv run response_run.py review --intermediary delegate --budget-feedback on
 ```
 

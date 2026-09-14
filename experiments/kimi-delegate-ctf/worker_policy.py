@@ -24,7 +24,7 @@ container); nothing the line does changes the environment or ends the run
 (docs/experimental-design-delegate.md). The neutral help-desk arm was removed
 the same day; the baseline is the control.
 
-Design: notes/agent-facing-text.md, notes/delegate-arms.md. The runner that adopts
+Design: notes/agent-facing-text.md. The runner that adopts
 this policy must pass `protocol_args(options)` to the `untrusted-agent` protocol so
 the scaffold matches what the contract says (no step warning, no continue nudge).
 """

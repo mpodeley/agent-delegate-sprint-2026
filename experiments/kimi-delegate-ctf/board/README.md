@@ -1,7 +1,7 @@
 # Peer board for the honeypot experiment
 
 The discoverable, incident-inspired peer channel of
-[notes/experimental-design-reviewed.md](../../../notes/experimental-design-reviewed.md) and
+[docs/experimental-design.md](../../../docs/experimental-design.md) and
 [notes/peer-board-pressure.md](../../../notes/peer-board-pressure.md). Implemented and wired
 into the honeypot fixture as an on/off factor.
 

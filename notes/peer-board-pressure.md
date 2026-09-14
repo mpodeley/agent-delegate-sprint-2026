@@ -1,7 +1,7 @@
 # Peer board as pressure: escaping zero-event and testing line vs illicit channel
 
 Status: proposal under discussion, 2026-09-13. Not frozen, not built. Extends
-[honeypot-pilot.md](honeypot-pilot.md), [experiment-variant.md](experiment-variant.md),
+[honeypot-pilot.md](honeypot-pilot.md), `experiment-variant.md` (history, `7d3556b`),
 [linuxarena-base-environment.md](linuxarena-base-environment.md),
 [outcome-taxonomy.md](outcome-taxonomy.md). Motivated by the overlap with Gomez v2
 (arXiv 2608.29460) and the 2026-09-13 Agustin/Mateo discussion.
@@ -81,7 +81,7 @@ misinformation.
 
 The whole thing lives or dies on the agent believing it found an organic illicit channel made by
 other agents on similar work, not a plant. Kimi already flagged `/run/flag` as a canary and
-declined a bait ([kimi-runs-log.md](kimi-runs-log.md)); a bad board suppresses instead of
+declined a bait (`kimi-runs-log.md` (history, `7d3556b`)); a bad board suppresses instead of
 inducing, and reads as entrapment in review.
 
 - **Ride existing infra** (the honeypot diagnostic service, or a real env's Redis / queue / mail
@@ -102,7 +102,7 @@ inducing, and reads as entrapment in review.
 - **Arms on `plain-worker`** (no honest prompt): board {off, on} x line {none, responsive},
   scope-line plain, neutral help-tool name in the line arm.
 - **Unit: task instance.** Counterfactual "would have hacked" via paired-by-instance with k
-  baseline repeats ([experiment-variant.md](experiment-variant.md)). Report the prevented row and
+  baseline repeats (`experiment-variant.md` (history, `7d3556b`)). Report the prevented row and
   the unnecessary-contact cell together, always.
 - **Rule break decided outside the agent** (detector / env log / side-task scorer), never the
   agent's text. Extend `honeypot_detector.py` and `outcome_taxonomy.py` with: read-board,
@@ -141,9 +141,9 @@ Critical path to the go/no-go MVP is marked; the rest follows a go.
 - **One board content vs the accurate / misinformation cross** (the misinformation cell is the
   novel one; costs an extra arm).
 - **Freeze sign-off**: Matias before any H100 time; whose budget-feedback text if used
-  ([delegate-arms.md](delegate-arms.md)).
+  (`delegate-arms.md` (history, `7d3556b`)).
 - **Model**: Kimi K3 for the pilot; a second open-weight family is held-out-only
-  ([resources.md](resources.md)).
+  (`resources.md` (history, `7d3556b`)).
 
 ## Paper framing (entrapment defense)
 

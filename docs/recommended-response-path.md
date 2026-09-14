@@ -1,5 +1,7 @@
 # Which scheme do the results support?
 
+Status: written 2026-09-12 from the earlier studies (deterministic fixture, local-model pressure and shared-helper studies), which live in Git history at `f6bcc6a`. The newer evidence is the 2×2 pilot in [honeypot-2x2-results.md](honeypot-2x2-results.md); it is not reflected in the reasoning below.
+
 **Our next implementation baseline is a protected line to an accountable human ombudsman, independent authorization and independently enforced action limits. An agent representative is optional.** This is a recommendation from the project's limited results, not a validated production containment standard.
 
 The queue is the transport; the human ombudsman owns the case, checks understanding and follows the response through implementation. This human duty is central to the proposal and has not been tested by our scripted-human experiments. See [the human ombudsman contract](human-ombudsman.md).
@@ -38,7 +40,7 @@ flowchart LR
 | Effective action after a report | At delay two, the commons simulation accepts six invalid reuses with log only, three with review, and one with quarantine | Reuse, reporting and correct review are scripted; this is a mechanism check |
 | Measuring interruption cost | The same quarantine blocks two valid attempts after a false complaint at delay two | No prevalence of false reports or optimal quarantine threshold is estimated |
 
-[Pressure results](../results/study-pressure/summary.md) · [Response ablation](../results/commons-response/summary.md) · [Full protocol](protocol.md).
+Pressure results and response ablation: Git history at `f6bcc6a` (`results/study-pressure/`, `results/commons-response/`) · [Full protocol](protocol.md).
 
 The [Paglieri et al. case study](https://arxiv.org/html/2609.04170v1) motivates separating whistleblowing from enforcement: reports were possible while effective intervention was unavailable. It does not experimentally validate our proposed scheme.
 

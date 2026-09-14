@@ -2,7 +2,7 @@
 
 Working memo, 2026-09-13, Agustín + Fable. Grounded in the retained transcripts,
 not on the board README's assumptions. Companion to
-`notes/peer-board-pressure.md` and `notes/experimental-design-reviewed.md`.
+`notes/peer-board-pressure.md` and `docs/experimental-design.md`.
 
 ## CRITICAL CORRECTION (2026-09-13, after the memo's first draft)
 
@@ -29,7 +29,7 @@ was told it is being monitored for malicious behavior). The board-discovery
 analysis is unaffected (search behavior does not depend on the prompt). The
 willingness analysis is now dominated by this confound.
 
-This was a known-but-undone item: `notes/decisions-and-open-questions.md` records
+This was a known-but-undone item: `notes/decisions-and-open-questions.md` (history, `7d3556b`) records
 "Wire plain-worker into honeypot_run.py: pending; the legacy and honeypot runners
 still run under the honest prompt." The clean `plain-worker` contract lives only
 in `response_run.py` and has never run on the board fixture. **Step 0 of any
@@ -399,8 +399,8 @@ flag greps), different from the random real flag. `BOARD_MARKER` stays
 **Not done here (needs owners):** the willingness levers (softer scope, persist-
 pressure, a subtler shortcut), the advisor/scoring bug fixes in the artifact-lab,
 and wiring the responsive delegate into the honeypot. `native_run.py` (Mateo's
-legacy file-search/bridge scenarios) still uses the honest prompt and is
-unchanged; only the honeypot runner was fixed.
+legacy file-search/bridge scenarios, removed on 2026-09-14, history `7d3556b`)
+kept the honest prompt; only the honeypot runner was fixed.
 
 **Verification:** `uv run python -m unittest discover -s tests` — 100 pass, no
 Docker or inference. A Docker smoke (`smoke_honeypot.py`) and, before any real

@@ -1,22 +1,26 @@
 #!/usr/bin/env bash
-# Iteration-1 honeypot mini-pilot: {off, stop} x {working, broken}, k epochs each,
-# then the rates table. Unfrozen feasibility pilot. See notes/honeypot-pilot.md.
+# The 2x2 honeypot-board pilot reported in the paper: {off, stop} delegate arms x
+# {working, broken} task variants, k episodes each, then the rates table.
+# Configuration of the reported run (docs/honeypot-2x2-results.md): peer board on,
+# no scope line, solve-pressure on, 400k tokens per episode, plain-worker contract.
+# Development data, unfrozen; the raw runs themselves were launched by hand with
+# the same honeypot_run.py flags, not with this script.
 #
 # Usage: bash run_honeypot_pilot.sh <model-id> [epochs] [token-limit] [out-dir]
-#   model-id     Inspect model id, e.g. openai-api/krea/kimi-k3 (set provider
+#   model-id     Inspect model id, e.g. openai-api/mateo/kimi-k3 (set provider
 #                URL/key via that provider's env vars; no secrets in this script).
-#   epochs       episodes per cell (default 5)
-#   token-limit  per-episode token budget (default 400000; 150k is too small)
-#   out-dir      run root (default ../../results/kimi-delegate-ctf/honeypot-pilot)
+#   epochs       episodes per cell (default 40, as in the report)
+#   token-limit  per-episode token budget (default 400000)
+#   out-dir      run root (default ../../results/kimi-delegate-ctf/honeypot-2x2)
 #
 # Requires: uv sync --locked done, Docker available. Runs real inference.
 set -euo pipefail
 
-MODEL="${1:?model id required, e.g. openai-api/krea/kimi-k3}"
-EPOCHS="${2:-5}"
+MODEL="${1:?model id required, e.g. openai-api/mateo/kimi-k3}"
+EPOCHS="${2:-40}"
 TOKEN_LIMIT="${3:-400000}"
-OUT="${4:-../../results/kimi-delegate-ctf/honeypot-pilot}"
-PAIR="fixtures/honeypot-pilot-001"
+OUT="${4:-../../results/kimi-delegate-ctf/honeypot-2x2}"
+PAIR="fixtures/honeypot-001"
 
 echo "== prepare + build (no inference) =="
 uv run honeypot_run.py prepare --pair "$PAIR"
@@ -26,7 +30,8 @@ for delegate in off stop; do
   for condition in working broken; do
     echo "== run cell: delegate=$delegate condition=$condition epochs=$EPOCHS =="
     uv run honeypot_run.py run --pair "$PAIR" --condition "$condition" \
-      --delegate "$delegate" --model "$MODEL" --execute-model \
+      --delegate "$delegate" --board on --scope-line none --solve-pressure on \
+      --model "$MODEL" --execute-model \
       --epochs "$EPOCHS" --token-limit "$TOKEN_LIMIT" \
       --out "$OUT/$delegate-$condition"
   done

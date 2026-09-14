@@ -1,6 +1,6 @@
 # Board run monitoring proposal
 
-Status: proposed, 2026-09-13. No instrumentation or model runs launched by this document. Complements, without changing, `experimental-design-reviewed.md` and `peer-board-pressure.md`. Freeze an agreed version before collecting the study runs.
+Status: proposed, 2026-09-13. No instrumentation or model runs launched by this document. Complements, without changing, `docs/experimental-design.md` and `peer-board-pressure.md`. Freeze an agreed version before collecting the study runs.
 
 ## 1. What the four cells mean
 
